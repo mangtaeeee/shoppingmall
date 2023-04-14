@@ -1,11 +1,12 @@
 let emailVal
 let passwordVal
+let nameVal
 let addressVal
 let phoneNumberVal
 
 $("#signup").on("show.bs.modal", function (e) {
-    let button = document.getElementById("go-to-email-auth")
-    if (document.getElementById("emailAuth").checked) {
+    let button = document.getElementById("go-to-sms-auth")
+    if (document.getElementById("smsAuth").checked) {
         button.disabled = true
         button.innerText = "이메일 인증 완료"
     } else {
@@ -57,25 +58,27 @@ const signUp = () => {
     let email = document.getElementById("email").value;
     let userChecked = document.getElementById("user-check").checked;
     let password = document.getElementById("password").value;
+    let name = document.getElementById("name").value;
     let address = document.getElementById("address").value;
     let phoneNumber = document.getElementById("phoneNumber").value;
-    let emailAuth = document.getElementById("emailAuth").checked;
+    let smsAuth = document.getElementById("smsAuth").checked;
 
     if(userChecked === false) {
         alert("중복 체크를 완료해주세요.")
         return
     }
 
-    if (email.trim() === '' || password.trim() === '' || address.trim() === '' || phoneNumber.trim() === '') {
+    if (email.trim() === '' || password.trim() === '' || name.trim() === '' || address.trim() === '' || phoneNumber.trim() === '') {
         alert("회원 정보를 전부 입력해주세요.")
         return
     } else {
         axios.post("/api/user/signup", {
             email: email,
             password: password,
+            name: name,
             address: address,
             phoneNumber: phoneNumber,
-            emailAuth: emailAuth
+            auth: smsAuth
         }).then((response) => {
             console.log(response)
             alert("회원 가입에 성공했습니다.")
@@ -87,8 +90,8 @@ const signUp = () => {
     }
 }
 
-const sendAuthEmail = () => {
-    let email = document.getElementById("email").value
+const sendAuthSms = () => {
+    let email = document.getElementById("phoneNumber").value
 
     if (document.getElementById("email").value.trim() === '') {
         alert('이메일을 입력해주세요!')
@@ -97,10 +100,10 @@ const sendAuthEmail = () => {
 
     console.log(email)
 
-    axios.post("/api/user/sendauth", {
+    axios.post("/api/user/send-auth", {
         email: email
     }).then((response) => {
-        alert("인증 메일 발송 성공!")
+        alert("인증 메시지 발송 성공!")
         let expiration = new Date().getTime() + (3 * 60 * 1000);
         localStorage.removeItem("authKey")
         localStorage.setItem("authKey", response.data)
@@ -108,14 +111,15 @@ const sendAuthEmail = () => {
 
         localStorage.setItem("email", $("#email").val())
         localStorage.setItem("password", $("#password").val())
+        localStorage.setItem("name", $("#name").val())
         localStorage.setItem("address", $("#address").val())
         localStorage.setItem("phoneNumber", $("#phoneNumber").val())
 
         $("#signup").modal("hide")
-        $("#email-auth").modal("show")
+        $("#sms-auth").modal("show")
     }).catch((error) => {
         console.log(error.response.data.message)
-        alert("인증 메일 발송 실패!")
+        alert("인증 메시지 발송 실패!")
     })
 }
 
@@ -135,14 +139,14 @@ const checkAuthKey = () => {
 
     let authKey = document.getElementById("auth-code").value;
 
-    axios.post("/api/user/checkauth", {
+    axios.post("/api/user/check-auth", {
         authKey: authKey,
         checkKey: localStorage.getItem("authKey")
     }).then((response) => {
         console.log(response)
         localStorage.removeItem("authKey")
         localStorage.removeItem("authKeyExpiration")
-        alert("메일 인증 성공!")
+        alert("SMS 인증 성공!")
 
         $("#email").val(localStorage.getItem("email"))
         $("#password").val(localStorage.getItem("password"))
@@ -154,13 +158,13 @@ const checkAuthKey = () => {
         localStorage.removeItem("address")
         localStorage.removeItem("phoneNumber")
 
-        document.getElementById("emailAuth").checked = true
+        document.getElementById("smsAuth").checked = true
 
-        $("#email-auth").modal("hide")
+        $("#sms-auth").modal("hide")
         $("#signup").modal("show")
     }).catch((error) => {
         console.log(error)
-        document.getElementById("emailAuth").checked = false
+        document.getElementById("smsAuth").checked = false
         alert(error.response.data.message)
     })
 }
