@@ -1,2 +1,4 @@
-package com.codeum.shoppingmall.user.orders.domain;public class Orders {
+package com.codeum.shoppingmall.user.orders.domain;
+
+public class Orders {
 }

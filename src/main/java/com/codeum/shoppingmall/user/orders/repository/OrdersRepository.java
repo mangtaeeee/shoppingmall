@@ -1,2 +1,4 @@
-package com.codeum.shoppingmall.user.orders.repository;public class OrdersRepository {
+package com.codeum.shoppingmall.user.orders.repository;
+
+public class OrdersRepository {
 }

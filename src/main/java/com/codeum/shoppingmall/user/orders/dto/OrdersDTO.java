@@ -1,2 +1,4 @@
-package com.codeum.shoppingmall.user.orders.dto;public class OrdersDTO {
+package com.codeum.shoppingmall.user.orders.dto;
+
+public class OrdersDTO {
 }

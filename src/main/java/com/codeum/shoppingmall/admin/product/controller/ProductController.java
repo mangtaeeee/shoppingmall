@@ -1,2 +1,4 @@
-package com.codeum.shoppingmall.admin.product.controller;public class ProductController {
+package com.codeum.shoppingmall.admin.product.controller;
+
+public class ProductController {
 }

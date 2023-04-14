@@ -1,2 +1,4 @@
-package com.codeum.shoppingmall.admin.product.repository;public class ProductRepository {
+package com.codeum.shoppingmall.admin.product.repository;
+
+public class ProductRepository {
 }
