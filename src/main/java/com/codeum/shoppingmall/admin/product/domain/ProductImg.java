@@ -1,14 +1,12 @@
 package com.codeum.shoppingmall.admin.product.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @Table(name = "PRODUCT_IMG")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,6 +33,18 @@ public class ProductImg {
         this.savedProductFileName = savedProductFileName;
         this.savedProductFilePath = savedProductFilePath;
         this.product = product;
+    }
+
+    public static ProductImg toProductImgEntity (Product product, String originProductFileName, String savedProductFileName, String savedProductFilePath) {
+
+        ProductImg productImg = new ProductImg();
+
+        productImg.setOriginProductFileName(originProductFileName);
+        productImg.setSavedProductFileName(savedProductFileName);
+        productImg.setSavedProductFilePath(savedProductFilePath);
+        productImg.setProduct(product);
+
+        return productImg;
     }
 
 

@@ -1,5 +1,6 @@
 package com.codeum.shoppingmall.admin.product.domain;
 
+import com.codeum.shoppingmall.admin.product.dto.ProductDTO;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Table(name = "PRODUCT")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -45,6 +47,18 @@ public class Product {
         this.productContent = productContent;
         this.productPrice = productPrice;
         this.productCount = productCount;
+    }
+
+    public static Product toSaveImgEntity(ProductDTO productDTO) {
+
+        Product product = new Product();
+
+        product.setProductName(productDTO.getProductName());
+        product.setProductContent(productDTO.getProductContent());
+        product.setProductPrice(productDTO.getProductPrice());
+        product.setProductCount(productDTO.getProductCount());
+
+        return product;
     }
 
 
