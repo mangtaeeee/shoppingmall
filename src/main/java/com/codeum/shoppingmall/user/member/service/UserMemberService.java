@@ -128,4 +128,12 @@ public class UserMemberService {
             throw new AppException(INVALID_AUTH_CODE);
         }
     }
+
+    public Boolean checkDuplicateUser(String email) {
+        userMemberRepository.findByUserMemberEmail(email).ifPresent(e -> {
+            throw new AppException(DUPLICATED_USER);
+        });
+
+        return true;
+    }
 }

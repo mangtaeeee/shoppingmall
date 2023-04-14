@@ -47,4 +47,10 @@ public class UserMemberController {
         boolean result = userMemberService.checkAuthKey(dto);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
+    @PostMapping("/check-user")
+    public ResponseEntity<Boolean> checkDuplicateUser(String email) {
+        userMemberService.checkDuplicateUser(email);
+        return ResponseEntity.status(HttpStatus.OK).body(true);
+    }
 }

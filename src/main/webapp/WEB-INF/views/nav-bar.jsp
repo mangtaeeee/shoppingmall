@@ -18,7 +18,7 @@
                         <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
                     </ul>
                 </li>
-                <li class="nav-item" id="signin-nav"><a class="nav-link" href="/signin">Sign in</a></li>
+                <li class="nav-item" id="signin-nav"><a class="nav-link" href="#!" data-bs-toggle="modal" data-bs-target="#signin">Sign in</a></li>
                 <li class="nav-item" id="logout-nav" style="display: none"><a class="nav-link" href="#" onclick="logOut()">Log out</a></li>
             </ul>
             <form class="d-flex">
@@ -32,7 +32,7 @@
     </div>
 </nav>
 
-<!-- sign in -->
+<!-- Modal -->
 <div class="modal fade" data-bs-backdrop="static" id="signin" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -61,8 +61,6 @@
         </div>
     </div>
 </div>
-
-<%-- sign up --%>
 <div class="modal fade" data-bs-backdrop="static" id="signup" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -84,6 +82,10 @@
                         </div>
 
                         <div class="input-group mb-3">
+                            <input type="text" id="name" name="name" autocomplete="off" class="form-control" placeholder="name" aria-label="name" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="input-group mb-3">
                             <input type="text" id="address" onclick="searchAddress()" name="address" autocomplete="off" class="form-control" placeholder="address" aria-label="address" aria-describedby="basic-addon1">
                         </div>
 
@@ -92,10 +94,10 @@
                         </div>
 
                         <div class="input-group mb-3" style="display: none">
-                            <input type="checkbox" id="emailAuth" name="emailAuth" autocomplete="off" class="form-control" aria-label="email auth" aria-describedby="basic-addon1">
+                            <input type="checkbox" id="smsAuth" name="smsAuth" autocomplete="off" class="form-control" aria-label="sms auth" aria-describedby="basic-addon1">
                         </div>
 
-                        <button class="w-100 btn btn-lg btn-secondary" id="go-to-email-auth" onclick="sendAuthEmail()" type="button" style="margin-bottom: 15px">이메일 인증하기</button>
+                        <button class="w-100 btn btn-lg btn-secondary" id="go-to-sms-auth" onclick="sendAuthSms()" type="button" style="margin-bottom: 15px">SMS 인증하기</button>
                         <button class="w-100 btn btn-lg btn-secondary" onclick="signUp()" type="button" >회원가입</button>
 
                     </div>
@@ -108,11 +110,11 @@
         </div>
     </div>
 </div>
-<div class="modal in" id="email-auth" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+<div class="modal in" id="sms-auth" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">이메일 인증</h5>
+                <h5 class="modal-title">SMS 인증</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -125,7 +127,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-target="#email-auth" data-bs-toggle="modal" data-bs-dismiss="modal">나가기</button>
+                <button type="button" class="btn btn-secondary" data-bs-target="#sms-auth" data-bs-toggle="modal" data-bs-dismiss="modal">나가기</button>
             </div>
         </div>
     </div>
