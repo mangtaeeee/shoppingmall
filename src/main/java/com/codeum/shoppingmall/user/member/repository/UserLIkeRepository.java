@@ -11,5 +11,5 @@ import java.util.Optional;
 
 @Repository
 public interface UserLIkeRepository extends JpaRepository<UserLike, Long> {
-    Optional<List<UserLike>> findAllByUserMemberOrderByCreatedAtDesc(UserMember userMember);
+    Optional<List<UserLike>> findAllByUserMemberOrderByUpdatedAtDesc(UserMember userMember);
 }

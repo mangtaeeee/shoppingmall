@@ -174,7 +174,7 @@
                             '        </div>' +
                             '        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">' +
                             '            <div class="text-center">' +
-                            '                <a class="btn btn-outline-dark mt-auto" href="/product/productdetail/' + product.productId + '">상품 상세보기</a>' +
+                            '                <a class="btn btn-outline-dark mt-auto" onclick="addLikeList(\'' + product.productId + '\')" href="/product/productdetail/' + product.productId + '">상품 상세보기</a>' +
                             '            </div>' +
                             '        </div>' +
                             '    </div>' +
@@ -185,6 +185,21 @@
                 loading = false;
             }
         });
+    }
+
+    function addLikeList(productId) {
+        let memberId = localStorage.getItem("token")
+
+        $.ajax({
+            url: "/api/like/" + memberId + "/" + productId,
+            type: "POST",
+            success: function (data) {
+                console.log(data)
+            },
+            error: function (error) {
+                alert(error.reaponse.data.message)
+            }
+        })
     }
 </script>
 </body>
