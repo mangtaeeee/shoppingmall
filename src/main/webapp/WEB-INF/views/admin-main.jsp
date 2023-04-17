@@ -127,7 +127,7 @@
                                                 <c:when test="${not empty list.productImgList}">
                                                     <c:forEach var="productImg" items="${list.productImgList}"
                                                                varStatus="status">
-                                                        <img class="card-img-top" src="<c:url value='/Library/Codeum/fileupload/thumbnails/${productImg.productImgThumbnail[status.index]}'/>"/>
+                                                        <img class="card-img-top" src="<c:url value='/upload/thumbnails/${productImg.productImgThumbnail[status.index]}'/>"/>
                                                     </c:forEach>
                                                 </c:when>
                                             </c:choose>
