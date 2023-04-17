@@ -8,8 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class AdminViewController {
 
 
+    @GetMapping("/admin")
+    public String loginPage() {
+        return "admin-login";
+    }
+
     @GetMapping("/admin/store")
     public String mainPage(){
-        return "admin-main";
+        return "admin-store";
     }
+
 }

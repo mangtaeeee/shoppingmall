@@ -8,7 +8,6 @@ import com.codeum.shoppingmall.admin.store.repository.AdminStoreRepository;
 import com.codeum.shoppingmall.main.exception.AppException;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnailator;
-import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +15,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import static com.codeum.shoppingmall.main.constants.ErrorCode.*;
@@ -37,47 +38,71 @@ public class AdminStoreService {
             throw new AppException(NEED_FILE_LOGO_AUTH);
         }
         if (contentType.contains("image/jpeg") || contentType.contains("image/png")) {
-            String origName = create.getStoreImgFile().getOriginalFilename();
+            // 실제 파일 이름 IE나 Edge는 전체 경로가 들어오므로
+            String originalName = create.getStoreImgFile().getOriginalFilename();
+            String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
+            // 날짜 폴더 생성
+            String folderPath = makeFolder();
+            //UUID
             String uuid = UUID.randomUUID().toString();
-            String extension = origName.substring(origName.lastIndexOf("."));
-            String savedName = uuid + extension;
-            String savedPath = fileDir + savedName;
-
-
-            create.getStoreImgFile().transferTo(new File(savedPath));
-
-            Path savePath = Paths.get(savedName);
-
-
-            String thumbnailSaveName = savedPath + uuid + extension + "_thump";
-            File thumbnailFile = new File(thumbnailSaveName);
-
-            Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile, 50, 50);
+            //저장할 파일 이름 중간에 "_"를 이용해 구분
+            String saveName = fileDir + File.separator + folderPath + File.separator + uuid + "_" + fileName;
+            Path savePath = Paths.get(saveName);
+            create.getStoreImgFile().transferTo(savePath);
+            //섬네일 생성 -> 섬네일 파일 이름은 중간에 s_로 시작
+            String thubmnailSaveName = fileDir + File.separator + folderPath + File.separator + "s_" + uuid + "_" + fileName;
+            File thumbnailFile = new File(thubmnailSaveName);
+            // 섬네일 생성
+            Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile, 100, 100);
 
 
             StoreImg storeImg = StoreImg.builder()
-                    .storeImgOriginalName(origName)
-                    .storeImgSavedName(savedName)
-                    .storeImgFilePath(savedPath)
-                    .storeImgThumbnail(thumbnailSaveName)
+                    .storeImgThumbnail(thubmnailSaveName)
+                    .storeImgSavedName(saveName)
+                    .storeImgFilePath(String.valueOf(savePath))
+                    .storeImgOriginalName(originalName)
                     .build();
+            imgRepository.save(storeImg);
 
-
-            StoreImg savedImg = imgRepository.save(storeImg);
-
-            AdminStore store = AdminStore.builder()
+            AdminStore adminStore = AdminStore.builder()
                     .adminStoreName(create.getAdminStoreName())
-                    .adminStoreAddress(create.getAdminStoreAddress())
-                    .adminStoreContent(create.getAdminStoreContent())
                     .adminStorePhone(create.getAdminStorePhone())
-                    .storeImg(savedImg)
+                    .adminStoreContent(create.getAdminStoreContent())
+                    .adminStoreAddress(create.getAdminStoreAddress())
+                    .storeImg(storeImg)
                     .build();
-            storeRepository.save(store);
+            storeRepository.save(adminStore);
+
+
+
         } else {
             throw new AppException(NEED_IMAGE_FILE);
         }
 
     }
+
+
+    private String makeFolder() {
+
+        String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+
+        String folderPath = str.replace("/", File.separator);
+
+        // make folder ----
+        File uploadPatheFolder = new File(fileDir, folderPath);
+
+        if (uploadPatheFolder.exists() == false) {
+            uploadPatheFolder.mkdirs();
+        }
+
+        return folderPath;
+    }
+
+    public void makeFile(){
+
+    }
+
+
 
 
 }
