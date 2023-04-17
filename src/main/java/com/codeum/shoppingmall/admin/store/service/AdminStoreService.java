@@ -2,7 +2,7 @@ package com.codeum.shoppingmall.admin.store.service;
 
 import com.codeum.shoppingmall.admin.store.domain.AdminStore;
 import com.codeum.shoppingmall.admin.store.domain.StoreImg;
-import com.codeum.shoppingmall.admin.store.dto.AdminStoreCreate;
+import com.codeum.shoppingmall.admin.store.dto.*;
 import com.codeum.shoppingmall.admin.store.repository.AdminStoreImgRepository;
 import com.codeum.shoppingmall.admin.store.repository.AdminStoreRepository;
 import com.codeum.shoppingmall.main.exception.AppException;
@@ -17,9 +17,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-import static com.codeum.shoppingmall.main.constants.ErrorCode.*;
+import static com.codeum.shoppingmall.main.constants.ErrorCode.NEED_FILE_LOGO_AUTH;
+import static com.codeum.shoppingmall.main.constants.ErrorCode.NEED_IMAGE_FILE;
 
 @Service
 @RequiredArgsConstructor
@@ -30,9 +33,38 @@ public class AdminStoreService {
     private final AdminStoreRepository storeRepository;
     private final AdminStoreImgRepository imgRepository;
 
+    public List<AdminStoreResponse> findStoreUser(){
+        List<AdminStoreResponse> result = storeRepository.findAll().stream()
+                .map(adminStore -> AdminStoreResponse.builder()
+                        .adminStoreName(adminStore.getAdminStoreName())
+                        .storeImg(adminStore.getStoreImg())
+                        .build())
+                .collect(Collectors.toList());
+        return result;
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<AdminStoreDTO> findAll(){
+        List<AdminStoreDTO> collet = storeRepository.findAll().stream()
+                .map(adminStore -> AdminStoreDTO.builder()
+                        .adminStoreName(adminStore.getAdminStoreName())
+                        .adminStoreContent(adminStore.getAdminStoreContent())
+                        .storeImg(adminStore.getStoreImg())
+                        .productImgList(adminStore.getProducts().stream().map(product -> new AdminStoreProductImg(product)).collect(Collectors.toList()))
+                        .productHashtagList(adminStore.getProducts().stream().map(product -> new AdminStoreProductHashTag(product)).collect(Collectors.toList()))
+                        .build())
+                .collect(Collectors.toList());
+        return collet;
+
+    }
 
     @Transactional
     public void saveStore(AdminStoreCreate create) throws IOException {
+        if (create.getStoreImgFile() == null) {
+            throw new AppException(NEED_FILE_LOGO_AUTH);
+        }
+
         String contentType = create.getStoreImgFile().getContentType();
         if (contentType.isEmpty()) {
             throw new AppException(NEED_FILE_LOGO_AUTH);
@@ -54,6 +86,7 @@ public class AdminStoreService {
             File thumbnailFile = new File(thubmnailSaveName);
             // 섬네일 생성
             Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile, 100, 100);
+
 
 
             StoreImg storeImg = StoreImg.builder()

@@ -8,8 +8,11 @@ import com.codeum.shoppingmall.admin.product.repository.ProductHashtagRepository
 import com.codeum.shoppingmall.admin.product.repository.ProductImgRepository;
 import com.codeum.shoppingmall.admin.product.repository.ProductRepository;
 
+import com.codeum.shoppingmall.admin.store.domain.AdminStore;
+import com.codeum.shoppingmall.admin.store.repository.AdminStoreRepository;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -26,6 +29,8 @@ import java.util.Optional;
 
 public class ProductService {
 
+
+    private final AdminStoreRepository storeRepository;
     private final ProductRepository productRepository;
     private final ProductImgRepository productImgRepository;
     private final ProductHashtagRepository productHashtagRepository;
@@ -33,14 +38,21 @@ public class ProductService {
 
     // 상품 이미지 파일이 저장될 저장소 설정 ( 추후 변경해야함 )
     //String localSavedPath = "/files/";
-    String ImgSavedPath = "/C:/Users/USER/Desktop/dev/uploads/";
-    String ThumbnailsavedPath = "/C:/Users/USER/Desktop/dev/uploads/thumbnails";
+
+    @Value("${custom.ImgSavePath}")
+    private String imgSavedPath;
+
 
     public void uploadProduct(ProductDTO productDTO) throws IOException {
+
+        String ThumbnailsavedPath = imgSavedPath + "thumbnails/";
+
+        AdminStore adminStoreId = storeRepository.findById(1L).orElseThrow(()->new IllegalArgumentException("없는 스토어 번호입니다."));
 
         //product 객체 생성
         Product product = Product.builder()
                 .productName(productDTO.getProductName())
+                .adminStore(adminStoreId)
                 .productPrice(productDTO.getProductPrice())
                 .productContent(productDTO.getProductContent())
                 .build();
@@ -71,7 +83,7 @@ public class ProductService {
                 if (contentType.contains("image/jpeg") || contentType.contains("image/png")) {
                     String originProductFileName = productImgFile.getOriginalFilename();
                     String savedProductFileName = System.currentTimeMillis() + "_" + originProductFileName;
-                    String savedProductFilePath = ImgSavedPath + savedProductFileName;
+                    String savedProductFilePath = imgSavedPath + savedProductFileName;
                     productImgFile.transferTo(new File(savedProductFilePath));
 
                     //원본 사진을 resize 한 썸네일 이미지 생성

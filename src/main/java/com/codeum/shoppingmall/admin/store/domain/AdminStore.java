@@ -1,11 +1,13 @@
 package com.codeum.shoppingmall.admin.store.domain;
 
+import com.codeum.shoppingmall.admin.product.domain.Product;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -34,6 +36,11 @@ public class AdminStore {
     @OneToOne
     @JoinColumn(name="STORE_IMG_ID")
     private StoreImg storeImg;
+
+    @OneToMany(mappedBy = "adminStore",orphanRemoval = true)
+    private List<Product> products;
+
+
 
     @Builder
     public AdminStore(String adminStoreName, String adminStoreAddress, String adminStorePhone, String adminStoreContent, StoreImg storeImg) {

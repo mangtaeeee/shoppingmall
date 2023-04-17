@@ -22514,7 +22514,7 @@ label,
 }
 
 .form-control {
-  border: none;
+  /*border: none;*/
 }
 
 .form-control.is-invalid {

@@ -10,7 +10,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-
 public class ProductImg {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
