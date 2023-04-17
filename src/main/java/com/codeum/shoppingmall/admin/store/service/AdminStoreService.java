@@ -8,6 +8,7 @@ import com.codeum.shoppingmall.admin.store.repository.AdminStoreRepository;
 import com.codeum.shoppingmall.main.exception.AppException;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnailator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +30,8 @@ import static com.codeum.shoppingmall.main.constants.ErrorCode.NEED_IMAGE_FILE;
 public class AdminStoreService {
 
 
-    private String fileDir = "/Library/Codeum/fileupload/";
+    @Value("${custom.ImgSavePath}")
+    private String fileDir ;
     private final AdminStoreRepository storeRepository;
     private final AdminStoreImgRepository imgRepository;
 
