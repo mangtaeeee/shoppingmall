@@ -8,16 +8,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    @Value("${custom.ImgSavePath}")
+    public String imgSavedPath;
     private String resourcePath = "/upload/**"; // view 에서 접근할 경로
     //private String localSavedPath = "/files/";
-
-    @Value("${custom.img-saved-path}")
-    private String ImgSavedPath;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(resourcePath)
-                .addResourceLocations("file:///"+ImgSavedPath);
+                .addResourceLocations("file://" + imgSavedPath);
     }
 
 }

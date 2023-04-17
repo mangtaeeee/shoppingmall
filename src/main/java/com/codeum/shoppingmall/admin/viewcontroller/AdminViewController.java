@@ -13,8 +13,13 @@ public class AdminViewController {
         return "admin-login";
     }
 
+    @GetMapping("/admin/main")
+    public String mainPage() {
+        return "admin-main";
+    }
+
     @GetMapping("/admin/store")
-    public String mainPage(){
+    public String storePage(){
         return "admin-store";
     }
 
