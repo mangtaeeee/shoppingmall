@@ -47,27 +47,27 @@
     </c:if>
 </section>
 
-<section class="py-5">
-    <div class="container text-center mb-4">
-        <h4 class="pt-4">상품 리스트</h4>
-        <hr class="mx-auto" style="width:10%">
-        <c:if test="${empty productList}">
-            <p class="lead py-5">아직 등록된 상품이 없습니다.</p>
-        </c:if>
-    </div>
-    <c:if test="${not empty productList}">
-        <div class="card-deck" id="productList">
-            <!-- 상품 리스트를 반복문을 통해 카드로 만듭니다. -->
-            <c:forEach items="${productList}" var="product">
-                <div class="card">
-                    <img src="${product.imageUrl}" class="card-img-top" alt="${product.name}">
-                    <div class="card-body">
-                        <h5 class="card-title">${product.name}</h5>
-                        <p class="card-text">${product.description}</p>
-                        <p class="card-text">${product.price}원</p>
-                    </div>
-                </div>
-            </c:forEach>
-        </div>
-    </c:if>
-</section>
+<%--<section class="py-5">--%>
+<%--    <div class="container text-center mb-4">--%>
+<%--        <h4 class="pt-4">상품 리스트</h4>--%>
+<%--        <hr class="mx-auto" style="width:10%">--%>
+<%--        <c:if test="${empty productList}">--%>
+<%--            <p class="lead py-5">아직 등록된 상품이 없습니다.</p>--%>
+<%--        </c:if>--%>
+<%--    </div>--%>
+<%--    <c:if test="${not empty productList}">--%>
+<%--        <div class="card-deck" id="productList">--%>
+<%--            <!-- 상품 리스트를 반복문을 통해 카드로 만듭니다. -->--%>
+<%--            <c:forEach items="${productList}" var="product">--%>
+<%--                <div class="card">--%>
+<%--                    <img src="${product.imageUrl}" class="card-img-top" alt="${product.name}">--%>
+<%--                    <div class="card-body">--%>
+<%--                        <h5 class="card-title">${product.name}</h5>--%>
+<%--                        <p class="card-text">${product.description}</p>--%>
+<%--                        <p class="card-text">${product.price}원</p>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </c:forEach>--%>
+<%--        </div>--%>
+<%--    </c:if>--%>
+<%--</section>--%>

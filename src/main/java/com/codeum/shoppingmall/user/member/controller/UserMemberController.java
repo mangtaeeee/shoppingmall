@@ -9,13 +9,9 @@ import com.codeum.shoppingmall.user.member.service.UserMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -52,5 +48,13 @@ public class UserMemberController {
     public ResponseEntity<Boolean> checkDuplicateUser(String email) {
         userMemberService.checkDuplicateUser(email);
         return ResponseEntity.status(HttpStatus.OK).body(true);
+    }
+
+    @GetMapping("/create_order/{id}")
+    public ResponseEntity<UserMember> getMember(@PathVariable("id") Long id) {
+        System.out.println("getmemberid : " + id);
+        UserMember userMember = userMemberService.findById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(userMember);
     }
 }

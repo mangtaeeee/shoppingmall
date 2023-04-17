@@ -7,9 +7,9 @@ import com.codeum.shoppingmall.admin.product.dto.ProductDTO;
 import com.codeum.shoppingmall.admin.product.repository.ProductHashtagRepository;
 import com.codeum.shoppingmall.admin.product.repository.ProductImgRepository;
 import com.codeum.shoppingmall.admin.product.repository.ProductRepository;
-
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -30,14 +30,13 @@ public class ProductService {
     private final ProductImgRepository productImgRepository;
     private final ProductHashtagRepository productHashtagRepository;
 
-
     // 상품 이미지 파일이 저장될 저장소 설정 ( 추후 변경해야함 )
-    //String localSavedPath = "/files/";
-    String ImgSavedPath = "/C:/Users/USER/Desktop/dev/uploads/";
-    String ThumbnailsavedPath = "/C:/Users/USER/Desktop/dev/uploads/thumbnails";
+    @Value("${custom.img-saved-path}")
+    private String ImgSavedPath;
 
     public void uploadProduct(ProductDTO productDTO) throws IOException {
 
+        String ThumbnailsavedPath = ImgSavedPath+"thumbnails/";
         //product 객체 생성
         Product product = Product.builder()
                 .productName(productDTO.getProductName())
@@ -60,6 +59,7 @@ public class ProductService {
 
         //첨부 파일 저장
         for (MultipartFile productImgFile : productDTO.getProductImgFile()) {
+            System.out.println("ImgSavedPath:"+ImgSavedPath);
 
             // 파일 확장자 검사
             String contentType = productImgFile.getContentType();
@@ -78,7 +78,7 @@ public class ProductService {
                     String productImgThumbnailName = "thumbnail_"+savedProductFileName;
                     File thumbnailFile = new File(ThumbnailsavedPath, productImgThumbnailName);
                     Thumbnails.of(savedProductFilePath)
-                            .size(200, 200)
+                            .size(300, 450)
                             .toFile(thumbnailFile);
 
                     // 상품 이미지 엔티티에 데이터를 담아 DB등록
