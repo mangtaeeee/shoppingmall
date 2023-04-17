@@ -49,8 +49,8 @@ public class UserMemberService {
         return result;
     }
 
-    public UserMember findByEmail(String email) {
-        UserMember member = userMemberRepository.findByUserMemberEmail(email)
+    public UserMember findById(Long id) {
+        UserMember member = userMemberRepository.findById(id)
                 .orElseThrow(() -> new AppException(USER_NOT_FOUND));
         return member;
     }

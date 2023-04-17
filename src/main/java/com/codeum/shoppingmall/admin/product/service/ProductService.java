@@ -7,12 +7,14 @@ import com.codeum.shoppingmall.admin.product.dto.ProductDTO;
 import com.codeum.shoppingmall.admin.product.repository.ProductHashtagRepository;
 import com.codeum.shoppingmall.admin.product.repository.ProductImgRepository;
 import com.codeum.shoppingmall.admin.product.repository.ProductRepository;
-
 import com.codeum.shoppingmall.admin.store.domain.AdminStore;
 import com.codeum.shoppingmall.admin.store.repository.AdminStoreRepository;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
+
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -29,19 +31,14 @@ import java.util.Optional;
 
 public class ProductService {
 
-
     private final AdminStoreRepository storeRepository;
     private final ProductRepository productRepository;
     private final ProductImgRepository productImgRepository;
     private final ProductHashtagRepository productHashtagRepository;
 
-
     // 상품 이미지 파일이 저장될 저장소 설정 ( 추후 변경해야함 )
-    //String localSavedPath = "/files/";
-
-    @Value("${custom.ImgSavePath}")
+    @Value("${custom.img-saved-path}")
     private String imgSavedPath;
-
 
     public void uploadProduct(ProductDTO productDTO) throws IOException {
 
@@ -72,6 +69,7 @@ public class ProductService {
 
         //첨부 파일 저장
         for (MultipartFile productImgFile : productDTO.getProductImgFile()) {
+            System.out.println("ImgSavedPath:"+imgSavedPath);
 
             // 파일 확장자 검사
             String contentType = productImgFile.getContentType();
@@ -90,7 +88,7 @@ public class ProductService {
                     String productImgThumbnailName = "thumbnail_"+savedProductFileName;
                     File thumbnailFile = new File(ThumbnailsavedPath, productImgThumbnailName);
                     Thumbnails.of(savedProductFilePath)
-                            .size(200, 200)
+                            .size(300, 450)
                             .toFile(thumbnailFile);
 
                     // 상품 이미지 엔티티에 데이터를 담아 DB등록
@@ -110,12 +108,20 @@ public class ProductService {
     }
 
     @Transactional
-    public List<ProductDTO> findAll() {
-        List<Product> productList = productRepository.findAll();
+    public List<ProductDTO> findAll(String offset, String limit) {
+        int page = Integer.parseInt(offset);
+        int size = Integer.parseInt(limit);
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Product> productEntityList = productRepository.findAll(pageRequest);
+
         List<ProductDTO> productDTOList = new ArrayList<>();
-        for (Product product : productList) {
-            productDTOList.add(ProductDTO.toProductDTO(product));
+        for (Product productEntity: productEntityList) {
+            productDTOList.add(ProductDTO.toProductDTO(productEntity));
         }
+
+        System.out.println("productDTOList = " + productDTOList.get(0));
+
         return productDTOList;
     }
 
