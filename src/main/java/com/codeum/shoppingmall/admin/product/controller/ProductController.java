@@ -3,6 +3,10 @@ package com.codeum.shoppingmall.admin.product.controller;
 import com.codeum.shoppingmall.admin.product.dto.ProductDTO;
 import com.codeum.shoppingmall.admin.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import okhttp3.Response;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,10 +32,10 @@ public class ProductController {
     }
 
     @GetMapping("/productlist")
-    public String findAll(Model model) {
-        List<ProductDTO> productDTOList = productService.findAll();
-        model.addAttribute("productList", productDTOList);
-        return "index";
+    public ResponseEntity<List<ProductDTO>> findAll(@Param("offset") String offset,
+                                                    @Param("limit") String limit) {
+        List<ProductDTO> productDTOList = productService.findAll(offset, limit);
+        return ResponseEntity.status(HttpStatus.OK).body(productDTOList);
     }
 
     @GetMapping("/productdetail/{id}")

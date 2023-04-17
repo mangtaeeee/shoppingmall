@@ -237,22 +237,3 @@ const checkActivate = () => {
     document.getElementById("duplicate-check-btn").disabled = false
     document.getElementById("duplicate-check-btn").innerText = "중복체크"
 }
-
-$(window).scroll(function() {
-    if($(window).scrollTop() == $(document).height() - $(window).height()) {
-        var offset = 0;
-        var limit = 8;
-
-        $.ajax({
-            url: "/products?offset=" + offset + "&limit=" + limit,
-            success: function(data) {
-                if (data.length == 0) {
-                    $(window).off('scroll');
-                } else {
-                    $('#productList').append(data);
-                    offset += limit;
-                }
-            }
-        });
-    }
-});

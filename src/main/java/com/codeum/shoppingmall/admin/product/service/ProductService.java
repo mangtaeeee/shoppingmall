@@ -12,7 +12,17 @@ import com.codeum.shoppingmall.admin.store.domain.AdminStore;
 import com.codeum.shoppingmall.admin.store.repository.AdminStoreRepository;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
+<<<<<<< HEAD
+<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Value;
+=======
+=======
+import org.springframework.beans.factory.annotation.Value;
+>>>>>>> 8bd6422 (feature: 무한 스크롤)
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+>>>>>>> 6a6bbb9 (feature: 메인 페이지)
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -35,14 +45,8 @@ public class ProductService {
     private final ProductImgRepository productImgRepository;
     private final ProductHashtagRepository productHashtagRepository;
 
-
-    // 상품 이미지 파일이 저장될 저장소 설정 ( 추후 변경해야함 )
-    //String localSavedPath = "/files/";
-
     @Value("${custom.ImgSavePath}")
-    private String imgSavedPath;
-
-
+    public String imgSavedPath;
     public void uploadProduct(ProductDTO productDTO) throws IOException {
 
         String ThumbnailsavedPath = imgSavedPath + "thumbnails/";
@@ -110,12 +114,20 @@ public class ProductService {
     }
 
     @Transactional
-    public List<ProductDTO> findAll() {
-        List<Product> productList = productRepository.findAll();
+    public List<ProductDTO> findAll(String offset, String limit) {
+        int page = Integer.parseInt(offset);
+        int size = Integer.parseInt(limit);
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Product> productEntityList = productRepository.findAll(pageRequest);
+
         List<ProductDTO> productDTOList = new ArrayList<>();
-        for (Product product : productList) {
-            productDTOList.add(ProductDTO.toProductDTO(product));
+        for (Product productEntity: productEntityList) {
+            productDTOList.add(ProductDTO.toProductDTO(productEntity));
         }
+
+        System.out.println("productDTOList = " + productDTOList.get(0));
+
         return productDTOList;
     }
 
