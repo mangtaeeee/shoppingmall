@@ -51,7 +51,7 @@
         console.log(response.data)
         for (let i = 0; i < response.data.length; i++) {
             let card = createCard(response.data[i].path, response.data[i].name, response.data[i].price, response.data[i].productId )
-            container.appendChild(card);ㄹ
+            container.appendChild(card);
         }
     }).catch((error) => {
         console.log(error)

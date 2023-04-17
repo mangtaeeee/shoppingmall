@@ -31,11 +31,11 @@ public class AdminStoreService {
 
 
     @Value("${custom.ImgSavePath}")
-    private String fileDir ;
+    private String fileDir;
     private final AdminStoreRepository storeRepository;
     private final AdminStoreImgRepository imgRepository;
 
-    public List<AdminStoreResponse> findStoreUser(){
+    public List<AdminStoreResponse> findStoreUser() {
         List<AdminStoreResponse> result = storeRepository.findAll().stream()
                 .map(adminStore -> AdminStoreResponse.builder()
                         .adminStoreName(adminStore.getAdminStoreName())
@@ -47,7 +47,7 @@ public class AdminStoreService {
 
 
     @Transactional(readOnly = true)
-    public List<AdminStoreDTO> findAll(){
+    public List<AdminStoreDTO> findAll() {
         List<AdminStoreDTO> collet = storeRepository.findAll().stream()
                 .map(adminStore -> AdminStoreDTO.builder()
                         .adminStoreName(adminStore.getAdminStoreName())
@@ -80,7 +80,7 @@ public class AdminStoreService {
             //UUID
             String uuid = UUID.randomUUID().toString();
             //저장할 파일 이름 중간에 "_"를 이용해 구분
-            String saveName = fileDir + File.separator + folderPath + File.separator + uuid + "_" + fileName;
+            String saveName = fileDir + folderPath + File.separator + uuid + "_" + fileName;
             Path savePath = Paths.get(saveName);
             create.getStoreImgFile().transferTo(savePath);
             //섬네일 생성 -> 섬네일 파일 이름은 중간에 s_로 시작
@@ -88,7 +88,6 @@ public class AdminStoreService {
             File thumbnailFile = new File(thubmnailSaveName);
             // 섬네일 생성
             Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile, 100, 100);
-
 
 
             StoreImg storeImg = StoreImg.builder()
@@ -107,7 +106,6 @@ public class AdminStoreService {
                     .storeImg(storeImg)
                     .build();
             storeRepository.save(adminStore);
-
 
 
         } else {
@@ -132,7 +130,6 @@ public class AdminStoreService {
 
         return folderPath;
     }
-
 
 
 }
