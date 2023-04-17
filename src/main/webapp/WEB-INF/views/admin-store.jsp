@@ -407,10 +407,10 @@
         formData.append("storeImgFile", $("#adminStoreImg").file)
 
         axios.post("/api/admin/store/upload",formData, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
+            header: {
+                'Context-Type': 'multipart/form-data',
             }
-            }).then((response) => {
+        }).then((response) => {
             alert("성공 했습니다.")
             console.log(response)
         }).catch(() => {

@@ -98,11 +98,6 @@ public class AdminStoreService {
         return folderPath;
     }
 
-    public void makeFile(){
-
-    }
-
-
 
 
 }

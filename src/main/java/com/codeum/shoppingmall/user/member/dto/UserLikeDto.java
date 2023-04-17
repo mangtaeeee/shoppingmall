@@ -20,7 +20,7 @@ public class UserLikeDto {
                 userLike.getProduct().getId(),
                 userLike.getProduct().getProductName(),
                 userLike.getProduct().getProductPrice(),
-                userLike.getProduct().getProductImgList().get(0).getSavedProductFilePath()
+                userLike.getProduct().getProductImgList().get(0).getSavedProductFileName()
         );
     }
 }

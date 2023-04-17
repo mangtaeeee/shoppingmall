@@ -1,6 +1,7 @@
 package com.codeum.shoppingmall.user.member.service;
 
 import com.codeum.shoppingmall.main.exception.AppException;
+
 import com.codeum.shoppingmall.user.member.domain.UserMember;
 import com.codeum.shoppingmall.user.member.dto.UserSignInDto;
 import com.codeum.shoppingmall.user.member.dto.UserSignUpDto;
@@ -70,13 +71,13 @@ public class UserMemberService {
         }
 
         UserMember member = UserMember.builder()
-                .email(email)
-                .password(password)
-                .name(name)
-                .postCode(postCode)
-                .address(address)
-                .phone(phone)
-                .auth(true)
+                .memberEmail(email)
+                .memberPassword(password)
+                .memberName(name)
+                .memberPostCode(postCode)
+                .memberAddress(address)
+                .memberPhone(phone)
+                .memberAuth(true)
                 .build();
 
         return userMemberRepository.save(member);
@@ -103,6 +104,7 @@ public class UserMemberService {
                 .initialize(apiKey, apiSecretKey, "https://api.coolsms.co.kr");
 
         Message message = new Message();
+
         message.setFrom("01076052035");
         message.setTo(dto.getTo());
         message.setText("인증 번호는 " + authNum + " 입니다.");
