@@ -18,4 +18,10 @@ public class AdminViewController {
         return "admin-store";
     }
 
+
+    @GetMapping("/uploadproduct")
+    public String uploadProductPage() {
+        return "uploadproduct";
+    }
+
 }

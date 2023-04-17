@@ -1,10 +1,11 @@
 package com.codeum.shoppingmall.user.member.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class UserSmsCheckDto {
     private String authKey;
     private String checkKey;
