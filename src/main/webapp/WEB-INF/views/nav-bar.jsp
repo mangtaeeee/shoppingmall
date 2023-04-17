@@ -99,7 +99,6 @@
 
                         <button class="w-100 btn btn-lg btn-secondary" id="go-to-sms-auth" onclick="sendAuthSms()" type="button" style="margin-bottom: 15px">SMS 인증하기</button>
                         <button class="w-100 btn btn-lg btn-secondary" onclick="signUp()" type="button" >회원가입</button>
-
                     </div>
                 </form>
             </div>
