@@ -6,13 +6,15 @@ import com.codeum.shoppingmall.main.exception.AppException;
 import com.codeum.shoppingmall.user.member.domain.UserLike;
 import com.codeum.shoppingmall.user.member.domain.UserMember;
 import com.codeum.shoppingmall.user.member.dto.UserLikeDto;
-import com.codeum.shoppingmall.user.member.repository.UserLIkeRepository;
+import com.codeum.shoppingmall.user.member.repository.UserLikeRepository;
 import com.codeum.shoppingmall.user.member.repository.UserMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.codeum.shoppingmall.main.constants.ErrorCode.*;
 
@@ -22,14 +24,14 @@ public class UserLikeService {
 
     private final UserMemberRepository userMemberRepository;
     private final ProductRepository productRepository;
-    private final UserLIkeRepository userLIkeRepository;
+    private final UserLikeRepository userLikeRepository;
 
     public List<UserLikeDto> getInterestProduct(Long memberId) {
 
         UserMember userMember = userMemberRepository.findById(memberId)
                 .orElseThrow(() -> new AppException(USER_NOT_FOUND));
 
-        List<UserLike> userLikes = userLIkeRepository.findAllByUserMemberOrderByUpdatedAtDesc(userMember)
+        List<UserLike> userLikes = userLikeRepository.findAllByUserMemberOrderByUpdatedAtDesc(userMember)
                 .orElseThrow(() -> new AppException(LIKE_LIST_NOT_FOUND));
 
         List<UserLikeDto> userLikeDtoList = new ArrayList<>();
@@ -49,11 +51,25 @@ public class UserLikeService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new AppException(PRODUCT_NOT_FOUND));
 
-        UserLike userLike = UserLike.builder()
-                .userMember(userMember)
-                .product(product)
-                .build();
+        Optional<UserLike> userLikeOptional = userLikeRepository.findByUserMemberAndProduct(userMember, product);
 
-        return userLIkeRepository.save(userLike);
+        if (userLikeOptional.isPresent()) {
+            Long id = userLikeOptional.get().getId();
+            UserLike updatedLike = UserLike.builder()
+                    .id(id)
+                    .userMember(userMember)
+                    .product(product)
+                    .updatedAt(LocalDateTime.now())
+                    .build();
+
+            return userLikeRepository.save(updatedLike);
+        } else {
+            UserLike newLike = UserLike.builder()
+                    .userMember(userMember)
+                    .product(product)
+                    .build();
+
+            return userLikeRepository.save(newLike);
+        }
     }
 }

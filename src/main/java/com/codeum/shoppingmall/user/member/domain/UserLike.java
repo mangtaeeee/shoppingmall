@@ -9,6 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -34,7 +35,6 @@ public class UserLike {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    @LastModifiedDate
     private LocalDateTime updatedAt;
 
     @PrePersist
@@ -45,8 +45,10 @@ public class UserLike {
     }
 
     @Builder
-    public UserLike(UserMember userMember, Product product) {
+    public UserLike(Long id, UserMember userMember, Product product, LocalDateTime updatedAt) {
+        this.id = id;
         this.userMember = userMember;
         this.product = product;
+        this.updatedAt = updatedAt;
     }
 }

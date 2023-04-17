@@ -208,7 +208,7 @@ const toLikeList = () => {
         alert("로그인이 필요한 서비스입니다.");
         window.location.href = "/";
     } else {
-        window.location.href = "/like-list";
+        window.location.href = "/like/" + token;
     }
 };
 

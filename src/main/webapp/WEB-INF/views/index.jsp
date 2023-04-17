@@ -14,6 +14,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="/static/assets/css/styles.css" rel="stylesheet" type="text/css">
+
+    <style>
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: #bcbcbc;
+        }
+    </style>
+
 </head>
 <body>
 <!-- Navigation-->
@@ -28,8 +36,9 @@
         </div>
         <div class="input-group mt-5 w-50 mx-auto d-flex justify-content-center">
             <input type="text" class="form-control form-control-sm" placeholder="검색어를 입력하세요.">
-            <div class="input-group-append">
+            <div class="input-group-btn">
                 <button class="btn btn-outline-secondary" type="button">Search</button>
+                <button class="btn btn-outline-secondary" type="button">reset</button>
             </div>
         </div>
     </div>
@@ -37,47 +46,24 @@
 
 
 <section class="py-0 mx-auto">
-    <div class="container text-center mb-5 mt-5">
+    <div id="store-list-container" class="container text-center mb-5 mt-5">
         <h4 class="pt-4">상점 리스트</h4>
     </div>
     <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <c:forEach items="${storeList}" var="store" varStatus="loop">
-            <c:if test="${loop.index % 3 == 0}">
-            <div class="carousel-item${loop.index == 0 ? ' active' : ''}">
-                <div class="row">
-                    </c:if>
-                    <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm">
-                            <img class="card-img-top" src="<c:url value='${store.savedStoreFileName}'/>"/>
-                            <div class="card-body">
-                                <p class="card-text">${store.storeName}</p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <a class="btn btn-sm btn-outline-secondary" href="<c:url value='/store/storedetail/${store.storeId}'/>">매장 상세보기</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <c:if test="${(loop.index + 1) % 3 == 0 || loop.last}">
-                </div>
-                </c:if>
-                </c:forEach>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
+        <div id="store-list" class="carousel-inner">
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
 </section>
 
-<section class="py-5">
+<section class="py-5 px-5">
     <div class="container text-center mb-4">
         <h4 class="pt-4">상품 리스트</h4>
     </div>
@@ -97,110 +83,6 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/static/assets/js/member.js" type="text/javascript"></script>
-<script type="text/javascript">
-    let offset = 0;
-    let limit = 8;
-    let loading = false;
-
-    $(document).ready(function() {
-        loadProductList(0, 8); // 초기 페이지 로딩 시 첫 번째 페이지 데이터를 받아옵니다.
-    });
-
-    function loadProductList(offset, limit) {
-        $.ajax({
-            url: "/product/productlist?offset=" + offset + "&limit=" + limit,
-            type: "GET",
-            success: function(data) {
-                let productList = $("#product-list"); // 상품 리스트를 담을 DOM 객체를 가져옵니다.
-                productList.empty(); // 이전에 생성된 상품 리스트를 모두 지웁니다.
-
-                if (data.length > 0) {
-                    $.each(data, function (index, product) {
-                        // 상품 리스트를 반복문을 통해 카드로 만듭니다.
-                        let card = '<div class="col mb-5">' +
-                            '    <div class="card h-100">' +
-                            '        <img class="card-img-top" src="/upload/thumbnails/' + product.productImgThumbnail[0] + '"/>' +
-                            '        <div class="card-body p-4">' +
-                            '            <div class="text-center">' +
-                            '                <h5 class="fw-bolder">' + product.productName + '</h5>' +
-                            '                ' + product.productPrice +
-                            '            </div>' +
-                            '        </div>' +
-                            '        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">' +
-                            '            <div class="text-center">' +
-                            '                <a class="btn btn-outline-dark mt-auto" href="/product/productdetail/' + product.productId + '">상품 상세보기</a>' +
-                            '            </div>' +
-                            '        </div>' +
-                            '    </div>' +
-                            '</div>';
-                        productList.append(card); // 상품 리스트에 추가합니다.
-                    });
-                }
-            }
-        });
-    }
-
-    $(window).scroll(function() {
-        if($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
-            loadMore();
-        }
-    });
-
-    function loadMore() {
-        if (loading) {
-            return;
-        }
-
-        loading = true;
-
-        offset++;
-
-        $.ajax({
-            url: "/product/productlist?offset=" + offset + "&limit=" + limit,
-            type: "GET",
-            success: function(data) {
-                if (data.length > 0) {
-                    let productList = $("#product-list"); // 상품 리스트를 담을 DOM 객체를 가져옵니다.
-                    data.forEach(function(product) {
-                        // 상품 카드 생성 코드
-                        let card = '<div class="col mb-5">' +
-                            '    <div class="card h-100">' +
-                            '        <img class="card-img-top" src="/upload/thumbnails/' + product.productImgThumbnail[0] + '"/>' +
-                            '        <div class="card-body p-4">' +
-                            '            <div class="text-center">' +
-                            '                <h5 class="fw-bolder">' + product.productName + '</h5>' +
-                            '                ' + product.productPrice +
-                            '            </div>' +
-                            '        </div>' +
-                            '        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">' +
-                            '            <div class="text-center">' +
-                            '                <a class="btn btn-outline-dark mt-auto" onclick="addLikeList(\'' + product.productId + '\')" href="/product/productdetail/' + product.productId + '">상품 상세보기</a>' +
-                            '            </div>' +
-                            '        </div>' +
-                            '    </div>' +
-                            '</div>';
-                        productList.append(card); // 상품 리스트에 추가합니다.
-                    });
-                }
-                loading = false;
-            }
-        });
-    }
-
-    function addLikeList(productId) {
-        let memberId = localStorage.getItem("token")
-
-        $.ajax({
-            url: "/api/like/" + memberId + "/" + productId,
-            type: "POST",
-            success: function (data) {
-                console.log(data)
-            },
-            error: function (error) {
-                alert(error.reaponse.data.message)
-            }
-        })
-    }
-</script>
+<script src="/static/assets/js/product.js" type="text/javascript"></script>
 </body>
 </html>

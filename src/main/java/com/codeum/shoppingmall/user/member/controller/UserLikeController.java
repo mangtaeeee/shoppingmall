@@ -17,15 +17,9 @@ public class UserLikeController {
 
     private final UserLikeService userLikeService;
 
-    @GetMapping("/get/{memberId}")
-    public ResponseEntity<List<UserLikeDto>> getInterestProduct(@PathVariable("memberId") Long memberId) {
-        List<UserLikeDto> result = userLikeService.getInterestProduct(memberId);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
-
     @PostMapping("/add/{memberId}/{productId}")
-    public ResponseEntity<UserLike> addInterestProduct(@PathVariable("memberId") Long memberId, @PathVariable("productId") Long productId) {
+    public ResponseEntity<Long> addInterestProduct(@PathVariable("memberId") Long memberId, @PathVariable("productId") Long productId) {
         UserLike userLike = userLikeService.addInterestProduct(memberId, productId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userLike);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userLike.getId());
     }
 }
