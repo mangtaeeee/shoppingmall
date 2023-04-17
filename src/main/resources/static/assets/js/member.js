@@ -8,10 +8,10 @@ $("#signup").on("show.bs.modal", function (e) {
     let button = document.getElementById("go-to-sms-auth")
     if (document.getElementById("smsAuth").checked) {
         button.disabled = true
-        button.innerText = "이메일 인증 완료"
+        button.innerText = "SMS 인증 완료"
     } else {
         button.disable = false
-        button.innerText = "이메일 인증하기"
+        button.innerText = "SMS 인증하기"
     }
 })
 
@@ -77,7 +77,7 @@ const signUp = () => {
             password: password,
             name: name,
             address: address,
-            phoneNumber: phoneNumber,
+            phone: phoneNumber,
             auth: smsAuth
         }).then((response) => {
             console.log(response)
@@ -91,17 +91,18 @@ const signUp = () => {
 }
 
 const sendAuthSms = () => {
-    let email = document.getElementById("phoneNumber").value
+    let rawPhoneNum = document.getElementById("phoneNumber").value
+    phoneNumber = rawPhoneNum.replace(/-/g, '');
 
-    if (document.getElementById("email").value.trim() === '') {
-        alert('이메일을 입력해주세요!')
+    if (document.getElementById("phoneNumber").value.trim() === '') {
+        alert('전화번호를 입력해주세요!')
         return
     }
 
-    console.log(email)
+    console.log(phoneNumber)
 
     axios.post("/api/user/send-auth", {
-        email: email
+        to: phoneNumber
     }).then((response) => {
         alert("인증 메시지 발송 성공!")
         let expiration = new Date().getTime() + (3 * 60 * 1000);
@@ -150,11 +151,13 @@ const checkAuthKey = () => {
 
         $("#email").val(localStorage.getItem("email"))
         $("#password").val(localStorage.getItem("password"))
+        $("#name").val(localStorage.getItem("name"))
         $("#address").val(localStorage.getItem("address"))
         $("#phoneNumber").val(localStorage.getItem("phoneNumber"))
 
         localStorage.removeItem("email")
         localStorage.removeItem("password")
+        localStorage.removeItem("name")
         localStorage.removeItem("address")
         localStorage.removeItem("phoneNumber")
 
@@ -234,3 +237,22 @@ const checkActivate = () => {
     document.getElementById("duplicate-check-btn").disabled = false
     document.getElementById("duplicate-check-btn").innerText = "중복체크"
 }
+
+$(window).scroll(function() {
+    if($(window).scrollTop() == $(document).height() - $(window).height()) {
+        var offset = 0;
+        var limit = 8;
+
+        $.ajax({
+            url: "/products?offset=" + offset + "&limit=" + limit,
+            success: function(data) {
+                if (data.length == 0) {
+                    $(window).off('scroll');
+                } else {
+                    $('#productList').append(data);
+                    offset += limit;
+                }
+            }
+        });
+    }
+});

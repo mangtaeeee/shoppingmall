@@ -103,7 +103,7 @@ public class UserMemberService {
                 .initialize(apiKey, apiSecretKey, "https://api.coolsms.co.kr");
 
         Message message = new Message();
-        message.setFrom(from);
+        message.setFrom("01076052035");
         message.setTo(dto.getTo());
         message.setText("인증 번호는 " + authNum + " 입니다.");
 
