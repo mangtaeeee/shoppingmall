@@ -97,6 +97,8 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/static/assets/js/member.js" type="text/javascript"></script>
+<<<<<<< HEAD
+=======
 <script type="text/javascript">
     let offset = 0;
     let limit = 8;
@@ -187,5 +189,6 @@
         });
     }
 </script>
+>>>>>>> master
 </body>
 </html>

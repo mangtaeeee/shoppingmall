@@ -260,7 +260,6 @@
                 </div>
             </div>
 </main>
-</body>
 <script src="/static/assets/js/core/popper.min.js"></script>
 <script src="/static/assets/js/core/bootstrap.min.js"></script>
 <script src="/static/assets/js/plugins/perfect-scrollbar.min.js"></script>
@@ -395,4 +394,5 @@
         });
     }
 </script>
+</body>
 </html>

@@ -3,12 +3,10 @@ package com.codeum.shoppingmall.user.viewcontroller;
 import com.codeum.shoppingmall.admin.product.dto.ProductDTO;
 import com.codeum.shoppingmall.admin.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,4 +18,19 @@ public class ViewController {
     public String home() {
         return "index";
     }
+
+    @GetMapping("/signin")
+    public String signIn() {
+        return "sign-in";
+    }
+
+    @GetMapping("/product-detail/{id}")
+    public String productDetail(@PathVariable("id") Long id, Model model) {
+        ProductDTO productDTO = productService.findById(id);
+        model.addAttribute("productId", id);
+        model.addAttribute("product", productDTO);
+
+        return "detail";
+    }
+
 }
