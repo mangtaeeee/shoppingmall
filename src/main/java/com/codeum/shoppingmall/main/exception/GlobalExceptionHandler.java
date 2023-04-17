@@ -23,6 +23,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({ Exception.class })
     protected ResponseEntity<?> handleServerException(Exception ex) {
+        System.out.println("ex = " + ex.getMessage());
         return new ResponseEntity(
                 new ErrorDto(INTERNAL_SERVER_ERROR.getHttpStatus(), INTERNAL_SERVER_ERROR.getMessage()),
                 HttpStatus.INTERNAL_SERVER_ERROR

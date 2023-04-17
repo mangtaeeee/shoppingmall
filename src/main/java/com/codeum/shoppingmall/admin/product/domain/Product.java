@@ -1,5 +1,6 @@
 package com.codeum.shoppingmall.admin.product.domain;
 
+import com.codeum.shoppingmall.user.member.domain.UserLike;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,10 +27,16 @@ public class Product {
     private int productPrice;
     @Column
     private boolean productDelYn;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ProductHashtag> productHashtagList = new ArrayList<>();
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ProductImg> productImgList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<UserLike> userLikes = new ArrayList<>();
+
     @Builder
     public Product(String productName, String productContent, int productPrice) {
         this.productName = productName;
