@@ -10,7 +10,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Value("${custom.ImgSavePath}")
     public String imgSavedPath;
-
     private String resourcePath = "/upload/**"; // view 에서 접근할 경로
     //private String localSavedPath = "/files/";
 

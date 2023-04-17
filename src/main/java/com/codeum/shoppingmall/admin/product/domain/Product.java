@@ -7,7 +7,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
 @Entity
 @Getter
 @Table(name = "PRODUCT")
@@ -26,7 +25,7 @@ public class Product {
     private String productContent;
     @Column
     private int productPrice;
-    @Column
+    @Column(name = "product_del_yn", nullable = false, columnDefinition = "BOOLEAN DEFAULT true")
     private boolean productDelYn;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)

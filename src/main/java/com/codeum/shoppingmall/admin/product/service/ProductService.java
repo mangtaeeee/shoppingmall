@@ -7,22 +7,14 @@ import com.codeum.shoppingmall.admin.product.dto.ProductDTO;
 import com.codeum.shoppingmall.admin.product.repository.ProductHashtagRepository;
 import com.codeum.shoppingmall.admin.product.repository.ProductImgRepository;
 import com.codeum.shoppingmall.admin.product.repository.ProductRepository;
-
 import com.codeum.shoppingmall.admin.store.domain.AdminStore;
 import com.codeum.shoppingmall.admin.store.repository.AdminStoreRepository;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 import org.springframework.beans.factory.annotation.Value;
-=======
-=======
-import org.springframework.beans.factory.annotation.Value;
->>>>>>> 8bd6422 (feature: 무한 스크롤)
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
->>>>>>> 6a6bbb9 (feature: 메인 페이지)
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -39,14 +31,15 @@ import java.util.Optional;
 
 public class ProductService {
 
-
     private final AdminStoreRepository storeRepository;
     private final ProductRepository productRepository;
     private final ProductImgRepository productImgRepository;
     private final ProductHashtagRepository productHashtagRepository;
 
-    @Value("${custom.ImgSavePath}")
-    public String imgSavedPath;
+    // 상품 이미지 파일이 저장될 저장소 설정 ( 추후 변경해야함 )
+    @Value("${custom.img-saved-path}")
+    private String imgSavedPath;
+
     public void uploadProduct(ProductDTO productDTO) throws IOException {
 
         String ThumbnailsavedPath = imgSavedPath + "thumbnails/";
@@ -76,6 +69,7 @@ public class ProductService {
 
         //첨부 파일 저장
         for (MultipartFile productImgFile : productDTO.getProductImgFile()) {
+            System.out.println("ImgSavedPath:"+imgSavedPath);
 
             // 파일 확장자 검사
             String contentType = productImgFile.getContentType();
@@ -94,7 +88,7 @@ public class ProductService {
                     String productImgThumbnailName = "thumbnail_"+savedProductFileName;
                     File thumbnailFile = new File(ThumbnailsavedPath, productImgThumbnailName);
                     Thumbnails.of(savedProductFilePath)
-                            .size(200, 200)
+                            .size(300, 450)
                             .toFile(thumbnailFile);
 
                     // 상품 이미지 엔티티에 데이터를 담아 DB등록

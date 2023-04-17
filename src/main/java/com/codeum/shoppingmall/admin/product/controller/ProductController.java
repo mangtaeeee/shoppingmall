@@ -38,16 +38,4 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productDTOList);
     }
 
-    @GetMapping("/productdetail/{id}")
-    public String productDetail(@PathVariable("id") Long id, Model model) {
-        ProductDTO productDTO = productService.findById(id);
-        System.out.println("detail 컨트롤러 서비스 호출 후");
-        System.out.println("productDTO : "+productDTO);
-
-        model.addAttribute("productId", id);
-        model.addAttribute("product", productDTO);
-
-        return "detail";
-    }
-
 }

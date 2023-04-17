@@ -29,10 +29,9 @@ import static com.codeum.shoppingmall.main.constants.ErrorCode.NEED_IMAGE_FILE;
 @RequiredArgsConstructor
 public class AdminStoreService {
 
-    @Value("${custom.ImgSavePath}")
-    public String imgPath;
 
-    private String fileDir = imgPath;
+    @Value("${custom.ImgSavePath}")
+    private String fileDir ;
     private final AdminStoreRepository storeRepository;
     private final AdminStoreImgRepository imgRepository;
 
