@@ -3,16 +3,10 @@ package com.codeum.shoppingmall.user.viewcontroller;
 import com.codeum.shoppingmall.admin.product.dto.ProductDTO;
 import com.codeum.shoppingmall.admin.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD
-=======
-import org.springframework.data.repository.query.Param;
->>>>>>> master
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
