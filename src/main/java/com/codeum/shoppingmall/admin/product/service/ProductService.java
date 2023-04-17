@@ -12,17 +12,10 @@ import com.codeum.shoppingmall.admin.store.domain.AdminStore;
 import com.codeum.shoppingmall.admin.store.repository.AdminStoreRepository;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 import org.springframework.beans.factory.annotation.Value;
-=======
-=======
-import org.springframework.beans.factory.annotation.Value;
->>>>>>> 8bd6422 (feature: 무한 스크롤)
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
->>>>>>> 6a6bbb9 (feature: 메인 페이지)
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
