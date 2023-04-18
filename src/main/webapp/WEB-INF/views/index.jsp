@@ -35,10 +35,10 @@
             <p class="lead fw-normal text-white-50 mb-0">Stores & Products</p>
         </div>
         <div class="input-group mt-5 w-50 mx-auto d-flex justify-content-center">
-            <input type="text" class="form-control form-control-sm" placeholder="검색어를 입력하세요.">
+            <input id="search-keyword" type="text" class="form-control form-control-sm" placeholder="검색어를 입력하세요.">
             <div class="input-group-btn">
-                <button class="btn btn-outline-secondary" type="button">Search</button>
-                <button class="btn btn-outline-secondary" type="button">reset</button>
+                <button class="btn btn-outline-secondary" onclick="searchByKeyword()" type="button">Search</button>
+                <button class="btn btn-outline-secondary" onclick="location.href='/'" type="button">reset</button>
             </div>
         </div>
     </div>

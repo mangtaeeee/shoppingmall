@@ -20,7 +20,7 @@
             <label for="email" class="form-label">아이디</label>
             <input type="text" name="email" id="email" class="form-control">
             <label for="password" class="form-label">비밀번호</label>
-            <input type="text" name="password" id="password" class="form-control">
+            <input type="password" name="password" id="password" class="form-control">
             <div class="d-grid">
                 <input type="button" class="btn btn-primary btn-block my-3" id="login" value="로그인"/>
                 <button type="reset" class="btn btn-danger">취소</button>
@@ -51,11 +51,13 @@
         })
             .then((response) => {
                 localStorage.clear()
-                localStorage.setItem("email",response.data)
+                console.log(response)
+                localStorage.setItem("adminemail",response.data.adminEmail)
                 alert("로그인 성공 ")
+                window.location.href = "/admin/main"
             })
-            .catch((error) => {
-                console.log(error)
+            .catch(() => {
+                alert("다시 시도해 주세요")
             })
     }
 </script>

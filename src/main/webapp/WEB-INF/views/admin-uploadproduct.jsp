@@ -36,7 +36,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="/admin/store">
+                <a class="nav-link text-white " href="/admin/store">
                     <span class="nav-link-text ms-1">상점 관리</span>
                 </a>
             </li>
@@ -46,12 +46,17 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="#">
+                <a class="nav-link text-white" href="/admin/productmanage">
+                    <span class="nav-link-text ms-1">상품 관리</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/admin ">
                     <span class="nav-link-text ms-1">로그인</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="#">
+                <a class="nav-link text-white" href="/admin/join">
                     <span class="nav-link-text ms-1">회원가입</span>
                 </a>
             </li>

@@ -1,5 +1,6 @@
 package com.codeum.shoppingmall.admin.store.service;
 
+import com.codeum.shoppingmall.admin.product.dto.ProductDTO;
 import com.codeum.shoppingmall.admin.store.domain.AdminStore;
 import com.codeum.shoppingmall.admin.store.domain.StoreImg;
 import com.codeum.shoppingmall.admin.store.dto.*;
@@ -18,10 +19,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.codeum.shoppingmall.admin.store.dto.AdminStoreSearchDTO.toStoreList;
 import static com.codeum.shoppingmall.main.constants.ErrorCode.NEED_FILE_LOGO_AUTH;
 import static com.codeum.shoppingmall.main.constants.ErrorCode.NEED_IMAGE_FILE;
 
@@ -51,7 +54,7 @@ public class AdminStoreService {
         List<AdminStoreDTO> collet = storeRepository.findAll().stream()
                 .map(adminStore -> AdminStoreDTO.builder()
                         .adminStoreName(adminStore.getAdminStoreName())
-                        .adminStoreContent(adminStore.getAdminStoreContent())
+                        .adminStoreContent(adminStore.getAdminStoreContent().replace("\r\n","<br>"))
                         .storeImg(adminStore.getStoreImg())
                         .productImgList(adminStore.getProducts().stream().map(product -> new AdminStoreProductImg(product)).collect(Collectors.toList()))
                         .productHashtagList(adminStore.getProducts().stream().map(product -> new AdminStoreProductHashTag(product)).collect(Collectors.toList()))
@@ -59,6 +62,19 @@ public class AdminStoreService {
                 .collect(Collectors.toList());
         return collet;
 
+    }
+
+    public List<AdminStoreSearchDTO> searchStore(String keyword) {
+        List<AdminStore> adminStores = storeRepository.findByKeyword(keyword);
+        List<AdminStoreSearchDTO> storeList = new ArrayList<>();
+
+        System.out.println("adminStores = " + adminStores.get(0).getAdminStoreName());
+
+        for (AdminStore adminStore : adminStores) {
+            storeList.add(toStoreList(adminStore));
+        }
+
+        return storeList;
     }
 
     @Transactional

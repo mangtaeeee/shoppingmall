@@ -31,7 +31,7 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link text-white active bg-gradient-primary" href="/admin/main">
+                <a class="nav-link text-white " href="/admin/main">
                     <span class="nav-link-text ms-1">메인</span>
                 </a>
             </li>
@@ -46,7 +46,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="/admin/productmanage">
+                <a class="nav-link text-white active bg-gradient-primary" href="/admin/productmanage">
                     <span class="nav-link-text ms-1">상품 관리</span>
                 </a>
             </li>
@@ -83,9 +83,9 @@
                 </div>
                 <ul class="navbar-nav  justify-content-end">
                     <li class="nav-item d-flex align-items-center">
-                        <a href="/admin" class="nav-link text-body font-weight-bold px-0">
+                        <a href="../pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
                             <i class="fa fa-user me-sm-1"></i>
-                            <span class="d-sm-inline d-none" id="login" onclick="logOut()">Sign In</span>
+                            <span class="d-sm-inline d-none">Sign In</span>
                         </a>
                     </li>
 
@@ -100,62 +100,80 @@
         <div class="row">
             <div class="col-lg-10 col-md-10 mx-auto">
                 <div class="card mt-4">
-                    <!-- 데이터 출력 -->
-                    <c:choose>
-                        <c:when test="${not empty adminMainList}">
-                            <c:forEach var="list" items="${adminMainList}" varStatus="status">
-                                <div class="col-10">
-                                    <div class="card-header p-3">
-                                        <h5 class="mb-0 col-2"></h5>
-                                    </div>
-                                    <div class="card-body p-3 pb-0">
-                                        <div class="form-group" style="float: right">
-                                            <img class="card-img-top" style="width: 170%;"
-                                                 src="<c:url value='/upload/${list.storeImg.storeImgThumbnail}'/>"/>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        번호
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        대표사진
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        상품명
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        가격
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        등록일시
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <c:choose>
+                                    <c:when test="${not empty list}">
+                                    <c:forEach var="prouctlist" items="${list.content}" varStatus="status">
+                                    <td>
+                                        <!-- 상품 번호 정렬 -->
+                                        <c:out value="${status.index}"/>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div>
+                                                <!-- 이미지 0번째 -->
+                                                <img class="avatar avatar-sm me-3 border-radius-lg"
+                                                     src="<c:url value='/upload/${prouctlist.savedProductFileName[0]}' />">
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label>상점이름 : ${list.adminStoreName}</label>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <!-- 상품명 -->
+                                            <c:out value="${prouctlist.productName}"/>
                                         </div>
-                                        <div class="form-group" >
-                                            <label>상점설명 : ${list.adminStoreContent}</label>
-
-                                        </div>
-                                        <div class="form-group">
-                                            <label>해시태그 :</label>
-                                            <c:forEach var="hashtag" items="${list.productHashtagList}">
-                                                <c:forEach var="name" items="${hashtag.productHashtagName}">
-                                                    <c:out value="#${name}"/>
-                                                </c:forEach>
-                                            </c:forEach>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>상품 : </label>
-                                            <c:choose>
-                                                <c:when test="${not empty list.productImgList}">
-                                                    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
-                                                        <div id="store-list" class="carousel-inner">
-                                                        </div>
-
-<%--                                                        <c:forEach var="img" items="${list.productImgList}">--%>
-<%--                                                            <c:forEach var="product"--%>
-<%--                                                                       items="${img.savedProductFileName}">--%>
-<%--                                                                <img class="card-img-top" style="width:30%;"--%>
-<%--                                                                     src="<c:url value='/upload/${product}'/>"/>--%>
-<%--                                                            </c:forEach><br>--%>
-<%--                                                            <c:forEach var="productname"--%>
-<%--                                                                       items="${img.originProductFileName}">--%>
-<%--                                                                <c:out value="${productname}"/>--%>
-<%--                                                            </c:forEach>--%>
-<%--                                                        </c:forEach>--%>
-                                                    </div>
-                                                </c:when>
-                                            </c:choose>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:forEach>
-                        </c:when>
-                    </c:choose>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <!-- 상품가격 -->
+                                        <c:out value="${prouctlist.productPrice}"/>
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <!-- 등록일시 -->
+                                        2023.04.18
+                                    </td>
+                                    <td class="align-middle">
+                                        <input type="hidden" value="${prouctlist.productId}" id="productListId">
+                                        <!-- yn이 false 일떄 재등록 true 일때 삭제 -->
+                                        <c:if test="${prouctlist.productDelYn eq false}">
+                                            <input type="button" onclick="ynTrue()" value="재등록">
+                                        </c:if>
+                                        <c:if test="${prouctlist.productDelYn eq true}">
+                                            <input type="button" onclick="ynFalse()" value="삭제">
+                                        </c:if>
+                                    </td>
+                                </tr>
+                                </c:forEach>
+                                </c:when>
+                                </c:choose>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -227,59 +245,51 @@
         </footer>
     </div>
 </main>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
-    if (window.localStorage.getItem("adminemail") == null) {
-        alert("로그인 해주세요!!!!!")
-        window.location.href = "/admin"
-    }
-    if (window.localStorage.getItem("adminemail") != null) {
-        document.getElementById("login").innerHTML = "로그아웃"
-    }
-    function logOut() {
-        localStorage.clear()
-        window.location.href = "/admin"
-    }
 
 
-    function loadStoreList() {
+    function ynTrue() {
+        const data = {
+            productId: $("#productListId").val(),
+            productDelYn : true
+        }
+
         $.ajax({
-            type: "GET",
-            url: "/api/admin/store/findAll", // 비동기 요청을 보낼 URL
-            dataType: "json",
-            success: function(response) {
-                let storeList = response;
-                let storeHtml = '';
-                for (let i = 0; i < storeList.length; i++) {
+            type: 'PATCH',
+            url: '/product/productedit/' + data.productId,
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data)
+        }).done(function () {
+            window.location.reload();
+        }).fail(function (error) {
+            console.log(error)
+        });
 
-                    let store = storeList[i].productImgList;
-                    if (i % 3 == 0) {
-                        storeHtml += '<div class="carousel-item' + (i == 0 ? ' active' : '') + ' align-content-center text-center"><div class="row p-5 text-center mx-auto" style="max-width: 2000px">';
-                    }
-                    for (let j = 0; j < store.length; j++) {
-                        let savedProductFileName = store[j].savedProductFileName;
-                        let originProductFileName = store[j].originProductFileName;
-                        for (let k = 0; k < savedProductFileName.length; k++) {
-                            console.log(savedProductFileName[k]);
-                            storeHtml += '<div class="col-md-4" ><div class="card mb-4 shadow-sm text-center mx-auto" >' +
-                                '<img class="card-img-top" style="width: 100%" src="/upload/' + savedProductFileName[k] + '"/>' +
-                                '<div class="card-body"><p class="card-text">' + originProductFileName[k] + '</p></div></div></div>';
-                        }
+    }
 
-                    }
-                    if ((i + 1) % 3 == 0 || i == storeList.length - 1) {
-                        storeHtml += '</div></div>';
-                    }
+    function ynFalse() {
+        const data = {
+            productId: $("#productListId").val(),
+            productDelYn : false
+        }
 
-
-                }
-                $('#store-list').html(storeHtml);
-            },
-            error: function(xhr, status, error) {
-                console.log(error);
-            }
+        $.ajax({
+            type: 'PATCH',
+            url: '/product/productedit/' + data.productId,
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data)
+        }).done(function () {
+            window.location.reload();
+        }).fail(function (error) {
+            console.log(error)
         });
     }
-    loadStoreList()
-</script>
 
+
+
+</script>
