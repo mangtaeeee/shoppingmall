@@ -100,6 +100,19 @@
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <!-- 결제 창 호출 스크립트 -->
 <script>
+    // 사전검증 API 사용을 위한 토큰 발급
+    let Api_token;
+    window.onload = function () {
+        axios.post("/api/payment/getToken")
+            .then((response) => {
+                console.log(response.data);
+                Api_token = response.data;
+            }).catch((error) =>{
+                alert("api 토큰 발행 실패");
+            })
+    }
+
+
     const IMP = window.IMP;
     IMP.init("imp61605278");
 
@@ -109,33 +122,33 @@
             url: "/api/orders/create-order",
             method: "post",
             data: {
-                userId : localStorage.getItem("token"),
-                productId : "${productId}",
-                payMethod : $("#pay_method option:selected").val()
+                userId: localStorage.getItem("token"),
+                productId: "${productId}",
+                payMethod: $("#pay_method option:selected").val()
             }
         }).then((response) => {
             ordersData = response.data;
 
-            // 사전검증 API 호출
-            // axios({
-            //     url: "https://api.iamport.kr/payments/prepare",
-            //     method: "post",
-            //     headers: { "Content-Type": "application/json" },
-            //     data: {
-            //         merchant_uid: "...", // 가맹점 주문번호
-            //         amount: 420000, // 결제 예정금액
-            //     }
-            // }).then((data) => {
-            //     // 서버 결제 API 성공시 로직
-            //     // "/orders/save"
-            // })
+            <!-- 실제 결제 전 사전 검증 로직-->
+            axios({
+                url: "/api/payment/prepare",
+                method: "post",
+                headers: {"Content-Type": "application/json", "Authorization": "Bearer "+Api_token},
+                data: {
+                    merchant_uid: ordersData.merchantId, // 가맹점 주문번호
+                    amount: "" + ordersData.ordersAmount, // 결제 예정금액
+                    buyer_name: ordersData.buyerName,
+                    buyer_email: ordersData.buyerEmail,
+                    buyer_tel: ordersData.buyerTel
+                }
+            });
 
             IMP.request_pay({
                 pg: 'kcp.T0000',
                 pay_method: ordersData.payMethod,
                 merchant_uid: ordersData.merchantId,
                 name: ordersData.ordersProduct,
-                amount: ordersData.ordersAmount,
+                amount: ${product.productPrice},
                 buyer_email: ordersData.buyerEmail,
                 buyer_name: ordersData.buyerName,
                 buyer_tel: ordersData.buyerTel,
@@ -146,16 +159,17 @@
                     alert("결제완료");
                     // axios로 HTTP 요청
                     axios({
-                        url: "{서버의 결제 정보를 받는 endpoint}",
+                        url: "/api/payment/complete",
                         method: "post",
                         headers: {"Content-Type": "application/json"},
                         data: {
                             imp_uid: rsp.imp_uid,
-                            merchant_uid: rsp.merchant_uid
+                            merchant_uid: rsp.merchant_uid,
+                            amount: '${ordersData.ordersAmount}'
                         }
                     }).then((data) => {
-                        // 서버 결제 API 성공시 로직
-                        // "/orders/save"
+                        // 구매완료 화면으로 이동
+                        alert("구매완료화면으로 이동합니다.");
                     })
                 } else {
                     console.log(rsp)
