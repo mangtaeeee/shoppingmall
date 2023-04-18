@@ -17,6 +17,7 @@ import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Random;
 
@@ -24,6 +25,7 @@ import static com.codeum.shoppingmall.main.constants.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserMemberService {
 
     private final UserMemberRepository userMemberRepository;

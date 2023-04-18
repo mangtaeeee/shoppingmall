@@ -38,4 +38,11 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productDTOList);
     }
 
+    @GetMapping("/searchproduct")
+    public ResponseEntity<List<ProductDTO>> searchProduct(@Param("keyword") String keyword,
+                                                          @Param("offset") String offset,
+                                                          @Param("limit") String limit) {
+        List<ProductDTO> productDTOList = productService.searchProduct(keyword, offset, limit);
+        return ResponseEntity.status(HttpStatus.OK).body(productDTOList);
+    }
 }

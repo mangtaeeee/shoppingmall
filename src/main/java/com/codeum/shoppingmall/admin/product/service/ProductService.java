@@ -114,14 +114,29 @@ public class ProductService {
         int size = Integer.parseInt(limit);
 
         PageRequest pageRequest = PageRequest.of(page, size);
-        Page<Product> productEntityList = productRepository.findAll(pageRequest);
+        Page<Product> productEntityList = productRepository.findAllProducts(pageRequest);
 
         List<ProductDTO> productDTOList = new ArrayList<>();
         for (Product productEntity: productEntityList) {
             productDTOList.add(ProductDTO.toProductDTO(productEntity));
         }
 
-        System.out.println("productDTOList = " + productDTOList.get(0));
+        return productDTOList;
+    }
+
+    @Transactional
+    public List<ProductDTO> searchProduct(String keyword, String offset, String limit) {
+        int page = Integer.parseInt(offset);
+        int size = Integer.parseInt(limit);
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Product> searchList = productRepository.findByKeyword(keyword, pageRequest);
+
+        List<ProductDTO> productDTOList = new ArrayList<>();
+
+        for (Product productEntity: searchList) {
+            productDTOList.add(ProductDTO.toProductDTO(productEntity));
+        }
 
         return productDTOList;
     }

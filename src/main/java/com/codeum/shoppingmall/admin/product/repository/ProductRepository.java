@@ -12,6 +12,13 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    @Override
-    Page<Product> findAll(Pageable pageable);
+    @Query("SELECT p FROM Product p WHERE p.productDelYn = 0")
+    Page<Product> findAllProducts(Pageable pageable);
+
+    @Query(value = "SELECT p FROM Product p " +
+            "JOIN p.productHashtagList ph " +
+            "JOIN p.productImgList pi " +
+            "WHERE ph.productHashtagName LIKE :keyword " +
+            "OR p.productName LIKE :keyword")
+    Page<Product> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
 }
