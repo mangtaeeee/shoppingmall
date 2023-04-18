@@ -85,6 +85,7 @@
 </section>
 
 
+</body>
 <!-- Footer-->
 <footer class="py-5 bg-dark">
     <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
@@ -97,22 +98,6 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/static/assets/js/member.js" type="text/javascript"></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-<script type="text/javascript">
-    const addLikeList = () => {
-        const token = localStorage.getItem("token")
-        axios.post("/api/interest/add/${productId}", null, {
-            headers: {
-                Authorization: 'Bearer ' + token
-            }
-        }).then((response) => {
-            console.log(response)
-            alert("관심 상품으로 등록되었습니다.")
-        }).catch((error) => {
-            console.log(error.message)
-            alert("관심 상품 등록에 실패했습니다.")
-        })
-    }
-</script>
 <!-- 결제 창 호출 스크립트 -->
 <script>
     const IMP = window.IMP;

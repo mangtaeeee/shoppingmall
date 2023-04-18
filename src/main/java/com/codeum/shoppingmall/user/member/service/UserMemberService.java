@@ -135,7 +135,6 @@ public class UserMemberService {
         userMemberRepository.findByUserMemberEmail(email).ifPresent(e -> {
             throw new AppException(DUPLICATED_USER);
         });
-
         return true;
     }
 }

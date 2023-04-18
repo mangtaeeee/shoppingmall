@@ -1,6 +1,7 @@
 package com.codeum.shoppingmall.user.member.domain;
 
 import com.codeum.shoppingmall.admin.product.domain.Product;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -8,6 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -30,8 +32,23 @@ public class UserLike {
     private Product product;
 
     @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void prePersist() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    @Builder
+    public UserLike(Long id, UserMember userMember, Product product, LocalDateTime updatedAt) {
+        this.id = id;
+        this.userMember = userMember;
+        this.product = product;
+        this.updatedAt = updatedAt;
+    }
 }
