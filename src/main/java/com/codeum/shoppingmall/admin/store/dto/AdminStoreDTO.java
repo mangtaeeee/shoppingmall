@@ -1,6 +1,8 @@
 package com.codeum.shoppingmall.admin.store.dto;
 
+import com.codeum.shoppingmall.admin.store.domain.AdminStore;
 import com.codeum.shoppingmall.admin.store.domain.StoreImg;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +22,6 @@ public class AdminStoreDTO {
 
     private List<AdminStoreProductHashTag> productHashtagList ;
     private List<AdminStoreProductImg> productImgList ;
-
     @Builder
     public AdminStoreDTO(String adminStoreName, String adminStoreContent, StoreImg storeImg, List<AdminStoreProductHashTag> productHashtagList, List<AdminStoreProductImg> productImgList) {
         this.adminStoreName = adminStoreName;

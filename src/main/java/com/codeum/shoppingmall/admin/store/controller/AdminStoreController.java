@@ -2,8 +2,11 @@ package com.codeum.shoppingmall.admin.store.controller;
 
 import com.codeum.shoppingmall.admin.store.dto.AdminStoreCreate;
 import com.codeum.shoppingmall.admin.store.dto.AdminStoreDTO;
+import com.codeum.shoppingmall.admin.store.dto.AdminStoreSearchDTO;
 import com.codeum.shoppingmall.admin.store.service.AdminStoreService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,4 +39,9 @@ public class AdminStoreController {
         return ResponseEntity.ok(adminStoreService.findStoreUser());
     }
 
+    @GetMapping("/store/searchstore")
+    public ResponseEntity<List<AdminStoreSearchDTO>> searchStore(@Param("keyword") String keyword){
+        List<AdminStoreSearchDTO> result = adminStoreService.searchStore(keyword);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 }

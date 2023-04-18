@@ -197,7 +197,7 @@ function searchByKeyword() {
     offset++;
 
     $.ajax({
-        url: "/product/searchproduct?keyword=" + keyword+ "&offset=" + offset + "&limit=" + limit,
+        url: "/product/searchproduct?keyword=" + keyword + "&offset=" + offset + "&limit=" + limit,
         type: "GET",
         success: function(data) {
             if (data.length > 0) {
@@ -224,6 +224,33 @@ function searchByKeyword() {
                 });
             }
             loading = false;
+        }
+    });
+
+    $.ajax({
+        type: "GET",
+        url: "/api/admin/store/searchstore?keyword=" + keyword, // 비동기 요청을 보낼 URL
+        dataType: "json",
+        success: function(response) {
+            let storeList = response;
+            console.log(storeList)
+            let storeHtml = '';
+            for (let i = 0; i < storeList.length; i++) {
+                let store = storeList[i];
+                if (i % 3 == 0) {
+                    storeHtml += '<div class="carousel-item' + (i == 0 ? ' active' : '') + ' align-content-center text-center"><div class="row p-5 text-center mx-auto" style="max-width: 2000px">';
+                }
+                storeHtml += '<div class="col-md-4" ><div class="card mb-4 shadow-sm text-center mx-auto" >' +
+                    '<img class="card-img-top" src="/upload/' + store.storeImgSavedName + '"/>' +
+                    '<div class="card-body"><p class="card-text">' + store.adminStoreName + '</p></div></div></div>';
+                if ((i + 1) % 3 == 0 || i == storeList.length - 1) {
+                    storeHtml += '</div></div>';
+                }
+            }
+            $('#store-list').html(storeHtml);
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
         }
     });
 }
