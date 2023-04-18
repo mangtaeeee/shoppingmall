@@ -10,6 +10,7 @@ import com.codeum.shoppingmall.user.member.repository.UserLikeRepository;
 import com.codeum.shoppingmall.user.member.repository.UserMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import static com.codeum.shoppingmall.main.constants.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserLikeService {
 
     private final UserMemberRepository userMemberRepository;
