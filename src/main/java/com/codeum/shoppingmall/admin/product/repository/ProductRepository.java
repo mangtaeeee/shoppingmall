@@ -18,7 +18,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "SELECT p FROM Product p " +
             "JOIN p.productHashtagList ph " +
             "JOIN p.productImgList pi " +
-            "WHERE ph.productHashtagName LIKE :keyword " +
-            "OR p.productName LIKE :keyword")
+            "WHERE ph.productHashtagName LIKE %:keyword% " +
+            "OR p.productName LIKE %:keyword%")
     Page<Product> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
 }
