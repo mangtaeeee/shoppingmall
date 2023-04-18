@@ -105,6 +105,11 @@
                                     </div>
                                     <div class="card-body p-3 pb-0">
                                         <div class="form-group">
+                                            <label>상점로고 : <img class="card-img-top"
+                                                               src="<c:url value='/upload/${list.storeImg.storeImgThumbnail}'/>"/>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
                                             <label>상점이름 : ${list.adminStoreName}</label>
                                         </div>
                                         <div class="form-group">
@@ -114,8 +119,9 @@
                                             <label>해시태그 :</label>
                                             <c:choose>
                                                 <c:when test="${not empty list.productHashtagList}">
-                                                    <c:forEach var="hashTag" items="${list.productHashtagList}" varStatus="status">
-                                                        <label>#${hashTag.productHashtagName[status.index]}</label>
+                                                    <c:forEach var="hashTag" items="${list.productHashtagList}"
+                                                               varStatus="hashTagstatus">
+                                                        <label>#${hashTag.productHashtagName[0]}</label>
                                                     </c:forEach>
                                                 </c:when>
                                             </c:choose>
@@ -125,8 +131,9 @@
                                             <c:choose>
                                                 <c:when test="${not empty list.productImgList}">
                                                     <c:forEach var="productImg" items="${list.productImgList}"
-                                                               varStatus="status">
-                                                        <img class="card-img-top" src="<c:url value='upload/thumbnails/${productImg.productImgThumbnail }'/>"/>
+                                                               varStatus="productImgIndex">
+                                                        <img class="card-img-top"
+                                                             src="<c:url value='upload/thumbnails/${productImg.productImgThumbnail[productImgIndex.index]}'/>"/>
                                                     </c:forEach>
                                                 </c:when>
                                             </c:choose>
