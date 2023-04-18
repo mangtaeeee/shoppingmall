@@ -8,6 +8,7 @@ import com.codeum.shoppingmall.admin.store.repository.AdminStoreRepository;
 import com.codeum.shoppingmall.main.exception.AppException;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnailator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,11 +30,12 @@ import static com.codeum.shoppingmall.main.constants.ErrorCode.NEED_IMAGE_FILE;
 public class AdminStoreService {
 
 
-    private String fileDir = "/Library/Codeum/fileupload/";
+    @Value("${custom.ImgSavePath}")
+    private String fileDir;
     private final AdminStoreRepository storeRepository;
     private final AdminStoreImgRepository imgRepository;
 
-    public List<AdminStoreResponse> findStoreUser(){
+    public List<AdminStoreResponse> findStoreUser() {
         List<AdminStoreResponse> result = storeRepository.findAll().stream()
                 .map(adminStore -> AdminStoreResponse.builder()
                         .adminStoreName(adminStore.getAdminStoreName())
@@ -45,7 +47,7 @@ public class AdminStoreService {
 
 
     @Transactional(readOnly = true)
-    public List<AdminStoreDTO> findAll(){
+    public List<AdminStoreDTO> findAll() {
         List<AdminStoreDTO> collet = storeRepository.findAll().stream()
                 .map(adminStore -> AdminStoreDTO.builder()
                         .adminStoreName(adminStore.getAdminStoreName())
@@ -78,20 +80,23 @@ public class AdminStoreService {
             //UUID
             String uuid = UUID.randomUUID().toString();
             //저장할 파일 이름 중간에 "_"를 이용해 구분
-            String saveName = fileDir + File.separator + folderPath + File.separator + uuid + "_" + fileName;
+            String saveName = fileDir + folderPath + File.separator + uuid + "_" + fileName;
             Path savePath = Paths.get(saveName);
+
+
+            String dbSavedName = folderPath + File.separator + uuid + "_" + fileName;
             create.getStoreImgFile().transferTo(savePath);
             //섬네일 생성 -> 섬네일 파일 이름은 중간에 s_로 시작
-            String thubmnailSaveName = fileDir + File.separator + folderPath + File.separator + "s_" + uuid + "_" + fileName;
+            String thubmnailSaveName = fileDir + folderPath + File.separator +"s_" + uuid + "_" + fileName;
+            String thubmnailSaveNameDb = folderPath + File.separator +"s_" + uuid + "_" + fileName;
             File thumbnailFile = new File(thubmnailSaveName);
             // 섬네일 생성
             Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile, 100, 100);
 
 
-
             StoreImg storeImg = StoreImg.builder()
-                    .storeImgThumbnail(thubmnailSaveName)
-                    .storeImgSavedName(saveName)
+                    .storeImgThumbnail(thubmnailSaveNameDb)
+                    .storeImgSavedName(dbSavedName)
                     .storeImgFilePath(String.valueOf(savePath))
                     .storeImgOriginalName(originalName)
                     .build();
@@ -105,7 +110,6 @@ public class AdminStoreService {
                     .storeImg(storeImg)
                     .build();
             storeRepository.save(adminStore);
-
 
 
         } else {
@@ -130,7 +134,6 @@ public class AdminStoreService {
 
         return folderPath;
     }
-
 
 
 }

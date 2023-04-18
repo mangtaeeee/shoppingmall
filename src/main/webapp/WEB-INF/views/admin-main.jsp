@@ -95,61 +95,56 @@
         <div class="row">
             <div class="col-lg-10 col-md-10 mx-auto">
                 <div class="card mt-4">
-                    <div class="col-8">
-                        <div class="card-header p-3">
-                            <h5 class="mb-0 col-2"></h5>
-                        </div>
-                        <div class="card-body p-3 pb-0">
-                            <input type="hidden" id="sample6_postcode" placeholder="우편번호">
-                            <input type="hidden" id="sample6_address" placeholder="주소"><br>
+                    <!-- 데이터 출력 -->
+                    <c:choose>
+                        <c:when test="${not empty adminMainList}">
+                            <c:forEach var="list" items="${adminMainList}" varStatus="status">
+                                <div class="col-8">
+                                    <div class="card-header p-3">
+                                        <h5 class="mb-0 col-2"></h5>
+                                    </div>
+                                    <div class="card-body p-3 pb-0">
+                                        <div class="form-group">
+                                            <label>상점로고 : <img class="card-img-top"
+                                                               src="<c:url value='/upload/${list.storeImg.storeImgThumbnail}'/>"/>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>상점이름 : ${list.adminStoreName}</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>상점설명 : ${list.adminStoreContent}</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>해시태그 :</label>
+                                            <c:choose>
+                                                <c:when test="${not empty list.productHashtagList}">
+                                                    <c:forEach var="hashTag" items="${list.productHashtagList}"
+                                                               varStatus="hashTagstatus">
+                                                        <label>#${hashTag.productHashtagName[0]}</label>
+                                                    </c:forEach>
+                                                </c:when>
+                                            </c:choose>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>상품 : </label>
+                                            <c:choose>
+                                                <c:when test="${not empty list.productImgList}">
+                                                    <c:forEach var="productImg" items="${list.productImgList}"
+                                                               varStatus="productImgIndex">
+                                                        <img class="card-img-top"
+                                                             src="<c:url value='upload/thumbnails/${productImg.productImgThumbnail[productImgIndex.index]}'/>"/>
+                                                    </c:forEach>
+                                                </c:when>
+                                            </c:choose>
 
-                            <input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
-                            <div class="form-group">
-                                <label for="adminStoreName">상점명:</label>
-                                <input type="text" name="adminStoreName" class="form-control" id="adminStoreName">
-                            </div>
-                            <div class="form-group">
-                                <label for="adminStoreAddress">주소:</label><br>
-                                <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><input
-                                    type="text" b
-                                    id="sample6_detailAddress"
-                                    placeholder="상세주소"><input
-                                    type="button" onclick="address_ok()" id="addressok" value="확인" disabled><br>
-                                <input type="text" class="form-control" name="adminStoreAddress" id="adminStoreAddress"
-                                       disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="adminStorePhone">전화번호:</label>
-                                <input type="text" class="form-control" name="adminStorePhone" id="adminStorePhone">
-                            </div>
-                            <div class="form-group">
-                                <label for="adminStoreContent">상점설명:</label>
-                                <textarea class="form-control" style="overflow-y:scroll" rows="5"
-                                          name="adminStoreContent" id="adminStoreContent"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <button class="btn w-100 mb-0 toast-btn" type="button"><label
-                                        for="adminStoreImg">사진추가</label>
-                                    <input type="file" class="form-control form-control-sm" name="adminStoreImg"
-                                           id="adminStoreImg" onchange="fileUpload(event);" style="display: none"
-                                           multiple>
-                                </button>
-                            </div>
-                            <div class="form-group">
-                                <div id="image_container">
-                                    <!-- 사진 미리보기 -->
+                                        </div>
+
+                                    </div>
                                 </div>
-                            </div>
-                            <button class="btn bg-gradient-danger" type="button" data-target="dangerToast">
-                                수정
-                            </button>
-                            <button class="btn bg-gradient-success" id="store-add-btn" type="button"
-                                    onclick="store_add()"
-                                    data-target="successToast">
-                                확인
-                            </button>
-                        </div>
-                    </div>
+                            </c:forEach>
+                        </c:when>
+                    </c:choose>
                 </div>
             </div>
         </div>
