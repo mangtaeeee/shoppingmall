@@ -114,8 +114,7 @@
                                             <label>해시태그 :</label>
                                             <c:choose>
                                                 <c:when test="${not empty list.productHashtagList}">
-                                                    <c:forEach var="hashTag" items="${list.productHashtagList}"
-                                                               varStatus="status">
+                                                    <c:forEach var="hashTag" items="${list.productHashtagList}" varStatus="status">
                                                         <label>#${hashTag.productHashtagName[status.index]}</label>
                                                     </c:forEach>
                                                 </c:when>
@@ -127,7 +126,7 @@
                                                 <c:when test="${not empty list.productImgList}">
                                                     <c:forEach var="productImg" items="${list.productImgList}"
                                                                varStatus="status">
-                                                        <img class="card-img-top" src="<c:url value='/upload/thumbnails/${productImg.productImgThumbnail[status.index]}'/>"/>
+                                                        <img class="card-img-top" src="<c:url value='upload/thumbnails/${productImg.productImgThumbnail }'/>"/>
                                                     </c:forEach>
                                                 </c:when>
                                             </c:choose>
