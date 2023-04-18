@@ -84,7 +84,7 @@ public class AdminStoreService {
             Path savePath = Paths.get(saveName);
             create.getStoreImgFile().transferTo(savePath);
             //섬네일 생성 -> 섬네일 파일 이름은 중간에 s_로 시작
-            String thubmnailSaveName = fileDir + File.separator + folderPath + File.separator + "s_" + uuid + "_" + fileName;
+            String thubmnailSaveName = fileDir + folderPath + File.separator + "s_" + uuid + "_" + fileName;
             File thumbnailFile = new File(thubmnailSaveName);
             // 섬네일 생성
             Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile, 100, 100);
