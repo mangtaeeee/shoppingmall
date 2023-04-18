@@ -104,54 +104,68 @@
     IMP.init("imp61605278");
 
     function requestPay() {
-        let create_order_url = "/api/user/create_order/"+localStorage.getItem("token");
         //로컬스토리지에 저장된 token을 이용해서 member 정보 가져오고 주문 테이블에 데이터 생성
         axios({
-            url: create_order_url,
-            method: "get"
-        }).then((response) => {
-            console.log(response.data);
-            userData = response.data;
-        }).catch((error) => {
-            alert("오류 발생");
-            console.log(error.message)
-        })
-
-        // 결제 수단 설정
-        let pay_method = $("#pay_method option:selected").val();
-        console.log(pay_method);
-
-        IMP.request_pay({
-            pg: 'kcp.T0000',
-            pay_method: pay_method,
-            merchant_uid: "${orders.merchantId}",
-            name: "${product.productName}",
-            amount: ${product.productPrice},
-            buyer_email: userData.userMemberEmail,
-            buyer_name: userData.userMemberName,
-            buyer_tel: userData.userMemberPhone,
-            buyer_addr: userData.userMemberAddress,
-            buyer_postcode: userData.userMemberPostCode
-        }, rsp => { // callback
-            if (rsp.success) {
-                alert("결제완료");
-                // axios로 HTTP 요청
-                axios({
-                    url: "{서버의 결제 정보를 받는 endpoint}",
-                    method: "post",
-                    headers: {"Content-Type": "application/json"},
-                    data: {
-                        imp_uid: rsp.imp_uid,
-                        merchant_uid: rsp.merchant_uid
-                    }
-                }).then((data) => {
-                    // 서버 결제 API 성공시 로직
-                    // "/orders/save"
-                })
-            } else {
-                console.log(rsp)
-                alert(`결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
+            url: "/api/orders/create-order",
+            method: "post",
+            data: {
+                userId : localStorage.getItem("token"),
+                productId : "${productId}",
+                payMethod : $("#pay_method option:selected").val()
             }
+        }).then((response) => {
+            ordersData = response.data;
+
+            // 사전검증 API 호출
+            // axios({
+            //     url: "https://api.iamport.kr/payments/prepare",
+            //     method: "post",
+            //     headers: { "Content-Type": "application/json" },
+            //     data: {
+            //         merchant_uid: "...", // 가맹점 주문번호
+            //         amount: 420000, // 결제 예정금액
+            //     }
+            // }).then((data) => {
+            //     // 서버 결제 API 성공시 로직
+            //     // "/orders/save"
+            // })
+
+            IMP.request_pay({
+                pg: 'kcp.T0000',
+                pay_method: ordersData.payMethod,
+                merchant_uid: ordersData.merchantId,
+                name: ordersData.ordersProduct,
+                amount: ordersData.ordersAmount,
+                buyer_email: ordersData.buyerEmail,
+                buyer_name: ordersData.buyerName,
+                buyer_tel: ordersData.buyerTel,
+                buyer_addr: ordersData.buyerAddr,
+                buyer_postcode: ordersData.buyerPostcode
+            }, rsp => {
+                if (rsp.success) {
+                    alert("결제완료");
+                    // axios로 HTTP 요청
+                    axios({
+                        url: "{서버의 결제 정보를 받는 endpoint}",
+                        method: "post",
+                        headers: {"Content-Type": "application/json"},
+                        data: {
+                            imp_uid: rsp.imp_uid,
+                            merchant_uid: rsp.merchant_uid
+                        }
+                    }).then((data) => {
+                        // 서버 결제 API 성공시 로직
+                        // "/orders/save"
+                    })
+                } else {
+                    console.log(rsp)
+                    alert(`결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
+                }
+            }).catch((error) => {
+                alert("오류 발생");
+                console.log(error.message)
+            })
+
         });
     }
 </script>

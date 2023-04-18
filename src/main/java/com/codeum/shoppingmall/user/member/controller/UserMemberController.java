@@ -1,15 +1,20 @@
 package com.codeum.shoppingmall.user.member.controller;
 
+import com.codeum.shoppingmall.admin.product.service.ProductService;
 import com.codeum.shoppingmall.user.member.domain.UserMember;
 import com.codeum.shoppingmall.user.member.dto.UserSignInDto;
 import com.codeum.shoppingmall.user.member.dto.UserSignUpDto;
 import com.codeum.shoppingmall.user.member.dto.UserSmsCheckDto;
 import com.codeum.shoppingmall.user.member.dto.UserSmsDto;
 import com.codeum.shoppingmall.user.member.service.UserMemberService;
+import com.codeum.shoppingmall.user.orders.service.OrdersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -19,6 +24,8 @@ import javax.validation.Valid;
 public class UserMemberController {
 
     private final UserMemberService userMemberService;
+    private final OrdersService ordersService;
+    private final ProductService productService;
 
     @PostMapping("/signup")
     public ResponseEntity<Long> signUp(@Valid @RequestBody UserSignUpDto dto) {
@@ -48,13 +55,5 @@ public class UserMemberController {
     public ResponseEntity<Boolean> checkDuplicateUser(String email) {
         userMemberService.checkDuplicateUser(email);
         return ResponseEntity.status(HttpStatus.OK).body(true);
-    }
-
-    @GetMapping("/create_order/{id}")
-    public ResponseEntity<UserMember> getMember(@PathVariable("id") Long id) {
-        System.out.println("getmemberid : " + id);
-        UserMember userMember = userMemberService.findById(id);
-
-        return ResponseEntity.status(HttpStatus.OK).body(userMember);
     }
 }

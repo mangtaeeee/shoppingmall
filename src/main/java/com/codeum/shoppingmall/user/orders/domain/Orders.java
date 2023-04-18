@@ -1,9 +1,10 @@
 package com.codeum.shoppingmall.user.orders.domain;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@DynamicInsert
 public class Orders {
 
     @Id
@@ -21,21 +23,24 @@ public class Orders {
     private String ordersProduct;
     @Column
     private int ordersAmount;
-    @Column(name = "orders_date", nullable = false, columnDefinition = "DATE DEFAULT CURRENT_DATE")
-    private LocalDate ordersDate = LocalDate.now();
-    @Column(name = "order_state", nullable = false, columnDefinition = "VARCHAR(10) DEFAULT 'N'")
+    @Column(name = "orders_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp ordersDate;
+    @Column(name = "orders_state", columnDefinition = "VARCHAR(20) DEFAULT 'ready'")
     private String ordersState;
     @Column(unique = true)
     private String merchantId;
-    @Column(name = "order_del_yn", nullable = false, columnDefinition = "BOOLEAN DEFAULT true")
-    private boolean orderDelYn;
-    @OneToOne(mappedBy = "orders")
+    @Column(name = "order_del_yn", columnDefinition = "BIT(1) DEFAULT 0")
+    private boolean ordersDelYn;
+
+    @OneToOne(mappedBy = "orders", cascade = CascadeType.ALL)
     private OrdersDetail ordersDetail;
 
     @Builder
-    public Orders (String ordersProduct, int ordersAmount, String merchantId) {
+    public Orders(String ordersProduct, int ordersAmount, Timestamp ordersDate, String ordersState, String merchantId) {
         this.ordersProduct = ordersProduct;
         this.ordersAmount = ordersAmount;
+        this.ordersDate = ordersDate;
+        this.ordersState = ordersState;
         this.merchantId = merchantId;
     }
 

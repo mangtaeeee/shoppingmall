@@ -3,6 +3,7 @@ package com.codeum.shoppingmall.admin.product.domain;
 import com.codeum.shoppingmall.admin.store.domain.AdminStore;
 import com.codeum.shoppingmall.user.member.domain.UserLike;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@DynamicInsert
 public class Product {
 
     @Id
@@ -25,7 +27,7 @@ public class Product {
     private String productContent;
     @Column
     private int productPrice;
-    @Column(name = "product_del_yn", nullable = false, columnDefinition = "BOOLEAN DEFAULT true")
+    @Column(name = "product_del_yn", columnDefinition = "BIT(1) DEFAULT 1")
     private boolean productDelYn;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)

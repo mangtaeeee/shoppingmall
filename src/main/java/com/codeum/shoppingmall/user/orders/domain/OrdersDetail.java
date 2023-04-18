@@ -1,6 +1,7 @@
 package com.codeum.shoppingmall.user.orders.domain;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@DynamicInsert
 public class OrdersDetail {
 
     @Id
@@ -28,13 +30,15 @@ public class OrdersDetail {
     private String buyerPostcode;
     @Column
     private String payMethod;
+
     @OneToOne
     @JoinColumn(name = "orders_id")
     private Orders orders;
 
     @Builder
-    public OrdersDetail(String buyerName, String buyerTel, String buyerEmail,
+    public OrdersDetail(Orders orders, String buyerName, String buyerTel, String buyerEmail,
                         String buyerAddr, String buyerPostcode, String payMethod) {
+        this.orders = orders;
         this.buyerName = buyerName;
         this.buyerTel = buyerTel;
         this.buyerEmail = buyerEmail;
