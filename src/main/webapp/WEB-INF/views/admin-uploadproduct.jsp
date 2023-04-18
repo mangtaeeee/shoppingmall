@@ -31,17 +31,17 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link text-white" href="#">
+                <a class="nav-link text-white" href="/admin/main">
                     <span class="nav-link-text ms-1">메인</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="#">
+                <a class="nav-link text-white" href="/admin/store">
                     <span class="nav-link-text ms-1">상점 관리</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white active bg-gradient-primary" href="#">
+                <a class="nav-link text-white active bg-gradient-primary" href="/admin/uploadproduct">
                     <span class="nav-link-text ms-1">상품 등록</span>
                 </a>
             </li>

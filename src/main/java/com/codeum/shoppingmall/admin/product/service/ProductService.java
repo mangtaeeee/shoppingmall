@@ -37,12 +37,12 @@ public class ProductService {
     private final ProductHashtagRepository productHashtagRepository;
 
     // 상품 이미지 파일이 저장될 저장소 설정 ( 추후 변경해야함 )
-    @Value("${custom.img-saved-path}")
-    private String imgSavedPath;
+    @Value("${custom.ImgSavePath}")
+    private String imgSavePath;
 
     public void uploadProduct(ProductDTO productDTO) throws IOException {
 
-        String ThumbnailsavedPath = imgSavedPath + "thumbnails/";
+        String ThumbnailsavedPath = imgSavePath + "thumbnails/";
 
         AdminStore adminStoreId = storeRepository.findById(1L).orElseThrow(()->new IllegalArgumentException("없는 스토어 번호입니다."));
 
@@ -69,7 +69,7 @@ public class ProductService {
 
         //첨부 파일 저장
         for (MultipartFile productImgFile : productDTO.getProductImgFile()) {
-            System.out.println("ImgSavedPath:"+imgSavedPath);
+            System.out.println("ImgSavedPath:"+imgSavePath);
 
             // 파일 확장자 검사
             String contentType = productImgFile.getContentType();
@@ -81,7 +81,7 @@ public class ProductService {
                 if (contentType.contains("image/jpeg") || contentType.contains("image/png")) {
                     String originProductFileName = productImgFile.getOriginalFilename();
                     String savedProductFileName = System.currentTimeMillis() + "_" + originProductFileName;
-                    String savedProductFilePath = imgSavedPath + savedProductFileName;
+                    String savedProductFilePath = imgSavePath + savedProductFileName;
                     productImgFile.transferTo(new File(savedProductFilePath));
 
                     //원본 사진을 resize 한 썸네일 이미지 생성
