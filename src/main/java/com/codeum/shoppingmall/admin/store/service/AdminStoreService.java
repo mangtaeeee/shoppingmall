@@ -82,17 +82,21 @@ public class AdminStoreService {
             //저장할 파일 이름 중간에 "_"를 이용해 구분
             String saveName = fileDir + folderPath + File.separator + uuid + "_" + fileName;
             Path savePath = Paths.get(saveName);
+
+
+            String dbSavedName = folderPath + File.separator + uuid + "_" + fileName;
             create.getStoreImgFile().transferTo(savePath);
             //섬네일 생성 -> 섬네일 파일 이름은 중간에 s_로 시작
-            String thubmnailSaveName = fileDir + folderPath + File.separator + "s_" + uuid + "_" + fileName;
+            String thubmnailSaveName = fileDir + folderPath + File.separator +"s_" + uuid + "_" + fileName;
+            String thubmnailSaveNameDb = folderPath + File.separator +"s_" + uuid + "_" + fileName;
             File thumbnailFile = new File(thubmnailSaveName);
             // 섬네일 생성
             Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile, 100, 100);
 
 
             StoreImg storeImg = StoreImg.builder()
-                    .storeImgThumbnail(thubmnailSaveName)
-                    .storeImgSavedName(saveName)
+                    .storeImgThumbnail(thubmnailSaveNameDb)
+                    .storeImgSavedName(dbSavedName)
                     .storeImgFilePath(String.valueOf(savePath))
                     .storeImgOriginalName(originalName)
                     .build();
