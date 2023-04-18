@@ -51,7 +51,7 @@ public class AdminStoreService {
         List<AdminStoreDTO> collet = storeRepository.findAll().stream()
                 .map(adminStore -> AdminStoreDTO.builder()
                         .adminStoreName(adminStore.getAdminStoreName())
-                        .adminStoreContent(adminStore.getAdminStoreContent())
+                        .adminStoreContent(adminStore.getAdminStoreContent().replace("\r\n","<br>"))
                         .storeImg(adminStore.getStoreImg())
                         .productImgList(adminStore.getProducts().stream().map(product -> new AdminStoreProductImg(product)).collect(Collectors.toList()))
                         .productHashtagList(adminStore.getProducts().stream().map(product -> new AdminStoreProductHashTag(product)).collect(Collectors.toList()))

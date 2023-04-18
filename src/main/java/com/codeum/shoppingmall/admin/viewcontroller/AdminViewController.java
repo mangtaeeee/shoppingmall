@@ -19,6 +19,11 @@ public class AdminViewController {
         return "admin-login";
     }
 
+    @GetMapping("/admin/join")
+    public String joinPage() {
+        return "admin-join";
+    }
+
     @GetMapping("/admin/main")
     public String mainPage(Model model) {
 
@@ -36,6 +41,11 @@ public class AdminViewController {
     @GetMapping("/admin/uploadproduct")
     public String uploadProductPage() {
         return "uploadproduct";
+    }
+
+    @GetMapping("/admin/productmanage")
+    public String productManagePage() {
+        return "admin-productmanag";
     }
 
 }

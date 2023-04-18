@@ -31,7 +31,7 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link text-white active bg-gradient-primary" href="/admin/main">
+                <a class="nav-link text-white " href="/admin/main">
                     <span class="nav-link-text ms-1">메인</span>
                 </a>
             </li>
@@ -46,7 +46,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="/admin/productmanage">
+                <a class="nav-link text-white active bg-gradient-primary" href="/admin/productmanage">
                     <span class="nav-link-text ms-1">상품 관리</span>
                 </a>
             </li>
@@ -100,60 +100,61 @@
         <div class="row">
             <div class="col-lg-10 col-md-10 mx-auto">
                 <div class="card mt-4">
-                    <!-- 데이터 출력 -->
-                    <c:choose>
-                        <c:when test="${not empty adminMainList}">
-                            <c:forEach var="list" items="${adminMainList}" varStatus="status">
-                                <div class="col-10">
-                                    <div class="card-header p-3">
-                                        <h5 class="mb-0 col-2"></h5>
-                                    </div>
-                                    <div class="card-body p-3 pb-0">
-                                        <div class="form-group" style="float: right">
-                                            <img class="card-img-top" style="width: 170%;"
-                                                 src="<c:url value='/upload/${list.storeImg.storeImgThumbnail}'/>"/>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        번호
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        대표사진
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        상품명
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        가격
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        등록일시
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <!-- 상품 번호 정렬 -->
+                                    </td>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div>
+                                                <!-- 이미지 0번째 -->
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label>상점이름 : ${list.adminStoreName}</label>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <!-- 상품명 -->
                                         </div>
-                                        <div class="form-group" >
-                                            <label>상점설명 : ${list.adminStoreContent}</label>
-
-                                        </div>
-                                        <div class="form-group">
-                                            <label>해시태그 :</label>
-                                            <c:forEach var="hashtag" items="${list.productHashtagList}">
-                                                <c:forEach var="name" items="${hashtag.productHashtagName}">
-                                                    <c:out value="#${name}"/>
-                                                </c:forEach>
-                                            </c:forEach>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>상품 : </label>
-                                            <c:choose>
-                                                <c:when test="${not empty list.productImgList}">
-                                                    <div>
-
-                                                        <c:forEach var="img" items="${list.productImgList}">
-                                                            <c:forEach var="product"
-                                                                       items="${img.savedProductFileName}">
-                                                                <img class="card-img-top" style="width:30%;"
-                                                                     src="<c:url value='/upload/${product}'/>"/>
-                                                            </c:forEach><br>
-                                                            <c:forEach var="productname"
-                                                                       items="${img.originProductFileName}">
-                                                                <c:out value="${productname}"/>
-                                                            </c:forEach>
-                                                        </c:forEach>
-                                                    </div>
-                                                </c:when>
-                                            </c:choose>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:forEach>
-                        </c:when>
-                    </c:choose>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <!-- 상품가격 -->
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <!-- 등록일시 -->
+                                    </td>
+                                    <td class="align-middle">
+                                        <!-- yn이 false 일떄 재등록 true 일때 삭제 -->
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -31,7 +31,7 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link text-white " href="/admin/main">
+                <a class="nav-link text-white" href="/admin/main">
                     <span class="nav-link-text ms-1">메인</span>
                 </a>
             </li>
@@ -46,12 +46,17 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="#">
+                <a class="nav-link text-white" href="/admin/productmanage">
+                    <span class="nav-link-text ms-1">상품 관리</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/admin">
                     <span class="nav-link-text ms-1">로그인</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="#">
+                <a class="nav-link text-white" href="/admin/join">
                     <span class="nav-link-text ms-1">회원가입</span>
                 </a>
             </li>
@@ -96,15 +101,21 @@
         <div class="row">
             <div class="col-lg-10 col-md-10 mx-auto">
                 <div class="card mt-4">
-                    <div class="col-8">
+                    <div class="col-10">
                         <div class="card-header p-3">
                             <h5 class="mb-0 col-2">상점관리</h5>
+                        </div>
+                        <div class="form-group" style="float: right">
+                            <div id="image_container">
+                                <!-- 사진 미리보기 -->
+                            </div>
                         </div>
                         <div class="card-body p-3 pb-0">
                             <input type="hidden" id="sample6_postcode" placeholder="우편번호">
                             <input type="hidden" id="sample6_address" placeholder="주소"><br>
 
                             <input type="hidden" id="sample6_extraAddress" placeholder="참고항목">
+
                             <div class="form-group">
                                 <label for="adminStoreName">상점명:</label>
                                 <input type="text" name="adminStoreName" class="form-control" id="adminStoreName">
@@ -112,7 +123,7 @@
                             <div class="form-group">
                                 <label for="adminStoreAddress">주소:</label><br>
                                 <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><input
-                                    type="text" b
+                                    type="text"
                                     id="sample6_detailAddress"
                                     placeholder="상세주소"><input
                                     type="button" onclick="address_ok()" id="addressok" value="확인" disabled><br>
@@ -136,11 +147,7 @@
                                            multiple>
                                 </button>
                             </div>
-                            <div class="form-group">
-                                <div id="image_container">
-                                    <!-- 사진 미리보기 -->
-                                </div>
-                            </div>
+
                             <button class="btn bg-gradient-danger" type="button" data-target="dangerToast">
                                 수정
                             </button>
@@ -150,6 +157,8 @@
                                 확인
                             </button>
                         </div>
+                    </div>
+                    <div class="col-2">
                     </div>
                 </div>
             </div>
