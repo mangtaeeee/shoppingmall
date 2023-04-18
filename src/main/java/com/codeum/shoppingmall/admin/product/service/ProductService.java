@@ -3,18 +3,22 @@ package com.codeum.shoppingmall.admin.product.service;
 import com.codeum.shoppingmall.admin.product.domain.Product;
 import com.codeum.shoppingmall.admin.product.domain.ProductHashtag;
 import com.codeum.shoppingmall.admin.product.domain.ProductImg;
+import com.codeum.shoppingmall.admin.product.dto.ProductAdminListDTO;
 import com.codeum.shoppingmall.admin.product.dto.ProductDTO;
+import com.codeum.shoppingmall.admin.product.dto.ProductEditDTO;
 import com.codeum.shoppingmall.admin.product.repository.ProductHashtagRepository;
 import com.codeum.shoppingmall.admin.product.repository.ProductImgRepository;
 import com.codeum.shoppingmall.admin.product.repository.ProductRepository;
 import com.codeum.shoppingmall.admin.store.domain.AdminStore;
 import com.codeum.shoppingmall.admin.store.repository.AdminStoreRepository;
+import com.codeum.shoppingmall.main.exception.AppException;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -25,6 +29,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.codeum.shoppingmall.main.constants.ErrorCode.PRODUCT_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -151,6 +157,32 @@ public class ProductService {
         } else {
             return null;
         }
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ProductAdminListDTO> adminFindProduct(Pageable pageable) {
+
+        Page<Product> products = productRepository.findAll(pageable);
+        List<ProductAdminListDTO> productDTOList = new ArrayList<>();
+
+        for (Product product : products) {
+            ProductAdminListDTO productDTO = ProductAdminListDTO.builder()
+                    .product(product)
+                    .build();
+            productDTOList.add(productDTO);
+        }
+        return new PageImpl<>(productDTOList, pageable, products.getTotalElements());
+
+    }
+
+    @Transactional
+    public void productYnUpdate(Long productId, ProductEditDTO productDTO) {
+
+        Product product = productRepository.findById(productId).orElseThrow(()->new AppException(PRODUCT_NOT_FOUND));
+
+        product.edit(productDTO.isProductDelYn());
+
+
     }
 
 }

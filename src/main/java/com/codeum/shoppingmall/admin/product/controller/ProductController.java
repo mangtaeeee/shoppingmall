@@ -1,14 +1,13 @@
 package com.codeum.shoppingmall.admin.product.controller;
 
 import com.codeum.shoppingmall.admin.product.dto.ProductDTO;
+import com.codeum.shoppingmall.admin.product.dto.ProductEditDTO;
 import com.codeum.shoppingmall.admin.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import okhttp3.Response;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -45,4 +44,14 @@ public class ProductController {
         List<ProductDTO> productDTOList = productService.searchProduct(keyword, offset, limit);
         return ResponseEntity.status(HttpStatus.OK).body(productDTOList);
     }
+    @PatchMapping("/productedit/{productId}")
+    public ResponseEntity ynUpdate (@PathVariable Long productId,@RequestBody ProductEditDTO productDTO) {
+        productService.productYnUpdate(productId,productDTO);
+
+        return ResponseEntity.ok(productDTO);
+    }
+
+
+
+
 }

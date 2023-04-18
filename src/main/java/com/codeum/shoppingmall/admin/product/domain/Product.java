@@ -51,4 +51,8 @@ public class Product {
         this.adminStore  = adminStore;
     }
 
+    public void edit(boolean productDTO) {
+        productDelYn = productDTO;
+    }
+
 }

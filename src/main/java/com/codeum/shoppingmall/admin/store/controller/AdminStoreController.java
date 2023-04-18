@@ -22,7 +22,6 @@ public class AdminStoreController {
 
     @PostMapping("/store/upload")
     public void storeSave(@Valid AdminStoreCreate create) throws Exception {
-        System.out.println("요청 들어온 데이터 : "+create.toString());
         adminStoreService.saveStore(create);
     }
 

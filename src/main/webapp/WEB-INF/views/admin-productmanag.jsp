@@ -126,31 +126,50 @@
                                 </thead>
                                 <tbody>
                                 <tr>
+                                    <c:choose>
+                                    <c:when test="${not empty list}">
+                                    <c:forEach var="prouctlist" items="${list.content}" varStatus="status">
                                     <td>
                                         <!-- 상품 번호 정렬 -->
+                                        <c:out value="${status.index}"/>
                                     </td>
                                     <td>
                                         <div class="d-flex px-2 py-1">
                                             <div>
                                                 <!-- 이미지 0번째 -->
+                                                <img class="avatar avatar-sm me-3 border-radius-lg"
+                                                     src="<c:url value='/upload/${prouctlist.savedProductFileName[0]}' />">
                                             </div>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="d-flex flex-column justify-content-center">
                                             <!-- 상품명 -->
+                                            <c:out value="${prouctlist.productName}"/>
                                         </div>
                                     </td>
                                     <td class="align-middle text-center text-sm">
                                         <!-- 상품가격 -->
+                                        <c:out value="${prouctlist.productPrice}"/>
                                     </td>
                                     <td class="align-middle text-center">
                                         <!-- 등록일시 -->
+                                        2023.04.18
                                     </td>
                                     <td class="align-middle">
+                                        <input type="hidden" value="${prouctlist.productId}" id="productListId">
                                         <!-- yn이 false 일떄 재등록 true 일때 삭제 -->
+                                        <c:if test="${prouctlist.productDelYn eq false}">
+                                            <input type="button" onclick="ynTrue()" value="재등록">
+                                        </c:if>
+                                        <c:if test="${prouctlist.productDelYn eq true}">
+                                            <input type="button" onclick="ynFalse()" value="삭제">
+                                        </c:if>
                                     </td>
                                 </tr>
+                                </c:forEach>
+                                </c:when>
+                                </c:choose>
                                 </tbody>
                             </table>
                         </div>
@@ -226,3 +245,51 @@
         </footer>
     </div>
 </main>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script>
+
+
+    function ynTrue() {
+        const data = {
+            productId: $("#productListId").val(),
+            productDelYn : true
+        }
+
+        $.ajax({
+            type: 'PATCH',
+            url: '/product/productedit/' + data.productId,
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data)
+        }).done(function () {
+            window.location.reload();
+        }).fail(function (error) {
+            console.log(error)
+        });
+
+    }
+
+    function ynFalse() {
+        const data = {
+            productId: $("#productListId").val(),
+            productDelYn : false
+        }
+
+        $.ajax({
+            type: 'PATCH',
+            url: '/product/productedit/' + data.productId,
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data)
+        }).done(function () {
+            window.location.reload();
+        }).fail(function (error) {
+            console.log(error)
+        });
+    }
+
+
+
+</script>

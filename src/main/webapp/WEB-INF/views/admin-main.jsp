@@ -132,19 +132,21 @@
                                             <label>상품 : </label>
                                             <c:choose>
                                                 <c:when test="${not empty list.productImgList}">
-                                                    <div>
+                                                    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+                                                        <div id="store-list" class="carousel-inner">
+                                                        </div>
 
-                                                        <c:forEach var="img" items="${list.productImgList}">
-                                                            <c:forEach var="product"
-                                                                       items="${img.savedProductFileName}">
-                                                                <img class="card-img-top" style="width:30%;"
-                                                                     src="<c:url value='/upload/${product}'/>"/>
-                                                            </c:forEach><br>
-                                                            <c:forEach var="productname"
-                                                                       items="${img.originProductFileName}">
-                                                                <c:out value="${productname}"/>
-                                                            </c:forEach>
-                                                        </c:forEach>
+<%--                                                        <c:forEach var="img" items="${list.productImgList}">--%>
+<%--                                                            <c:forEach var="product"--%>
+<%--                                                                       items="${img.savedProductFileName}">--%>
+<%--                                                                <img class="card-img-top" style="width:30%;"--%>
+<%--                                                                     src="<c:url value='/upload/${product}'/>"/>--%>
+<%--                                                            </c:forEach><br>--%>
+<%--                                                            <c:forEach var="productname"--%>
+<%--                                                                       items="${img.originProductFileName}">--%>
+<%--                                                                <c:out value="${productname}"/>--%>
+<%--                                                            </c:forEach>--%>
+<%--                                                        </c:forEach>--%>
                                                     </div>
                                                 </c:when>
                                             </c:choose>
@@ -225,3 +227,46 @@
         </footer>
     </div>
 </main>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script>
+    function loadStoreList() {
+        $.ajax({
+            type: "GET",
+            url: "/api/admin/store/findAll", // 비동기 요청을 보낼 URL
+            dataType: "json",
+            success: function(response) {
+                let storeList = response;
+                let storeHtml = '';
+                for (let i = 0; i < storeList.length; i++) {
+
+                    let store = storeList[i].productImgList;
+                    if (i % 3 == 0) {
+                        storeHtml += '<div class="carousel-item' + (i == 0 ? ' active' : '') + ' align-content-center text-center"><div class="row p-5 text-center mx-auto" style="max-width: 2000px">';
+                    }
+                    for (let j = 0; j < store.length; j++) {
+                        let savedProductFileName = store[j].savedProductFileName;
+                        let originProductFileName = store[j].originProductFileName;
+                        for (let k = 0; k < savedProductFileName.length; k++) {
+                            console.log(savedProductFileName[k]);
+                            storeHtml += '<div class="col-md-4" ><div class="card mb-4 shadow-sm text-center mx-auto" >' +
+                                '<img class="card-img-top" style="width: 100%" src="/upload/' + savedProductFileName[k] + '"/>' +
+                                '<div class="card-body"><p class="card-text">' + originProductFileName[k] + '</p></div></div></div>';
+                        }
+
+                    }
+                    if ((i + 1) % 3 == 0 || i == storeList.length - 1) {
+                        storeHtml += '</div></div>';
+                    }
+
+
+                }
+                $('#store-list').html(storeHtml);
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+            }
+        });
+    }
+    loadStoreList()
+</script>
+

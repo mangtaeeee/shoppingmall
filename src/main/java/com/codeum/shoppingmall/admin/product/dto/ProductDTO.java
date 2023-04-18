@@ -22,7 +22,9 @@ public class ProductDTO {
     private String productContent;
     private int productPrice;
     private int storeId;
+
     private boolean productDelYn;
+
 
     // 상품 해시태그 데이터
     private List<String> productHashtagName;
