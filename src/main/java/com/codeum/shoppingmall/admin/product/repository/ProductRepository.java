@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    @Query("SELECT p FROM Product p WHERE p.productDelYn = true")
+    @Query("SELECT p FROM Product p WHERE p.productDelYn = false")
     Page<Product> findAllProducts(Pageable pageable);
 
     @Query(value = "SELECT p FROM Product p " +
