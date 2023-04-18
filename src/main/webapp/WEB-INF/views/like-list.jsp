@@ -13,18 +13,39 @@
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="/css/styles.css" rel="stylesheet" type="text/css">
+    <link href="/static/assets/css/styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <!-- Navigation-->
 <%@include file="nav-bar.jsp"%>
 
-<section class="py-5">
-    <h4>관심 상품 리스트</h4>
-    <div class="container px-4 px-lg-5 mt-5">
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" id="input-here">
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Codeum Shopping</h1>
+            <p class="lead fw-normal text-white-50 mb-0">products of interest</p>
         </div>
     </div>
+</header>
+
+<section class="py-0 pb-5 px-5">
+    <div id="like-list-container" class="container text-center mb-5 mt-5">
+        <h4 class="pt-4">관심 상품 리스트</h4>
+        <c:if test="${empty likeList}">
+            <p class="lead py-5">아직 등록된 상품이 없습니다.</p>
+        </c:if>
+    </div>
+    <c:if test="${not empty likeList}">
+        <c:forEach items="${likeList}" var="like">
+            <div class="card" style="width: 18rem;">
+                <img src="<c:url value='/upload/${like.path}'/>" class="card-img-top" >
+                <div class="card-body">
+                    <h5 class="card-title">${like.name}</h5>
+                </div>
+            </div>
+        </c:forEach>
+    </c:if>
 </section>
 
 <!-- Footer-->
@@ -38,78 +59,6 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="/js/member.js" type="text/javascript"></script>
-<script type="text/javascript">
-    let container = document.getElementById("input-here")
-    let token = localStorage.getItem("token")
-
-    axios.get("/api/interest/get", {
-        headers: {
-            Authorization: "Bearer " + token
-        }
-    }).then((response) => {
-        console.log(response.data)
-        for (let i = 0; i < response.data.length; i++) {
-            let card = createCard(response.data[i].path, response.data[i].name, response.data[i].price, response.data[i].productId )
-            container.appendChild(card);
-        }
-    }).catch((error) => {
-        console.log(error)
-        alert(error.response.data.message)
-    })
-
-    function createCard(imageUrl, productName, productPrice, productId) {
-        // 카드 요소 생성
-        let cardDiv = document.createElement('div');
-        cardDiv.classList.add('col', 'mb-5');
-
-        let card = document.createElement('div');
-        card.classList.add('card', 'h-100');
-        cardDiv.appendChild(card);
-
-        // 상품 이미지
-        let img = document.createElement('img');
-        img.classList.add('card-img-top');
-        img.src = imageUrl;
-        card.appendChild(img);
-
-        // 상품 정보
-        let cardBody = document.createElement('div');
-        cardBody.classList.add('card-body', 'p-4');
-        card.appendChild(cardBody);
-
-        let textCenter = document.createElement('div');
-        textCenter.classList.add('text-center');
-        cardBody.appendChild(textCenter);
-
-        // 상품 이름
-        let productNameHeader = document.createElement('h5');
-        productNameHeader.classList.add('fw-bolder');
-        productNameHeader.textContent = productName;
-        textCenter.appendChild(productNameHeader);
-
-        // 상품 가격
-        let productPriceSpan = document.createElement('span');
-        productPriceSpan.textContent = productPrice;
-        textCenter.appendChild(productPriceSpan);
-
-        // 상품 링크
-        let cardFooter = document.createElement('div');
-        cardFooter.classList.add('card-footer', 'p-4', 'pt-0', 'border-top-0', 'bg-transparent');
-        card.appendChild(cardFooter);
-
-        let textCenter2 = document.createElement('div');
-        textCenter2.classList.add('text-center');
-        cardFooter.appendChild(textCenter2);
-
-        let productLink = document.createElement('a');
-        productLink.classList.add('btn', 'btn-outline-dark', 'mt-auto');
-        productLink.href = '/product/productdetail/' + productId;
-        productLink.textContent = '상품 상세보기';
-        textCenter2.appendChild(productLink);
-
-        return cardDiv;
-    }
-</script>
+<script src="/static/assets/js/member.js" type="text/javascript"></script>
 </body>
 </html>

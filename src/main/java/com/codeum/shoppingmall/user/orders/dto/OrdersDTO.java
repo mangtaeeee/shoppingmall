@@ -1,56 +1,49 @@
 package com.codeum.shoppingmall.user.orders.dto;
 
-import com.codeum.shoppingmall.user.orders.domain.Orders;
 import com.codeum.shoppingmall.user.orders.domain.OrdersDetail;
 import lombok.*;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrdersDTO {
 
     private Long ordersId;
-    private Long memberId;
     private String ordersProduct;
     private int ordersAmount;
-    private Date ordersDate;
+    private Timestamp ordersDate;
     private String ordersState;
     private String merchantId;
     private boolean order_del_yn;
 
-
     // 주문 상세정보
-
     private String buyerName;
     private String buyerTel;
     private String buyerEmail;
-    private String buyerAddr;
     private String buyerPostcode;
+    private String buyerAddr;
     private String payMethod;
 
-    public OrdersDTO(String ordersProduct, Long memberId, int ordersAmount, Date ordersDate, String merchantId) {
+    @Builder
+    public OrdersDTO(String ordersProduct, int ordersAmount, String merchantId) {
         this.ordersProduct = ordersProduct;
-        this.memberId = memberId;
         this.ordersAmount = ordersAmount;
-        this.ordersDate = ordersDate;
         this.merchantId = merchantId;
     }
 
-    public static OrdersDTO toOrdersDTO(Orders orders) {
+    public static OrdersDTO toOrdersDTO(OrdersDetail ordersDetail) {
 
         OrdersDTO ordersDTO = new OrdersDTO();
 
-        ordersDTO.setOrdersId(orders.getId());
-        ordersDTO.setOrdersProduct(orders.getOrdersProduct());
-        ordersDTO.setOrdersAmount(orders.getOrdersAmount());
-        ordersDTO.setOrdersState(orders.getOrdersState());
-        ordersDTO.setMerchantId(orders.getMerchantId());
-
-        OrdersDetail ordersDetail = new OrdersDetail();
+        ordersDTO.setOrdersId(ordersDetail.getOrders().getId());
+        ordersDTO.setOrdersProduct(ordersDetail.getOrders().getOrdersProduct());
+        ordersDTO.setOrdersAmount(ordersDetail.getOrders().getOrdersAmount());
+        ordersDTO.setOrdersDate(ordersDetail.getOrders().getOrdersDate());
+        ordersDTO.setOrdersState(ordersDetail.getOrders().getOrdersState());
+        ordersDTO.setMerchantId(ordersDetail.getOrders().getMerchantId());
 
         ordersDTO.setBuyerName(ordersDetail.getBuyerName());
         ordersDTO.setBuyerTel(ordersDetail.getBuyerTel());

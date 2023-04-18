@@ -98,6 +98,7 @@ public class ProductService {
                             .savedProductFileName(savedProductFileName)
                             .productImgThumbnail(productImgThumbnailName)
                             .build();
+
                     productImgRepository.save(productImg);
                 } else  // 다른 확장자일 경우 처리 x
                     break;
