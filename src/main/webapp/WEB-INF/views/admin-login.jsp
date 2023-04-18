@@ -51,7 +51,8 @@
         })
             .then((response) => {
                 localStorage.clear()
-                localStorage.setItem("adminemail",response.data)
+                console.log(response)
+                localStorage.setItem("adminemail",response.data.adminEmail)
                 alert("로그인 성공 ")
                 window.location.href = "/admin/main"
             })

@@ -83,9 +83,9 @@
                 </div>
                 <ul class="navbar-nav  justify-content-end">
                     <li class="nav-item d-flex align-items-center">
-                        <a href="../pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
+                        <a href="/admin" class="nav-link text-body font-weight-bold px-0">
                             <i class="fa fa-user me-sm-1"></i>
-                            <span class="d-sm-inline d-none">Sign In</span>
+                            <span class="d-sm-inline d-none" id="login" onclick="logOut()">Sign In</span>
                         </a>
                     </li>
 
@@ -229,6 +229,19 @@
 </main>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
+    if (window.localStorage.getItem("adminemail") == null) {
+        alert("로그인 해주세요!!!!!")
+        window.location.href = "/admin"
+    }
+    if (window.localStorage.getItem("adminemail") != null) {
+        document.getElementById("login").innerHTML = "로그아웃"
+    }
+    function logOut() {
+        localStorage.clear()
+        window.location.href = "/admin"
+    }
+
+
     function loadStoreList() {
         $.ajax({
             type: "GET",
