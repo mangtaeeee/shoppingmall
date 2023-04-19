@@ -31,6 +31,8 @@ public class Orders {
     private String merchantId;
     @Column(name = "order_del_yn", columnDefinition = "BIT(1) DEFAULT 0")
     private boolean ordersDelYn;
+    @Column
+    String impUid;
 
     @OneToOne(mappedBy = "orders", cascade = CascadeType.ALL)
     private OrdersDetail ordersDetail;
@@ -42,6 +44,10 @@ public class Orders {
         this.ordersDate = ordersDate;
         this.ordersState = ordersState;
         this.merchantId = merchantId;
+    }
+
+    public void updateImpUid(String impUid) {
+        this.impUid = impUid;
     }
 
 }

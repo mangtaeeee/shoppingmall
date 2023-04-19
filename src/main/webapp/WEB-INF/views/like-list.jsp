@@ -35,17 +35,21 @@
         <c:if test="${empty likeList}">
             <p class="lead py-5">아직 등록된 상품이 없습니다.</p>
         </c:if>
-    </div>
-    <c:if test="${not empty likeList}">
-        <c:forEach items="${likeList}" var="like">
-            <div class="card" style="width: 18rem;">
-                <img src="<c:url value='/upload/${like.path}'/>" class="card-img-top" >
-                <div class="card-body">
-                    <h5 class="card-title">${like.name}</h5>
-                </div>
+        <c:if test="${not empty likeList}">
+            <div class="row row-cols-1 row-cols-md-4 mt-5">
+                <c:forEach items="${likeList}" var="like">
+                    <div class="col mb-4">
+                        <div class="card">
+                            <img src="<c:url value='/upload/${like.path}'/>" class="card-img-top" >
+                            <div class="card-body">
+                                <h5 class="card-title">${like.name}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
             </div>
-        </c:forEach>
-    </c:if>
+        </c:if>
+    </div>
 </section>
 
 <!-- Footer-->
