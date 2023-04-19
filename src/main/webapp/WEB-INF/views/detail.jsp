@@ -108,8 +108,8 @@
                 console.log(response.data);
                 Api_token = response.data;
             }).catch((error) =>{
-                alert("api 토큰 발행 실패");
-            })
+            alert("api 토큰 발행 실패");
+        })
     }
 
 

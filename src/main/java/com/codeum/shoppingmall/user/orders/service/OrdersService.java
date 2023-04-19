@@ -63,4 +63,10 @@ public class OrdersService {
         }
     }
 
+    public void updateStatus(String impUid, String merchantUid) {
+
+        Orders orders = ordersRepository.findByMerchantId(merchantUid);
+        orders.updateImpUid(impUid);
+
+    }
 }

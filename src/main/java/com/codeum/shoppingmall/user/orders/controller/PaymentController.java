@@ -46,7 +46,7 @@ public class PaymentController {
         System.out.println("buyerName:" + buyerName);
         System.out.println("buyerEmail:" + buyerEmail);
         System.out.println("buyerTel:" + buyerTel);
-        
+
         return paymentService.preparePayment(merchantUid, amount, buyerName, buyerEmail, buyerTel);
     }
 
@@ -61,7 +61,7 @@ public class PaymentController {
         System.out.println("impUid:" + impUid);
         System.out.println("merchantUid:" + merchantUid);
         System.out.println("amount:" + amount);
-        
+
         return paymentService.completePayment(impUid, merchantUid, amount);
     }
 }
