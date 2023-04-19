@@ -31,37 +31,34 @@ public class PaymentController {
         System.out.println("사전검증api컨트롤러");
         System.out.println(map.get("merchant_uid"));
         System.out.println(map.get("amount"));
-        System.out.println(map.get("buyer_name"));
-        System.out.println(map.get("buyer_email"));
-        System.out.println(map.get("buyer_tel"));
+        System.out.println(map.get("token"));
 
         String merchantUid = map.get("merchant_uid");
         int amount = Integer.parseInt(map.get("amount"));
-        String buyerName = map.get("buyer_name");
-        String buyerEmail = map.get("buyer_email");
-        String buyerTel = map.get("buyer_tel");
+        String token = map.get("token");
 
         System.out.println("merchantUid:" + merchantUid);
         System.out.println("amount:" + amount);
-        System.out.println("buyerName:" + buyerName);
-        System.out.println("buyerEmail:" + buyerEmail);
-        System.out.println("buyerTel:" + buyerTel);
+        System.out.println("token = " + token);
         
-        return paymentService.preparePayment(merchantUid, amount, buyerName, buyerEmail, buyerTel);
+        return paymentService.preparePayment(merchantUid, amount, token);
     }
 
     @PostMapping("/complete")
-    public String complete(@RequestBody Map<String, String> map) {
+    public ResponseEntity<String> complete(@RequestBody Map<String, String> map) {
         System.out.println("사후검증api컨트롤러");
 
         String impUid = map.get("imp_uid");
         String merchantUid = map.get("merchant_uid");
         int amount = Integer.parseInt(map.get("amount"));
+        String token = map.get("token");
 
         System.out.println("impUid:" + impUid);
         System.out.println("merchantUid:" + merchantUid);
         System.out.println("amount:" + amount);
-        
-        return paymentService.completePayment(impUid, merchantUid, amount);
+        System.out.println("token = " + token);
+
+        String result = paymentService.completePayment(impUid, merchantUid, amount, token);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }
