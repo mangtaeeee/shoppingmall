@@ -241,6 +241,31 @@
             </div>
         </div>
         <footer class="footer py-4  ">
+<%--            <ul class="pagination">--%>
+<%--                <li<c:if test="${list.first}"> class="disabled"</c:if>>--%>
+<%--                    <a href="?page=${list.number}&amp;size=${list.size}"--%>
+<%--                       aria-label="Previous">--%>
+<%--                        <span aria-hidden="true">&laquo;</span>--%>
+<%--                    </a>--%>
+<%--                </li>--%>
+<%--                <c:forEach begin="0"--%>
+<%--                           end="${totalPages - 1}"--%>
+<%--                           step="1"--%>
+<%--                           var="i">--%>
+<%--                    <li<c:if test="${i == list.number}"> class="active"</c:if>>--%>
+<%--                        <a href="?page=${i}&amp;size=${list.size}">--%>
+<%--                                ${i + 1} <span class="sr-only">(current)</span>--%>
+<%--                        </a>--%>
+<%--                    </li>--%>
+<%--                </c:forEach>--%>
+<%--                <li<c:if test="${list.last}"> class="disabled"</c:if>>--%>
+<%--                    <a href="?page=${list.number + 2}&amp;size=${list.size}"--%>
+<%--                       aria-label="Next">--%>
+<%--                        <span aria-hidden="true">&raquo;</span>--%>
+<%--                    </a>--%>
+<%--                </li>--%>
+<%--            </ul>--%>
+
 
         </footer>
     </div>
@@ -249,6 +274,10 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
+    if (window.localStorage.getItem("adminemail") == null) {
+        alert("로그인 해주세요!!!!!")
+        window.location.href = "/admin"
+    }
 
 
     function ynTrue() {
