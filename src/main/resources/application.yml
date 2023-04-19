@@ -7,13 +7,13 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://121.138.197.12:4023/dev_codeumshopping?autoReconnect=true
-    username: root
-    password: rootcodeumshopping!!!!
-  #    url: jdbc:mariadb://localhost:3309/dev_codeumshopping?autoReconnect=true
-  #    username: root
-  #    password: root
-  #    driver-class-name: org.mariadb.jdbc.Driver
+#    url: jdbc:mariadb://121.138.197.12:4023/dev_codeumshopping?autoReconnect=true
+#    username: root
+#    password: rootcodeumshopping!!!!
+      url: jdbc:mariadb://121.138.197.12:4021/a1?autoReconnect=true
+      username: root
+      password: springbatch!!!!
+      driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
     hibernate:
@@ -63,8 +63,8 @@ sms:
   from: 01029156586
 
 custom:
-  ImgSavePath: /files/
-#  ImgSavePath: /C:/Users/USER/Desktop/dev/uploads/
+#  ImgSavePath: /files/
+  ImgSavePath: /Users/kimsungsik/desktop/savedfile/
 
 iamport:
   api:
