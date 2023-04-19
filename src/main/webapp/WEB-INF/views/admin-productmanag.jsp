@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>
-        메인 페이지
+        상품관리 페이지
     </title>
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700"/>
@@ -131,7 +131,7 @@
                                     <c:forEach var="prouctlist" items="${list.content}" varStatus="status">
                                     <td>
                                         <!-- 상품 번호 정렬 -->
-                                        <c:out value="${status.index}"/>
+                                        <c:out value="${status.index +1}"/>
                                     </td>
                                     <td>
                                         <div class="d-flex px-2 py-1">
@@ -279,6 +279,10 @@
         window.location.href = "/admin"
     }
 
+    if (window.localStorage.getItem("adminemail") == null) {
+        alert("로그인 해주세요!!!!!")
+        window.location.href = "/admin"
+    }
 
     function ynTrue() {
         const data = {
