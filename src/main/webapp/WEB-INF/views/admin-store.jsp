@@ -316,6 +316,10 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
+    if (window.localStorage.getItem("adminemail") == null) {
+        alert("로그인 해주세요!!!!!")
+        window.location.href = "/admin"
+    }
 
     let address;
 
