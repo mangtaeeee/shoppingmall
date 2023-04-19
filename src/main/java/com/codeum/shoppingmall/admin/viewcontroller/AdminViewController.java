@@ -52,14 +52,14 @@ public class AdminViewController {
     }
 
     @GetMapping("/admin/productmanage")
-    public String productManagePage(Model model, @PageableDefault(page = 0, size=10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public String productManagePage(Model model, @PageableDefault(page = 0, size=2, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<ProductAdminListDTO> list = productService.adminFindProduct(pageable);
 
-        int startPage = Math.max(1, list.getPageable().getPageNumber() - 4);
-        int endPage = Math.min(list.getPageable().getPageNumber()+4, list.getTotalPages());
-
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
+//        int startPage = Math.max(1, list.getPageable().getPageNumber() - 4);
+//        int endPage = Math.min(list.getPageable().getPageNumber()+4, list.getTotalPages());
+//
+//        model.addAttribute("totalPages", list.getTotalPages());
+//        model.addAttribute("currentPage", page);
         model.addAttribute("list", list);
 
 

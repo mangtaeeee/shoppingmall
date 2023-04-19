@@ -63,7 +63,7 @@ sms:
   from: 01029156586
 
 custom:
-  ImgSavePath: /files/
+  ImgSavePath: /Library/Codeum/fileupload/
 #  ImgSavePath: /C:/Users/USER/Desktop/dev/uploads/
 
 iamport:

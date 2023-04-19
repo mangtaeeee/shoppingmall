@@ -222,7 +222,7 @@
                 </div>
             </div>
         </div>
-        <footer class="footer py-4  ">
+        <footer class="footer py-4">
 
         </footer>
     </div>
