@@ -135,18 +135,6 @@
                                                     <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
                                                         <div id="store-list" class="carousel-inner">
                                                         </div>
-
-<%--                                                        <c:forEach var="img" items="${list.productImgList}">--%>
-<%--                                                            <c:forEach var="product"--%>
-<%--                                                                       items="${img.savedProductFileName}">--%>
-<%--                                                                <img class="card-img-top" style="width:30%;"--%>
-<%--                                                                     src="<c:url value='/upload/${product}'/>"/>--%>
-<%--                                                            </c:forEach><br>--%>
-<%--                                                            <c:forEach var="productname"--%>
-<%--                                                                       items="${img.originProductFileName}">--%>
-<%--                                                                <c:out value="${productname}"/>--%>
-<%--                                                            </c:forEach>--%>
-<%--                                                        </c:forEach>--%>
                                                     </div>
                                                 </c:when>
                                             </c:choose>
@@ -222,7 +210,7 @@
                 </div>
             </div>
         </div>
-        <footer class="footer py-4  ">
+        <footer class="footer py-4">
 
         </footer>
     </div>

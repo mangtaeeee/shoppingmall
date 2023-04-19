@@ -265,6 +265,7 @@
                 </div>
             </div>
 </main>
+
 <script src="/static/assets/js/core/popper.min.js"></script>
 <script src="/static/assets/js/core/bootstrap.min.js"></script>
 <script src="/static/assets/js/plugins/perfect-scrollbar.min.js"></script>
@@ -283,6 +284,10 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
+    if (window.localStorage.getItem("adminemail") == null) {
+        alert("로그인 해주세요!!!!!")
+        window.location.href = "/admin"
+    }
     // 엔터 시 해쉬태그 등록 기능
     const HashLists = document.getElementById('HashLists');
 

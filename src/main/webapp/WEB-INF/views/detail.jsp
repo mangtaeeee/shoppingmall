@@ -106,7 +106,7 @@
         axios.post("/api/payment/getToken")
             .then((response) => {
                 console.log(response.data);
-                Api_token = response.data;
+                Api_token = response.data.response.access_token;
             }).catch((error) =>{
             alert("api 토큰 발행 실패");
         })
@@ -128,59 +128,63 @@
             }
         }).then((response) => {
             ordersData = response.data;
+            console.log(ordersData)
 
-            <!-- 실제 결제 전 사전 검증 로직-->
             axios({
                 url: "/api/payment/prepare",
                 method: "post",
-                headers: {"Content-Type": "application/json", "Authorization": "Bearer "+Api_token},
+                headers: { "Content-Type": "application/json" },
                 data: {
                     merchant_uid: ordersData.merchantId, // 가맹점 주문번호
                     amount: "" + ordersData.ordersAmount, // 결제 예정금액
-                    buyer_name: ordersData.buyerName,
-                    buyer_email: ordersData.buyerEmail,
-                    buyer_tel: ordersData.buyerTel
+                    token: Api_token
                 }
-            });
+            }).then((response) => {
+                console.log(response.data)
 
-            IMP.request_pay({
-                pg: 'kcp.T0000',
-                pay_method: ordersData.payMethod,
-                merchant_uid: ordersData.merchantId,
-                name: ordersData.ordersProduct,
-                amount: ${product.productPrice},
-                buyer_email: ordersData.buyerEmail,
-                buyer_name: ordersData.buyerName,
-                buyer_tel: ordersData.buyerTel,
-                buyer_addr: ordersData.buyerAddr,
-                buyer_postcode: ordersData.buyerPostcode
-            }, rsp => {
-                if (rsp.success) {
-                    alert("결제완료");
-                    // axios로 HTTP 요청
-                    axios({
-                        url: "/api/payment/complete",
-                        method: "post",
-                        headers: {"Content-Type": "application/json"},
-                        data: {
-                            imp_uid: rsp.imp_uid,
-                            merchant_uid: rsp.merchant_uid,
-                            amount: '${ordersData.ordersAmount}'
-                        }
-                    }).then((data) => {
-                        // 구매완료 화면으로 이동
-                        alert("구매완료화면으로 이동합니다.");
-                    })
-                } else {
-                    console.log(rsp)
-                    alert(`결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
-                }
+                IMP.request_pay({
+                    pg: 'kcp.T0000',
+                    pay_method: ordersData.payMethod,
+                    merchant_uid: ordersData.merchantId,
+                    name: ordersData.ordersProduct,
+                    amount: ${product.productPrice},
+                    buyer_email: ordersData.buyerEmail,
+                    buyer_name: ordersData.buyerName,
+                    buyer_tel: ordersData.buyerTel,
+                    buyer_addr: ordersData.buyerAddr,
+                    buyer_postcode: ordersData.buyerPostcode
+                }, rsp => {
+                    if (rsp.success) {
+                        alert("결제완료");
+                        // axios로 HTTP 요청
+                        axios({
+                            url: "/api/payment/complete",
+                            method: "post",
+                            headers: {"Content-Type": "application/json"},
+                            data: {
+                                imp_uid: rsp.imp_uid,
+                                merchant_uid: rsp.merchant_uid,
+                                amount: "" + ordersData.ordersAmount,
+                                token: Api_token
+                            }
+                        }).then((response) => {
+                            // 구매완료 화면으로 이동
+                            console.log(response.data)
+                            alert("구매완료화면으로 이동합니다.");
+                        })
+                    } else {
+                        console.log(rsp)
+                        alert(`결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
+                    }
+                })
             }).catch((error) => {
-                alert("오류 발생");
+                alert("오류 발생1");
                 console.log(error.message)
             })
-
-        });
+        }).catch((error) => {
+            alert("오류 발생2");
+            console.log(error.message)
+        })
     }
 </script>
 </body>

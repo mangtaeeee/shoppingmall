@@ -1,6 +1,7 @@
 package com.codeum.shoppingmall.admin.product.domain;
 
 import com.codeum.shoppingmall.admin.store.domain.AdminStore;
+import com.codeum.shoppingmall.main.config.BasicTimeEntity;
 import com.codeum.shoppingmall.user.member.domain.UserLike;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -15,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @DynamicInsert
-public class Product {
+public class Product extends BasicTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

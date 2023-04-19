@@ -16,6 +16,8 @@ public class ProductAdminListDTO {
     private String productName;
     private int productPrice;
 
+    private String createdDate;
+
     private boolean productDelYn;
     private List<String> savedProductFileName;
 
@@ -26,6 +28,7 @@ public class ProductAdminListDTO {
         this.productName = product.getProductName();
         this.productPrice = product.getProductPrice();
         this.productDelYn = product.isProductDelYn();
+        this.createdDate = product.getCreatedDate();
         this.savedProductFileName = product.getProductImgList().stream().map(productImg -> productImg.getSavedProductFileName()).collect(Collectors.toList());
     }
 }

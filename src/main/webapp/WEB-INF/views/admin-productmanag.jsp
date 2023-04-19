@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>
-        메인 페이지
+        상품관리 페이지
     </title>
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700"/>
@@ -127,11 +127,11 @@
                                 <tbody>
                                 <tr>
                                     <c:choose>
-                                    <c:when test="${not empty list}">
+                                    <c:when test="${not empty list.content}">
                                     <c:forEach var="prouctlist" items="${list.content}" varStatus="status">
                                     <td>
                                         <!-- 상품 번호 정렬 -->
-                                        <c:out value="${status.index}"/>
+                                        <c:out value="${status.index +1}"/>
                                     </td>
                                     <td>
                                         <div class="d-flex px-2 py-1">
@@ -157,13 +157,13 @@
                                         2023.04.18
                                     </td>
                                     <td class="align-middle">
-                                        <input type="hidden" value="${prouctlist.productId}" id="productListId">
+                                        <input type="hidden" c:out value="" id="productListId">
                                         <!-- yn이 false 일떄 재등록 true 일때 삭제 -->
                                         <c:if test="${prouctlist.productDelYn eq false}">
-                                            <input type="button" onclick="ynTrue()" value="재등록">
+                                            <input type="button" onclick="ynTrue(${prouctlist.productId})" value="재등록">
                                         </c:if>
                                         <c:if test="${prouctlist.productDelYn eq true}">
-                                            <input type="button" onclick="ynFalse()" value="삭제">
+                                            <input type="button" onclick="ynFalse(${prouctlist.productId})" value="삭제">
                                         </c:if>
                                     </td>
                                 </tr>
@@ -241,25 +241,60 @@
             </div>
         </div>
         <footer class="footer py-4  ">
-
+            <ul class="pagination justify-content-center">
+                <c:if test="${not empty list and list.number > 0}">
+                    <li class="page-item">
+                        <a class="page-link" href="?page=${list.number - 1}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                </c:if>
+                <c:forEach var="i" begin="0" end="${list.totalPages - 1}">
+                    <c:choose>
+                        <c:when test="${not empty list and list.number eq i}">
+                            <li class="page-item active"><a class="page-link" href="?page=${i}">${i + 1}</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item"><a class="page-link" href="?page=${i}">${i + 1}</a></li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+                <c:if test="${not empty list and list.number < list.totalPages - 1}">
+                    <li class="page-item">
+                        <a class="page-link" href="?page=${list.number + 1}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </c:if>
+            </ul>
         </footer>
+
     </div>
 </main>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
+    if (window.localStorage.getItem("adminemail") == null) {
+        alert("로그인 해주세요!!!!!")
+        window.location.href = "/admin"
+    }
 
+    if (window.localStorage.getItem("adminemail") == null) {
+        alert("로그인 해주세요!!!!!")
+        window.location.href = "/admin"
+    }
 
-    function ynTrue() {
-        const data = {
-            productId: $("#productListId").val(),
+    function ynTrue(productListId) {
+        let data = {
             productDelYn : true
         }
 
         $.ajax({
             type: 'PATCH',
-            url: '/product/productedit/' + data.productId,
+            url: '/product/productedit/' + productListId,
             dataType: 'JSON',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data)
@@ -271,15 +306,15 @@
 
     }
 
-    function ynFalse() {
-        const data = {
-            productId: $("#productListId").val(),
+    function ynFalse(productListId) {
+        let data = {
             productDelYn : false
         }
 
+
         $.ajax({
             type: 'PATCH',
-            url: '/product/productedit/' + data.productId,
+            url: '/product/productedit/' + productListId,
             dataType: 'JSON',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data)

@@ -48,21 +48,17 @@ public class PaymentService {
         return response;
     }
 
-    public String preparePayment(String merchantUid, int amount, String buyerName, String buyerEmail, String buyerTel) {
+    public String preparePayment(String merchantUid, int amount, String token) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
         // Authorization 헤더에 인증 토큰 정보 추가
-        String encodedAuth = Base64.getEncoder().encodeToString((apiKey + ":" + apiSecret).getBytes(StandardCharsets.UTF_8));
-        headers.set("Authorization", "Basic " + encodedAuth);
+        headers.set("Authorization", token);
 
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("merchant_uid", merchantUid);
         requestBody.put("amount", amount);
-        requestBody.put("buyer_name", buyerName);
-        requestBody.put("buyer_email", buyerEmail);
-        requestBody.put("buyer_tel", buyerTel);
 
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
 
@@ -82,16 +78,16 @@ public class PaymentService {
     }
 
 
-    public String completePayment(String impUid, String merchantUid, int amount) {
+    public String completePayment(String impUid, String merchantUid, int amount, String token) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
         // Authorization 헤더에 인증 토큰 정보 추가
-        String encodedAuth = Base64.getEncoder().encodeToString((apiKey + ":" + apiSecret).getBytes(StandardCharsets.UTF_8));
-        headers.set("Authorization", "Basic " + encodedAuth);
+        headers.set("Authorization", token);
 
         Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("merchant_uid", merchantUid);
         requestBody.put("imp_uid", impUid);
 
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
