@@ -157,13 +157,13 @@
                                         2023.04.18
                                     </td>
                                     <td class="align-middle">
-                                        <input type="hidden" value="${prouctlist.productId}" id="productListId">
+                                        <input type="hidden" c:out value="" id="productListId">
                                         <!-- yn이 false 일떄 재등록 true 일때 삭제 -->
                                         <c:if test="${prouctlist.productDelYn eq false}">
-                                            <input type="button" onclick="ynTrue()" value="재등록">
+                                            <input type="button" onclick="ynTrue(${prouctlist.productId})" value="재등록">
                                         </c:if>
                                         <c:if test="${prouctlist.productDelYn eq true}">
-                                            <input type="button" onclick="ynFalse()" value="삭제">
+                                            <input type="button" onclick="ynFalse(${prouctlist.productId})" value="삭제">
                                         </c:if>
                                     </td>
                                 </tr>
@@ -287,15 +287,14 @@
         window.location.href = "/admin"
     }
 
-    function ynTrue() {
-        const data = {
-            productId: $("#productListId").val(),
+    function ynTrue(productListId) {
+        let data = {
             productDelYn : true
         }
 
         $.ajax({
             type: 'PATCH',
-            url: '/product/productedit/' + data.productId,
+            url: '/product/productedit/' + productListId,
             dataType: 'JSON',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data)
@@ -307,15 +306,15 @@
 
     }
 
-    function ynFalse() {
-        const data = {
-            productId: $("#productListId").val(),
+    function ynFalse(productListId) {
+        let data = {
             productDelYn : false
         }
 
+
         $.ajax({
             type: 'PATCH',
-            url: '/product/productedit/' + data.productId,
+            url: '/product/productedit/' + productListId,
             dataType: 'JSON',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data)
