@@ -95,39 +95,43 @@ public class PaymentService {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-        ResponseEntity<Map> response = restTemplate.exchange(apiUrl + "/payments/complete", HttpMethod.POST, request, Map.class);
+        ResponseEntity<Map> response = restTemplate.exchange(apiUrl + "/payments/" + impUid, HttpMethod.POST, request, Map.class);
 
-        if (response.getStatusCode() != HttpStatus.OK) {
-            // API 호출 실패 처리
-            System.out.println("결제정보 사후 검증 API 호출 실패");
-            return "fail";
-        }
+        Map<String, Object> responseBody = (Map<String, Object>) response.getBody().get("response");
+        int amt = (int) responseBody.get("amount");
 
-        Map<String, Object> responseData = response.getBody();
-        Map<String, Object> responseContent = (Map<String, Object>) responseData.get("response");
-        String responseMerchantUid = (String) responseContent.get("merchant_uid");
+        System.out.println("amt = " + amt);
 
-        if (!responseMerchantUid.equals(merchantUid)) {
-            // Merchant UID 불일치 처리
-            System.out.println("Merchant UID 불일치");
-            return "fail";
-        }
-
-        String status = (String) responseContent.get("status");
-        int paidAmount = (int) responseContent.get("amount");
-
-        if (!status.equals("paid") || paidAmount != amount) {
-            // 결제 실패 처리
-            String failReason = (String) responseContent.get("fail_reason");
-            System.out.println("최종 결제 실패");
-            return "fail";
-        } else {
-            // 결제 성공 처리
-            Orders orders = ordersRepository.findByMerchantId(merchantUid);
-            orders.updateImpUid(impUid);
-            return "success";
-        }
-
+//        if (response.getStatusCode() != HttpStatus.OK) {
+//            // API 호출 실패 처리
+//            System.out.println("결제정보 사후 검증 API 호출 실패");
+//            return "fail";
+//        }
+//
+//        Map<String, Object> responseData = response.getBody();
+//        Map<String, Object> responseContent = (Map<String, Object>) responseData.get("response");
+//        String responseMerchantUid = (String) responseContent.get("merchant_uid");
+//
+//        if (!responseMerchantUid.equals(merchantUid)) {
+//            // Merchant UID 불일치 처리
+//            System.out.println("Merchant UID 불일치");
+//            return "fail";
+//        }
+//
+//        String status = (String) responseContent.get("status");
+//        int paidAmount = (int) responseContent.get("amount");
+//
+//        if (!status.equals("paid") || paidAmount != amount) {
+//            // 결제 실패 처리
+//            String failReason = (String) responseContent.get("fail_reason");
+//            System.out.println("최종 결제 실패");
+//            return "fail";
+//        } else {
+//            // 결제 성공 처리
+//            Orders orders = ordersRepository.findByMerchantId(merchantUid);
+//            orders.updateImpUid(impUid);
+//            return "success";
+//        }
+        return null;
     }
-
 }
