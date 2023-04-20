@@ -60,7 +60,7 @@ sms:
   from: 01029156586
 
 custom:
-  ImgSavePath: /files/
+  ImgSavePath: /files/uploads/
 
 iamport:
   api:
