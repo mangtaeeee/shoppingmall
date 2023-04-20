@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrdersService {
 
     private final OrdersRepository ordersRepository;
@@ -34,6 +35,7 @@ public class OrdersService {
                 .merchantId(merchant_id)
                 .build();
         Long ordersId = ordersRepository.save(orders).getId();
+        System.out.println("ordersId = " + ordersId);
         Orders savedOrders = ordersRepository.findById(ordersId).get();
 
         //주문 상세 생성 후 DB 저장
