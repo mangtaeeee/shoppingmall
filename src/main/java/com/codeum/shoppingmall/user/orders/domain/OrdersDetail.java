@@ -30,6 +30,8 @@ public class OrdersDetail {
     private String buyerPostcode;
     @Column
     private String payMethod;
+    @Column
+    private Long buyerMemberId;
 
     @OneToOne
     @JoinColumn(name = "orders_id")
@@ -37,7 +39,7 @@ public class OrdersDetail {
 
     @Builder
     public OrdersDetail(Orders orders, String buyerName, String buyerTel, String buyerEmail,
-                        String buyerAddr, String buyerPostcode, String payMethod) {
+                        String buyerAddr, String buyerPostcode, String payMethod, Long buyerMemberId) {
         this.orders = orders;
         this.buyerName = buyerName;
         this.buyerTel = buyerTel;
@@ -45,6 +47,7 @@ public class OrdersDetail {
         this.buyerAddr = buyerAddr;
         this.buyerPostcode = buyerPostcode;
         this.payMethod = payMethod;
+        this.buyerMemberId = buyerMemberId;
     }
 
 }
