@@ -154,7 +154,7 @@
                                     </td>
                                     <td class="align-middle text-center">
                                         <!-- 등록일시 -->
-                                        2023.04.18
+                                        <c:out value="${prouctlist.createdDate}"/>
                                     </td>
                                     <td class="align-middle">
                                         <input type="hidden" c:out value="" id="productListId">
@@ -242,6 +242,8 @@
         </div>
         <footer class="footer py-4  ">
             <ul class="pagination justify-content-center">
+                <c:choose>
+                <c:when test="${not empty list.content}">
                 <c:if test="${not empty list and list.number > 0}">
                     <li class="page-item">
                         <a class="page-link" href="?page=${list.number - 1}" aria-label="Previous">
@@ -268,6 +270,8 @@
                         </a>
                     </li>
                 </c:if>
+                </c:when>
+                </c:choose>
             </ul>
         </footer>
 
@@ -289,7 +293,7 @@
 
     function ynTrue(productListId) {
         let data = {
-            productDelYn : true
+            productDelYn: true
         }
 
         $.ajax({
@@ -308,7 +312,7 @@
 
     function ynFalse(productListId) {
         let data = {
-            productDelYn : false
+            productDelYn: false
         }
 
 
@@ -324,7 +328,6 @@
             console.log(error)
         });
     }
-
 
 
 </script>

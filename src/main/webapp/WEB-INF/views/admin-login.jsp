@@ -102,7 +102,7 @@
                     <!-- 데이터 출력 -->
                     <div class="card z-index-0 fadeIn3 fadeInBottom">
                         <div class="card-body">
-                            <form class="text-start" >
+                            <form class="text-start" role="form">
                                 <div class="input-group input-group-outline my-3">
                                     <label for="email" class="form-label">아이디</label>
                                     <input type="text" name="email" id="email" class="form-control">
@@ -111,8 +111,6 @@
                                     <label for="password" class="form-label">비밀번호</label>
                                     <input type="password" name="password" id="password" class="form-control">
                                 </div>
-
-
                                 <div class="text-center">
                                     <input type="button" class="btn bg-gradient-success w-100 mb-0 toast-btn" id="login" value="로그인"/>
 

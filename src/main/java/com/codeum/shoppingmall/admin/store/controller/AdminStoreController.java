@@ -2,10 +2,15 @@ package com.codeum.shoppingmall.admin.store.controller;
 
 import com.codeum.shoppingmall.admin.store.dto.AdminStoreCreate;
 import com.codeum.shoppingmall.admin.store.dto.AdminStoreDTO;
+import com.codeum.shoppingmall.admin.store.dto.AdminStorePageDTO;
 import com.codeum.shoppingmall.admin.store.dto.AdminStoreSearchDTO;
 import com.codeum.shoppingmall.admin.store.service.AdminStoreService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +36,11 @@ public class AdminStoreController {
     @GetMapping("/store/findAll")
     public List<AdminStoreDTO> findAll(){
         return adminStoreService.findAll();
+    }
+
+    @GetMapping("/store/findAll2")
+    public Page<AdminStorePageDTO> findAll2(@PageableDefault(page = 0, size=3, sort = "id", direction = Sort.Direction.DESC) Pageable pageable){
+        return adminStoreService.findPageAll(pageable);
     }
 
     @GetMapping("/store/findAllUser")
