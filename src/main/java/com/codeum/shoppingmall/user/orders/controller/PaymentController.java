@@ -1,5 +1,6 @@
 package com.codeum.shoppingmall.user.orders.controller;
 
+import com.codeum.shoppingmall.user.orders.dto.OrderCancelDTO;
 import com.codeum.shoppingmall.user.orders.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -59,6 +60,12 @@ public class PaymentController {
         System.out.println("token = " + token);
 
         String result = paymentService.completePayment(impUid, merchantUid, amount, token);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @PostMapping("/cancel")
+    public ResponseEntity<String> cancel(@RequestBody OrderCancelDTO dto) {
+        String result = paymentService.cancelPayment(dto);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }
