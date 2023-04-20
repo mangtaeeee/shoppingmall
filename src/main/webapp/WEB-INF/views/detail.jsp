@@ -117,6 +117,15 @@
     IMP.init("imp61605278");
 
     function requestPay() {
+
+        let loggedIn = localStorage.getItem("token");
+
+        if (!loggedIn) {
+            alert("로그인 화면으로 이동합니다")
+            document.getElementById("signin-nav").click()
+            return
+        }
+
         //로컬스토리지에 저장된 token을 이용해서 member 정보 가져오고 주문 테이블에 데이터 생성
         axios({
             url: "/api/orders/create-order",
@@ -185,7 +194,7 @@
         }).catch((error) => {
             alert(error.message);
             console.log(error.message)
-        })
+        });
     }
 </script>
 </body>
