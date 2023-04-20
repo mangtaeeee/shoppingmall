@@ -120,10 +120,10 @@
                                         <input type="hidden" c:out value="" id="ordersListId">
                                         <!-- yn이 false 일떄 재등록 true 일때 삭제 -->
                                         <c:if test="${orderslist.ordersDelYn eq false}">
-                                            <input type="button" value="재등록">
+                                            <input type="button" value="환불요청">
                                         </c:if>
                                         <c:if test="${orderslist.ordersDelYn eq true}">
-                                            <input type="button" value="환불요청">
+                                            <span>환불완료</span>
                                         </c:if>
                                     </td>
                                 </tr>
