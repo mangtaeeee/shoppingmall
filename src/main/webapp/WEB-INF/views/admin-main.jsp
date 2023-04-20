@@ -12,6 +12,8 @@
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700"/>
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link id="pagestyle" href="/static/assets/css/material-dashboard.css?v=3.0.5" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
 </head>
 
@@ -133,8 +135,16 @@
                                             <c:choose>
                                                 <c:when test="${not empty list.productImgList}">
                                                     <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
-                                                        <div id="store-list" class="carousel-inner">
+                                                        <div class="carousel-inner" id="store-list">
                                                         </div>
+                                                        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">이전</span>
+                                                        </button>
+                                                        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">다음</span>
+                                                        </button>
                                                     </div>
                                                 </c:when>
                                             </c:choose>
@@ -215,7 +225,7 @@
         </footer>
     </div>
 </main>
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
 <script>
     if (window.localStorage.getItem("adminemail") == null) {
         alert("로그인 해주세요!!!!!")
@@ -233,41 +243,43 @@
     function loadStoreList() {
         $.ajax({
             type: "GET",
-            url: "/api/admin/store/findAll", // 비동기 요청을 보낼 URL
+            url: "/api/admin/store/findAll",
             dataType: "json",
             success: function(response) {
                 let storeList = response;
                 let storeHtml = '';
+                let numCardsInRow = 0;
                 for (let i = 0; i < storeList.length; i++) {
-
                     let store = storeList[i].productImgList;
-                    if (i % 3 == 0) {
-                        storeHtml += '<div class="carousel-item' + (i == 0 ? ' active' : '') + ' align-content-center text-center"><div class="row p-5 text-center mx-auto" style="max-width: 2000px">';
-                    }
                     for (let j = 0; j < store.length; j++) {
                         let savedProductFileName = store[j].savedProductFileName;
                         let originProductFileName = store[j].originProductFileName;
                         for (let k = 0; k < savedProductFileName.length; k++) {
-                            console.log(savedProductFileName[k]);
-                            storeHtml += '<div class="col-md-4" ><div class="card mb-4 shadow-sm text-center mx-auto" >' +
+                            if (numCardsInRow === 0) {
+                                // Add a new slide if we're starting a new row
+                                storeHtml += '<div class="carousel-item"><div class="row p-5 text-center mx-auto" style="max-width: 2000px">';
+                            }
+                            storeHtml += '<div class="col-md-4"><div class="card mb-4 shadow-sm text-center mx-auto">' +
                                 '<img class="card-img-top" style="width: 100%" src="/upload/' + savedProductFileName[k] + '"/>' +
                                 '<div class="card-body"><p class="card-text">' + originProductFileName[k] + '</p></div></div></div>';
+                            numCardsInRow++;
+                            if (numCardsInRow === 3 || (k === savedProductFileName.length - 1 && j === store.length - 1)) {
+                                // End the row if we've added the maximum number of cards or if we're at the end of the loop
+                                storeHtml += '</div></div>';
+                                numCardsInRow = 0;
+                            }
                         }
-
                     }
-                    if ((i + 1) % 3 == 0 || i == storeList.length - 1) {
-                        storeHtml += '</div></div>';
-                    }
-
-
                 }
                 $('#store-list').html(storeHtml);
+                $('#myCarousel .carousel-item').first().addClass('active'); // Add active class to the first carousel item
             },
             error: function(xhr, status, error) {
                 console.log(error);
             }
         });
     }
-    loadStoreList()
+
+    loadStoreList();
 </script>
 
