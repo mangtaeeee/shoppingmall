@@ -162,6 +162,7 @@ const checkAuthKey = () => {
         localStorage.removeItem("phoneNumber")
 
         document.getElementById("smsAuth").checked = true
+        document.getElementById("sign-up-btn").disabled = false
 
         $("#sms-auth").modal("hide")
         $("#signup").modal("show")
