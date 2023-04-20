@@ -37,17 +37,26 @@ public class Orders {
     @OneToOne(mappedBy = "orders", cascade = CascadeType.ALL)
     private OrdersDetail ordersDetail;
 
-    @Builder
-    public Orders(String ordersProduct, int ordersAmount, Timestamp ordersDate, String ordersState, String merchantId) {
+    public Orders(Orders orders) {
+        this.Id = orders.getId();
+        this.ordersProduct = orders.getOrdersProduct();
+        this.ordersAmount = orders.getOrdersAmount();
+        this.ordersDate = orders.getOrdersDate();
+        this.ordersState = orders.getOrdersState();
+        this.merchantId = orders.getMerchantId();
+        this.ordersDelYn = orders.isOrdersDelYn();
+        this.impUid = orders.getImpUid();
+    }
+
+    @Builder(toBuilder = true)
+    public Orders(Long Id, String ordersProduct, int ordersAmount, Timestamp ordersDate, String ordersState, String merchantId, boolean ordersDelYn, String impUid) {
+        this.Id = Id;
         this.ordersProduct = ordersProduct;
         this.ordersAmount = ordersAmount;
         this.ordersDate = ordersDate;
         this.ordersState = ordersState;
         this.merchantId = merchantId;
-    }
-
-    public void updateImpUid(String impUid) {
+        this.ordersDelYn = ordersDelYn;
         this.impUid = impUid;
     }
-
 }

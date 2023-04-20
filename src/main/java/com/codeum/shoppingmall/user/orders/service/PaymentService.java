@@ -1,5 +1,7 @@
 package com.codeum.shoppingmall.user.orders.service;
 
+import com.codeum.shoppingmall.main.constants.ErrorCode;
+import com.codeum.shoppingmall.main.exception.AppException;
 import com.codeum.shoppingmall.user.orders.domain.Orders;
 import com.codeum.shoppingmall.user.orders.repository.OrdersRepository;
 import lombok.RequiredArgsConstructor;
@@ -7,16 +9,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class PaymentService {
 
     @Value("${iamport.api.key}")
@@ -98,40 +99,30 @@ public class PaymentService {
         ResponseEntity<Map> response = restTemplate.exchange(apiUrl + "/payments/" + impUid, HttpMethod.POST, request, Map.class);
 
         Map<String, Object> responseBody = (Map<String, Object>) response.getBody().get("response");
-        int amt = (int) responseBody.get("amount");
+        int compareAmount = (int) responseBody.get("amount");
 
-        System.out.println("amt = " + amt);
+        Orders originalOrders = ordersRepository.findByMerchantId(merchantUid);
+        Orders copiedOrders = new Orders(originalOrders);
 
-//        if (response.getStatusCode() != HttpStatus.OK) {
-//            // API 호출 실패 처리
-//            System.out.println("결제정보 사후 검증 API 호출 실패");
-//            return "fail";
-//        }
-//
-//        Map<String, Object> responseData = response.getBody();
-//        Map<String, Object> responseContent = (Map<String, Object>) responseData.get("response");
-//        String responseMerchantUid = (String) responseContent.get("merchant_uid");
-//
-//        if (!responseMerchantUid.equals(merchantUid)) {
-//            // Merchant UID 불일치 처리
-//            System.out.println("Merchant UID 불일치");
-//            return "fail";
-//        }
-//
-//        String status = (String) responseContent.get("status");
-//        int paidAmount = (int) responseContent.get("amount");
-//
-//        if (!status.equals("paid") || paidAmount != amount) {
-//            // 결제 실패 처리
-//            String failReason = (String) responseContent.get("fail_reason");
-//            System.out.println("최종 결제 실패");
-//            return "fail";
-//        } else {
-//            // 결제 성공 처리
-//            Orders orders = ordersRepository.findByMerchantId(merchantUid);
-//            orders.updateImpUid(impUid);
-//            return "success";
-//        }
-        return null;
+        if (amount != compareAmount) {
+
+            Orders forgery = copiedOrders.toBuilder()
+                    .ordersState("forgery")
+                    .impUid(impUid)
+                    .build();
+
+            ordersRepository.save(forgery);
+
+            throw new AppException(ErrorCode.AMOUNT_NOT_EQUAL);
+        } else {
+            Orders success = copiedOrders.toBuilder()
+                    .ordersState("paid")
+                    .impUid(impUid)
+                    .build();
+
+            ordersRepository.save(success);
+
+            return "success";
+        }
     }
 }
