@@ -3,6 +3,8 @@ package com.codeum.shoppingmall.user.orders.service;
 import com.codeum.shoppingmall.main.constants.ErrorCode;
 import com.codeum.shoppingmall.main.exception.AppException;
 import com.codeum.shoppingmall.user.orders.domain.Orders;
+import com.codeum.shoppingmall.user.orders.domain.OrdersDetail;
+import com.codeum.shoppingmall.user.orders.repository.OrdersDetailRepository;
 import com.codeum.shoppingmall.user.orders.repository.OrdersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +30,7 @@ public class PaymentService {
     private String apiUrl;
 
     private final OrdersRepository ordersRepository;
+    private final OrdersDetailRepository ordersDetailRepository;
 
     public String getToken() {
 
@@ -104,25 +107,39 @@ public class PaymentService {
         Orders originalOrders = ordersRepository.findByMerchantId(merchantUid);
         Orders copiedOrders = new Orders(originalOrders);
 
-        if (amount != compareAmount) {
+        OrdersDetail ordersDetail = ordersDetailRepository.findByOrders(originalOrders);
 
-            Orders forgery = copiedOrders.toBuilder()
-                    .ordersState("forgery")
+        if (ordersDetail.getPayMethod().equals("vbank")) {
+
+            Orders vBank = copiedOrders.toBuilder()
                     .impUid(impUid)
                     .build();
 
-            ordersRepository.save(forgery);
-
-            throw new AppException(ErrorCode.AMOUNT_NOT_EQUAL);
-        } else {
-            Orders success = copiedOrders.toBuilder()
-                    .ordersState("paid")
-                    .impUid(impUid)
-                    .build();
-
-            ordersRepository.save(success);
+            ordersRepository.save(vBank);
 
             return "success";
+        } else {
+
+            if (amount != compareAmount) {
+
+                Orders forgery = copiedOrders.toBuilder()
+                        .ordersState("forgery")
+                        .impUid(impUid)
+                        .build();
+
+                ordersRepository.save(forgery);
+
+                throw new AppException(ErrorCode.AMOUNT_NOT_EQUAL);
+            } else {
+                Orders success = copiedOrders.toBuilder()
+                        .ordersState("paid")
+                        .impUid(impUid)
+                        .build();
+
+                ordersRepository.save(success);
+
+                return "success";
+            }
         }
     }
 }
