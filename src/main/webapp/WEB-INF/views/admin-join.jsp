@@ -138,8 +138,7 @@
                         <div class="card-body">
                             <form class="text-start">
                                 <div class="input-group input-group-outline my-3">
-                                    <label for="email" class="form-label">이메일</label>
-                                    <input type="text" name="email" id="email" class="form-control">
+                                    <input type="text" name="email" id="email" class="form-control" placeholder="이메일">
                                 </div>
                                 <div class="input-group-addon">
                                     <button type="button" id="mail-Check-Btn" class="btn btn-primary" href="#!"
@@ -147,8 +146,7 @@
                                     </button>
                                 </div>
                                 <div class="input-group input-group-outline mb-3">
-                                    <label for="password" class="form-label">비밀번호</label>
-                                    <input type="password" name="password" id="password" class="form-control">
+                                    <input type="password" name="password" id="password" class="form-control" placeholder="비밀번호">
                                 </div>
                                 <div class="d-grid">
                                     <input type="button" class="btn btn-primary btn-block my-3" id="join-Btn"

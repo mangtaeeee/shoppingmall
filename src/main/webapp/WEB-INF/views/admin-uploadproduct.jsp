@@ -167,7 +167,7 @@
             </div>
         </div>
     </nav>
-    <div class="container-fluid py-4">
+    <div class="container-fluid py-4" >
         <div class="row">
             <div class="col-lg-10 col-md-10 mx-auto">
                 <div class="card mt-4">
@@ -264,6 +264,8 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 </main>
 
 <script src="/static/assets/js/core/popper.min.js"></script>
@@ -401,6 +403,9 @@
             header: {
                 'Context-Type': 'multipart/form-data',
             }
+        }).then((response) => {
+            alert("상품 등록 완료")
+            location.reload()
         });
     }
 </script>

@@ -104,12 +104,10 @@
                         <div class="card-body">
                             <form class="text-start" role="form">
                                 <div class="input-group input-group-outline my-3">
-                                    <label for="email" class="form-label">아이디</label>
-                                    <input type="text" name="email" id="email" class="form-control">
+                                    <input type="text" name="email" id="email" class="form-control" placeholder="아이디를 입력해주세요.">
                                 </div>
                                 <div class="input-group input-group-outline mb-3">
-                                    <label for="password" class="form-label">비밀번호</label>
-                                    <input type="password" name="password" id="password" class="form-control">
+                                    <input type="password" name="password" id="password" class="form-control" placeholder="비밀번호를 입력해주세요.">
                                 </div>
                                 <div class="text-center">
                                     <input type="button" class="btn bg-gradient-success w-100 mb-0 toast-btn" id="login" value="로그인"/>
