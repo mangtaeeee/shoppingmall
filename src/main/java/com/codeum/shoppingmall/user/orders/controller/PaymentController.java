@@ -62,7 +62,6 @@ public class PaymentController {
         String result = paymentService.completePayment(impUid, merchantUid, amount, token);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
-}
 
     @PostMapping("/cancel")
     public ResponseEntity<String> cancel(@RequestBody OrderCancelDTO dto) {
