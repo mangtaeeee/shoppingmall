@@ -170,19 +170,20 @@
                         }).then((response) => {
                             // 구매완료 화면으로 이동
                             console.log(response.data)
-                            alert("구매완료화면으로 이동합니다.");
+                            alert("메인으로 이동합니다.");
+                            location.href = "/"
                         })
                     } else {
                         console.log(rsp)
-                        alert(`결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
+                        alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
                     }
                 })
             }).catch((error) => {
-                alert("오류 발생1");
+                alert(error.message);
                 console.log(error.message)
             })
         }).catch((error) => {
-            alert("오류 발생2");
+            alert(error.message);
             console.log(error.message)
         })
     }
