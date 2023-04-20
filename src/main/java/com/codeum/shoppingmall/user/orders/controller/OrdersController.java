@@ -27,7 +27,7 @@ public class OrdersController {
 
     @PostMapping("/create-order")
     public ResponseEntity<OrdersDTO> getMember(@RequestBody Map<String, String> map) {
-        System.out.println("cerate order 실행");
+        System.out.println("create order 실행");
         Long Uid = Long.parseLong(map.get("userId"));
         Long Pid = Long.parseLong(map.get("productId"));
         String payMethod = map.get("payMethod");
@@ -36,7 +36,7 @@ public class OrdersController {
         Long ordersId = ordersService.createOrder(userMember, productDTO, payMethod);
         OrdersDTO ordersDTO = ordersService.findById(ordersId);
 
-        System.out.println("cerate order 종료");
+        System.out.println("create order 종료");
         return ResponseEntity.status(HttpStatus.OK).body(ordersDTO);
     }
 

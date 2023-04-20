@@ -9,7 +9,6 @@ import com.codeum.shoppingmall.user.member.service.UserOrdersListService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,7 +52,8 @@ public class ViewController {
     }
 
     @GetMapping("/user/orderslist/{memberId}")
-    public String userOrdersListPage(@PathVariable("memberId") Long memberId, Model model, @PageableDefault(page = 0, size=2, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public String userOrdersListPage(@PathVariable("memberId") Long memberId, Model model, @PageableDefault(page = 0, size=5) Pageable pageable) {
+        System.out.println("userOrdersListPage memberId = " + memberId);
         Page<UserOrdersListDTO> userOrdersList = userOrdersListService.findUserOrders(memberId, pageable);
         model.addAttribute("list", userOrdersList);
 

@@ -27,7 +27,7 @@ spring:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
-    open-in-view: false
+    open-in-view: true
     static-path-pattern: /static/**
 
   mail:

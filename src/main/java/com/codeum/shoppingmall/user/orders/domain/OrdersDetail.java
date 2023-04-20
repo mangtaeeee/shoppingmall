@@ -30,7 +30,6 @@ public class OrdersDetail {
     private String buyerPostcode;
     @Column
     private String payMethod;
-
     @Column
     private Long buyerMemberId;
 

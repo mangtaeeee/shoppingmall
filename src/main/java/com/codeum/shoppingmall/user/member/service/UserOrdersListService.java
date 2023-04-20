@@ -26,7 +26,8 @@ public class UserOrdersListService {
     @Transactional(readOnly = true)
     public Page<UserOrdersListDTO> findUserOrders(Long memberId, Pageable pageable) {
 
-        Page<OrdersDetail> ordersDetails = ordersDetailRepository.findAllByBuyerMemberId(memberId);
+        Page<OrdersDetail> ordersDetails = ordersDetailRepository.findAllByBuyerMemberId(memberId, pageable);
+        System.out.println("findUserOrders ordersDetails = " + ordersDetails);
         List<UserOrdersListDTO> userOrdersListDTOList = new ArrayList<>();
 
         for (OrdersDetail ordersDetail : ordersDetails) {

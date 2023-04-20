@@ -32,7 +32,12 @@ public enum ErrorCode {
     LIKE_LIST_NOT_FOUND(HttpStatus.NOT_FOUND, "관심 상품이 존재하지 않습니다."),
 
     // store
-    STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "상점이 존재하지 않습니다.");
+    STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "상점이 존재하지 않습니다."),
+
+    // payment
+    AMOUNT_NOT_EQUAL(HttpStatus.BAD_REQUEST, "상품 가격이 결제 정보와 일치하지 않습니다."),
+    IMP_NOT_EQUAL(HttpStatus.BAD_REQUEST, "imp uid가 결제 정보와 일치하지 않습니다."),
+    MERCHANT_NOT_EQUAL(HttpStatus.BAD_REQUEST, "merchant uid가 결제 정보와 일치하지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

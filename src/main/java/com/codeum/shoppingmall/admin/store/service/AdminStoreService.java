@@ -1,6 +1,6 @@
 package com.codeum.shoppingmall.admin.store.service;
 
-import com.codeum.shoppingmall.admin.product.dto.ProductDTO;
+import com.codeum.shoppingmall.admin.product.repository.ProductRepository;
 import com.codeum.shoppingmall.admin.store.domain.AdminStore;
 import com.codeum.shoppingmall.admin.store.domain.StoreImg;
 import com.codeum.shoppingmall.admin.store.dto.*;
@@ -10,6 +10,10 @@ import com.codeum.shoppingmall.main.exception.AppException;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +42,8 @@ public class AdminStoreService {
     private final AdminStoreRepository storeRepository;
     private final AdminStoreImgRepository imgRepository;
 
+    private final ProductRepository productRepository;
+
     public List<AdminStoreResponse> findStoreUser() {
         List<AdminStoreResponse> result = storeRepository.findAll().stream()
                 .map(adminStore -> AdminStoreResponse.builder()
@@ -61,7 +67,25 @@ public class AdminStoreService {
                         .build())
                 .collect(Collectors.toList());
         return collet;
+    }
 
+    @Transactional(readOnly = true)
+    public Page<AdminStorePageDTO> findPageAll(Pageable pageable) {
+        Page<AdminStore> stores = storeRepository.findAll(pageable);
+        List<AdminStorePageDTO> storeDTOs = stores.stream()
+                .map(store -> {
+                    Pageable productPageable = PageRequest.of(0, 3);
+                    Page<AdminStoreProductImg> productPage = productRepository.findAllByAdminStoreId(store.getId(), productPageable);
+                    return AdminStorePageDTO.builder()
+                            .adminStoreName(store.getAdminStoreName())
+                            .adminStoreContent(store.getAdminStoreContent().replace("\r\n","<br>"))
+                            .storeImg(store.getStoreImg())
+                            .productImgList(productPage)
+                            .productHashtagList(store.getProducts().stream().map(product -> new AdminStoreProductHashTag(product)).collect(Collectors.toList()))
+                            .build();
+                })
+                .collect(Collectors.toList());
+        return new PageImpl<>(storeDTOs, pageable, stores.getTotalElements());
     }
 
     public List<AdminStoreSearchDTO> searchStore(String keyword) {
