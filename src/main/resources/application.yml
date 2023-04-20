@@ -1,0 +1,74 @@
+server:
+  port: 5011
+  servlet:
+    jsp:
+      init-parameters:
+        development : true
+
+spring:
+  datasource:
+#    url: jdbc:mariadb://121.138.197.12:4023/dev_codeumshopping?autoReconnect=true
+#    username: root
+#    password: rootcodeumshopping!!!!
+      url: jdbc:mariadb://121.138.197.12:4021/a4?autoReconnect=true
+      username: root
+      password: springbatch!!!!
+      driver-class-name: org.mariadb.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        #show_sql: true
+        format_sql: true
+
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+    open-in-view: false
+    static-path-pattern: /static/**
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: jwk@codeum.tech
+    password: rnynnmropqfylors
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+  # file upload setting
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+  web:
+    resources:
+      static-locations: classpath:/static/
+      add-mappings: true
+
+logging.level:
+  org.hibernate.SQL: debug
+  #org.hibernate.type: trace
+
+sms:
+  api-key: NCSSG42WWKGNZPGY
+  api-secret-key: PDDRLF9ROEW66PZLQAGUJPJCH3ERFIYR
+  from: 01029156586
+
+custom:
+#  ImgSavePath: /files/
+#  ImgSavePath: /Users/kimsungsik/desktop/savedfile/
+  ImgSavePath: /Library/Codeum/fileupload/
+
+iamport:
+  api:
+    key: 8550683523651474
+    secret: 5LXBtlEt6qKUxVkS9vODmJOvyZvNp4Ye04BZlW2v5FGnppt4TWvdfJqlRvoO6WH4TE1IBUGtLp5pQf7T
+    url: https://api.iamport.kr
