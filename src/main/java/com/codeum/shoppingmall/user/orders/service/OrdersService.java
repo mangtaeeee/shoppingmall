@@ -29,6 +29,7 @@ public class OrdersService {
 
         //주문 생성 후 DB 저장
         Orders orders = Orders.builder()
+                .ordersProductId(productDTO.getProductId())
                 .ordersProduct(productDTO.getProductName())
                 .ordersAmount(productDTO.getProductPrice())
                 .merchantId(merchant_id)
@@ -45,6 +46,7 @@ public class OrdersService {
                 .buyerAddr(userMember.getUserMemberAddress())
                 .buyerPostcode(userMember.getUserMemberPostCode())
                 .payMethod(payMethod)
+                .buyerMemberId(userMember.getId())
                 .build();
         ordersDetailRepository.save(ordersDetail);
 
@@ -69,4 +71,5 @@ public class OrdersService {
         orders.updateImpUid(impUid);
 
     }
+
 }

@@ -22,6 +22,8 @@ public class Orders {
     @Column
     private String ordersProduct;
     @Column
+    private Long ordersProductId;
+    @Column
     private int ordersAmount;
     @Column(name = "orders_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp ordersDate;
@@ -32,14 +34,15 @@ public class Orders {
     @Column(name = "order_del_yn", columnDefinition = "BIT(1) DEFAULT 0")
     private boolean ordersDelYn;
     @Column
-    String impUid;
+    private String impUid;
 
     @OneToOne(mappedBy = "orders", cascade = CascadeType.ALL)
     private OrdersDetail ordersDetail;
 
     @Builder
-    public Orders(String ordersProduct, int ordersAmount, Timestamp ordersDate, String ordersState, String merchantId) {
+    public Orders(String ordersProduct, Long ordersProductId, int ordersAmount, Timestamp ordersDate, String ordersState, String merchantId) {
         this.ordersProduct = ordersProduct;
+        this.ordersProductId = ordersProductId;
         this.ordersAmount = ordersAmount;
         this.ordersDate = ordersDate;
         this.ordersState = ordersState;

@@ -39,17 +39,9 @@ public class PaymentController {
 
         System.out.println("merchantUid:" + merchantUid);
         System.out.println("amount:" + amount);
-<<<<<<< HEAD
-        System.out.println("buyerName:" + buyerName);
-        System.out.println("buyerEmail:" + buyerEmail);
-        System.out.println("buyerTel:" + buyerTel);
-
-        return paymentService.preparePayment(merchantUid, amount, buyerName, buyerEmail, buyerTel);
-=======
         System.out.println("token = " + token);
         
         return paymentService.preparePayment(merchantUid, amount, token);
->>>>>>> master
     }
 
     @PostMapping("/complete")
@@ -64,14 +56,9 @@ public class PaymentController {
         System.out.println("impUid:" + impUid);
         System.out.println("merchantUid:" + merchantUid);
         System.out.println("amount:" + amount);
-<<<<<<< HEAD
-
-        return paymentService.completePayment(impUid, merchantUid, amount);
-=======
         System.out.println("token = " + token);
 
         String result = paymentService.completePayment(impUid, merchantUid, amount, token);
         return ResponseEntity.status(HttpStatus.OK).body(result);
->>>>>>> master
     }
 }
