@@ -37,6 +37,7 @@ public class AdminStore {
     @JoinColumn(name="STORE_IMG_ID")
     private StoreImg storeImg;
 
+    
     @OneToMany(mappedBy = "adminStore",orphanRemoval = true)
     private List<Product> products;
 

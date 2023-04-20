@@ -243,34 +243,39 @@
         <footer class="footer py-4  ">
             <ul class="pagination justify-content-center">
                 <c:choose>
-                <c:when test="${not empty list.content}">
-                <c:if test="${not empty list and list.number > 0}">
-                    <li class="page-item">
-                        <a class="page-link" href="?page=${list.number - 1}" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                    </li>
-                </c:if>
-                <c:forEach var="i" begin="0" end="${list.totalPages - 1}">
-                    <c:choose>
-                        <c:when test="${not empty list and list.number eq i}">
-                            <li class="page-item active"><a class="page-link" href="?page=${i}">${i + 1}</a></li>
-                        </c:when>
-                        <c:otherwise>
-                            <li class="page-item"><a class="page-link" href="?page=${i}">${i + 1}</a></li>
-                        </c:otherwise>
-                    </c:choose>
-                </c:forEach>
-                <c:if test="${not empty list and list.number < list.totalPages - 1}">
-                    <li class="page-item">
-                        <a class="page-link" href="?page=${list.number + 1}" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </li>
-                </c:if>
-                </c:when>
+                    <c:when test="${not empty list.content}">
+                        <c:if test="${not empty list and list.number > 0}">
+                            <li class="page-item">
+                                <a class="page-link" href="?page=${list.number - 1}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                        </c:if>
+
+                        <c:set var="startPage" value="${(list.number / 10) * 10}" />
+                        <c:set var="endPage" value="${(startPage + 9 >= list.totalPages) ? list.totalPages - 1 : startPage + 9}" />
+
+                        <c:forEach var="i" begin="${startPage}" end="${endPage}">
+                            <c:choose>
+                                <c:when test="${not empty list and list.number eq i}">
+                                    <li class="page-item active"><a class="page-link" href="?page=${i}">${i + 1}</a></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="page-item"><a class="page-link" href="?page=${i}">${i + 1}</a></li>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+
+                        <c:if test="${not empty list and list.number < list.totalPages - 1}">
+                            <li class="page-item">
+                                <a class="page-link" href="?page=${list.number + 1}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </c:if>
+                    </c:when>
                 </c:choose>
             </ul>
         </footer>

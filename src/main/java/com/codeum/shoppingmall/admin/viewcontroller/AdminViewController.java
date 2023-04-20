@@ -53,7 +53,7 @@ public class AdminViewController {
     }
 
     @GetMapping("/admin/productmanage")
-    public String productManagePage(Model model, @PageableDefault(page = 0, size=10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public String productManagePage(Model model, @PageableDefault(page = 0, size=2, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<ProductAdminListDTO> list = productService.adminFindProduct(pageable);
 
         model.addAttribute("list", list);
