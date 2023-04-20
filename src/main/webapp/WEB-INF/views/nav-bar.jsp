@@ -88,7 +88,7 @@
                         </div>
 
                         <button class="w-100 btn btn-lg btn-secondary" id="go-to-sms-auth" onclick="sendAuthSms()" type="button" style="margin-bottom: 15px">SMS 인증하기</button>
-                        <button class="w-100 btn btn-lg btn-secondary" onclick="signUp()" type="button" >회원가입</button>
+                        <button class="w-100 btn btn-lg btn-secondary" onclick="signUp()" type="button" disabled id="sign-up-btn">회원가입</button>
                     </div>
                 </form>
             </div>
@@ -99,7 +99,7 @@
         </div>
     </div>
 </div>
-<div class="modal in" id="sms-auth" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+<div class="modal in" data-bs-backdrop="static" id="sms-auth" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">

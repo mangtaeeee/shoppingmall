@@ -4,6 +4,14 @@ let nameVal
 let addressVal
 let phoneNumberVal
 
+if (localStorage.getItem("token")) {
+    document.getElementById("signin-nav").style.display = "none"
+    document.getElementById("logout-nav").style.display = "inline"
+} else {
+    document.getElementById("signin-nav").style.display = "inline"
+    document.getElementById("logout-nav").style.display = "none"
+}
+
 $("#signup").on("show.bs.modal", function (e) {
     let button = document.getElementById("go-to-sms-auth")
     if (document.getElementById("smsAuth").checked) {
@@ -14,16 +22,6 @@ $("#signup").on("show.bs.modal", function (e) {
         button.innerText = "SMS 인증하기"
     }
 })
-
-window.onload = function() {
-    if (localStorage.getItem("token")) {
-        document.getElementById("signin-nav").style.display = "none"
-        document.getElementById("logout-nav").style.display = "inline"
-    } else {
-        document.getElementById("signin-nav").style.display = "inline"
-        document.getElementById("logout-nav").style.display = "none"
-    }
-}
 
 const singin = () => {
 
@@ -37,7 +35,7 @@ const singin = () => {
         alert("로그인에 성공했습니다.")
         console.log(response.data)
         window.localStorage.setItem("token", response.data)
-        window.location.href = "/"
+        location.reload()
     }).catch((error) => {
         alert(error.response.data.message)
     })
@@ -162,6 +160,7 @@ const checkAuthKey = () => {
         localStorage.removeItem("phoneNumber")
 
         document.getElementById("smsAuth").checked = true
+        document.getElementById("sign-up-btn").disabled = false
 
         $("#sms-auth").modal("hide")
         $("#signup").modal("show")

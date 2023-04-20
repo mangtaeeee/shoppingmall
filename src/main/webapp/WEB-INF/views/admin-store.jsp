@@ -316,6 +316,8 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
+    if (document.getElementById("adminStoreImg"))
+
     if (window.localStorage.getItem("adminemail") == null) {
         alert("로그인 해주세요!!!!!")
         window.location.href = "/admin"
@@ -382,6 +384,23 @@
 
 
     function store_add() {
+
+        let name = document.getElementById("adminStoreName").value
+        let content = document.getElementById("adminStoreContent").value
+        let address = document.getElementById("adminStoreAddress").value
+        let phone = document.getElementById("adminStorePhone").value
+        let fileInput = document.getElementById("adminStoreImg");
+
+        if (name == "" || content == "" || address == "" || phone == "") {
+            alert("내용을 전부 입력해주세요.")
+            return
+        }
+
+        if (fileInput.files.length == 0) {
+            alert("사진을 추가해주세요.")
+            return
+        }
+
         let formData = new FormData();
         let storeImgFile = document.getElementById("adminStoreImg");
 
