@@ -72,6 +72,4 @@ public class ProductDTO {
 
         return productDTO;
     }
-
-
 }

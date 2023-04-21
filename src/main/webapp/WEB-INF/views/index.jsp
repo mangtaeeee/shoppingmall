@@ -20,7 +20,6 @@
             background-color: #bcbcbc;
         }
     </style>
-
 </head>
 <body>
 <!-- Navigation-->

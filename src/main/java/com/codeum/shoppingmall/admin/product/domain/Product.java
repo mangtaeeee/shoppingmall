@@ -8,7 +8,10 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 @Entity
 @Getter
 @Table(name = "PRODUCT")
@@ -32,7 +35,7 @@ public class Product extends BasicTimeEntity {
     private boolean productDelYn;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<ProductHashtag> productHashtagList = new ArrayList<>();
+    private Set<ProductHashtag> productHashtagList = new HashSet<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ProductImg> productImgList = new ArrayList<>();
