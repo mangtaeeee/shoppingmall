@@ -92,7 +92,7 @@ public class AdminStoreService {
         List<AdminStore> adminStores = storeRepository.findByKeyword(keyword);
         List<AdminStoreSearchDTO> storeList = new ArrayList<>();
 
-        System.out.println("adminStores = " + adminStores.get(0).getAdminStoreName());
+        System.out.println("adminStores = " + adminStores.get(0).getStoreImg().getStoreImgSavedName());
 
         for (AdminStore adminStore : adminStores) {
             storeList.add(toStoreList(adminStore));
