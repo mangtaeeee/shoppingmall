@@ -75,7 +75,7 @@ function loadMore() {
                         '        </div>' +
                         '        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">' +
                         '            <div class="text-center">' +
-                        '                <a class="btn btn-outline-dark mt-auto" onclick="addLikeList(\'' + product.productId + '\')" >상품 상세보기</a>' +
+                        '                <a class="btn btn-outline-dark mt-auto" onclick="addLikeList(\'' + product.productId + '\')">상품 상세보기</a>' +
                         '            </div>' +
                         '        </div>' +
                         '    </div>' +
@@ -101,9 +101,9 @@ function loadStoreList() {
                 if (i % 3 == 0) {
                     storeHtml += '<div class="carousel-item' + (i == 0 ? ' active' : '') + ' align-content-center text-center"><div class="row p-5 text-center mx-auto" style="max-width: 2000px">';
                 }
-                storeHtml += '<div class="col-md-4" ><div class="card mb-4 shadow-sm text-center mx-auto" >' +
-                    '<img class="card-img-top" src="/upload/' + store.storeImg.storeImgSavedName + '"/>' +
-                    '<div class="card-body"><p class="card-text">' + store.adminStoreName + '</p></div></div></div>';
+                storeHtml += '<div class="col-md-4"><div class="card mb-4 shadow-sm text-center mx-auto" style="max-height: 450px; width: 100%;">' +
+                    '<img class="card-img-top d-flex align-items-center" src="/upload/' + store.storeImg.storeImgSavedName + '" style="max-height: ' + (450 - 150) + 'px"/>' +
+                    '<div class="card-body" style="height: 150px;"><p class="card-text">' + store.adminStoreName + '</p></div></div></div>';
                 if ((i + 1) % 3 == 0 || i == storeList.length - 1) {
                     storeHtml += '</div></div>';
                 }
@@ -215,7 +215,7 @@ function searchByKeyword() {
                         '        </div>' +
                         '        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">' +
                         '            <div class="text-center">' +
-                        '                <a class="btn btn-outline-dark mt-auto" onclick="addLikeList(\'' + product.productId + '\')" >상품 상세보기</a>' +
+                        '                <a class="btn btn-outline-dark mt-auto" onclick="addLikeList(\'' + product.productId + '\')">상품 상세보기</a>' +
                         '            </div>' +
                         '        </div>' +
                         '    </div>' +
@@ -240,9 +240,9 @@ function searchByKeyword() {
                 if (i % 3 == 0) {
                     storeHtml += '<div class="carousel-item' + (i == 0 ? ' active' : '') + ' align-content-center text-center"><div class="row p-5 text-center mx-auto" style="max-width: 2000px">';
                 }
-                storeHtml += '<div class="col-md-4" ><div class="card mb-4 shadow-sm text-center mx-auto" >' +
-                    '<img class="card-img-top" src="/upload/' + store.storeImgSavedName + '"/>' +
-                    '<div class="card-body"><p class="card-text">' + store.adminStoreName + '</p></div></div></div>';
+                storeHtml += '<div class="col-md-4"><div class="card mb-4 shadow-sm text-center mx-auto" style="height: 450px; width: 300px;">' +
+                    '<img class="card-img-top d-flex align-items-center" src="/upload/' + store.storeImgSavedName + '" style="max-height: ' + (450 - 150) + 'px"/>' +
+                    '<div class="card-body" style="height: 150px;"><p class="card-text">' + store.adminStoreName + '</p></div></div></div>';
                 if ((i + 1) % 3 == 0 || i == storeList.length - 1) {
                     storeHtml += '</div></div>';
                 }
