@@ -160,10 +160,10 @@
                                         <input type="hidden" c:out value="" id="productListId">
                                         <!-- yn이 false 일떄 재등록 true 일때 삭제 -->
                                         <c:if test="${prouctlist.productDelYn eq false}">
-                                            <input type="button" onclick="ynTrue(${prouctlist.productId})" value="재등록">
+                                            <input type="button" onclick="ynFalse(${prouctlist.productId})" value="재등록">
                                         </c:if>
                                         <c:if test="${prouctlist.productDelYn eq true}">
-                                            <input type="button" onclick="ynFalse(${prouctlist.productId})" value="삭제">
+                                            <input type="button" onclick="ynTrue(${prouctlist.productId})" value="삭제">
                                         </c:if>
                                     </td>
                                 </tr>

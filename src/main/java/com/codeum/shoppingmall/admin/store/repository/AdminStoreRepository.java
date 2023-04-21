@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface AdminStoreRepository extends JpaRepository<AdminStore, Long> {
     @Query(value = "SELECT s from AdminStore s " +
-            "LEFT JOIN s.storeImg " +
+            "INNER JOIN s.storeImg " +
             "WHERE s.adminStoreName LIKE %:keyword%")
     List<AdminStore> findByKeyword(@Param("keyword") String keyword);
 

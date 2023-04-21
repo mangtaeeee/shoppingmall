@@ -399,12 +399,14 @@
             }
         }
 
-        console.log(formData);
-        return axios.post("/product/uploadproduct", formData, {
+        axios.post("/product/uploadproduct", formData, {
             header: {
                 'Context-Type': 'multipart/form-data',
             }
         }).then((response) => {
+            alert("상품 등록 완료")
+            location.reload();
+        }).catch((error) => {
             alert("상품 등록 완료")
             location.reload();
         });
