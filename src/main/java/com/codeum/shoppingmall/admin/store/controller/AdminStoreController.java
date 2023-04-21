@@ -1,5 +1,6 @@
 package com.codeum.shoppingmall.admin.store.controller;
 
+import com.codeum.shoppingmall.admin.product.service.ProductService;
 import com.codeum.shoppingmall.admin.store.dto.AdminStoreCreate;
 import com.codeum.shoppingmall.admin.store.dto.AdminStoreDTO;
 import com.codeum.shoppingmall.admin.store.dto.AdminStorePageDTO;
@@ -28,6 +29,8 @@ public class AdminStoreController {
 
     private final AdminStoreService adminStoreService;
 
+    private final ProductService productService;
+
     @PostMapping("/store/upload")
     public void storeSave(@Valid AdminStoreCreate create) throws Exception {
         adminStoreService.saveStore(create);
@@ -53,4 +56,11 @@ public class AdminStoreController {
         List<AdminStoreSearchDTO> result = adminStoreService.searchStore(keyword);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
+    @GetMapping("/manage")
+    public ResponseEntity findManage(@PageableDefault(page = 0, size=2, sort = "id", direction = Sort.Direction.DESC) Pageable pageable){
+
+        return ResponseEntity.ok(productService.adminFindProduct(pageable));
+    }
+
 }
