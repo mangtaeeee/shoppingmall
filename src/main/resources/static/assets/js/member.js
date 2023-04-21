@@ -211,6 +211,16 @@ const toLikeList = () => {
     }
 };
 
+const toOrderList = () => {
+    let token = localStorage.getItem("token");
+    if (!token) {
+        alert("로그인이 필요한 서비스입니다.");
+        return
+    } else {
+        window.location.href = "/user/orderslist/" + token;
+    }
+};
+
 const duplicateCheck = () => {
     let email = document.getElementById("email").value
 

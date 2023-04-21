@@ -4,7 +4,6 @@ import com.codeum.shoppingmall.main.constants.ErrorCode;
 import com.codeum.shoppingmall.main.exception.AppException;
 import com.codeum.shoppingmall.user.orders.domain.Orders;
 import com.codeum.shoppingmall.user.orders.domain.OrdersDetail;
-import com.codeum.shoppingmall.user.orders.dto.OrderCancelDTO;
 import com.codeum.shoppingmall.user.orders.repository.OrdersDetailRepository;
 import com.codeum.shoppingmall.user.orders.repository.OrdersRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -134,6 +134,7 @@ public class PaymentService {
                 throw new AppException(ErrorCode.AMOUNT_NOT_EQUAL);
             } else {
                 Orders success = copiedOrders.toBuilder()
+                        .ordersDelYn(true)
                         .ordersState("paid")
                         .impUid(impUid)
                         .build();
@@ -145,8 +146,9 @@ public class PaymentService {
         }
     }
 
-    public String cancelPayment(OrderCancelDTO dto) {
-        Orders order = ordersRepository.findByMerchantId(dto.getMerchantUid());
+    public String cancelPayment(Long ordersId) {
+        Optional<Orders> orders = ordersRepository.findById(ordersId);
+        Orders order = orders.get();
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -179,7 +181,8 @@ public class PaymentService {
         Map<String, Object> cancelResponseBody = cancelResponseEntity.getBody();
 
         Orders updateOrder = order.toBuilder()
-                .ordersDelYn(true)
+                .ordersState("refunded")
+                .ordersDelYn(false)
                 .build();
 
         ordersRepository.save(updateOrder);

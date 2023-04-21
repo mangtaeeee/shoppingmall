@@ -17,6 +17,9 @@
                     <i class="bi-cart-fill me-1"></i>
                     관심상품
                 </button>
+                <button class="btn btn-outline-dark" type="button" onclick="toOrderList()" style="margin-left: 10px">
+                    구매내역
+                </button>
             </form>
         </div>
     </div>
