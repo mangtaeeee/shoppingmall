@@ -167,7 +167,7 @@
             </div>
         </div>
     </nav>
-    <div class="container-fluid py-4" >
+    <div class="container-fluid py-4">
         <div class="row">
             <div class="col-lg-10 col-md-10 mx-auto">
                 <div class="card mt-4">
@@ -231,9 +231,9 @@
                         </div>
                         <div class="alert alert-light alert-dismissible text-black" role="alert">
                             <span class="text-sm">사진 미리보기</span>
-                            <div id="image_container">
-                                <!-- 업로드 사진 미리보기 -->
-                            </div>
+                                <div id="image_container">
+                                    <!-- 업로드 사진 미리보기 -->
+                                </div>
                         </div>
                         <br>
                         <p>상품 설명</p>
@@ -285,10 +285,11 @@
 <script src="/static/assets/js/material-dashboard.min.js?v=3.0.5"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/static/css/custom.css"></script>
 <script>
     if (window.localStorage.getItem("adminemail") == null) {
         alert("로그인 해주세요!!!!!")
-           window.location.href = "/admin"
+        window.location.href = "/admin"
     }
     // 엔터 시 해쉬태그 등록 기능
     const HashLists = document.getElementById('HashLists');
@@ -405,9 +406,33 @@
             }
         }).then((response) => {
             alert("상품 등록 완료")
-            location.reload()
+            location.reload();
         });
     }
+
+    // 미리보기 이지미 슬라이드 기능
+    const sliderContainer = document.querySelector('.slider-container');
+    const prevButton = document.querySelector('.slider-button-prev');
+    const nextButton = document.querySelector('.slider-button-next');
+    let counter = 0;
+
+    // 이전 버튼 클릭 이벤트
+    prevButton.addEventListener('click', () => {
+        counter--;
+        if (counter < 0) {
+            counter = 2;
+        }
+        sliderContainer.style.transform = `translateX(-${counter * 100}%)`;
+    });
+
+    // 다음 버튼 클릭 이벤트
+    nextButton.addEventListener('click', () => {
+        counter++;
+        if (counter > 2) {
+            counter = 0;
+        }
+        sliderContainer.style.transform = `translateX(-${counter * 100}%)`;
+    });
 </script>
 </body>
 </html>

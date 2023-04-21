@@ -119,10 +119,11 @@
                                     <td class="align-middle">
                                         <input type="hidden" c:out value="" id="ordersListId">
                                         <!-- yn이 false 일떄 재등록 true 일때 삭제 -->
-                                        <c:if test="${orderslist.ordersDelYn eq false}">
-                                            <input type="button" value="환불요청">
-                                        </c:if>
                                         <c:if test="${orderslist.ordersDelYn eq true}">
+                                            <button class="btn btn-outline-dark"
+                                                    onclick="cancel(<c:out value="${orderslist.ordersId}"/>)">환불요청</button>
+                                        </c:if>
+                                        <c:if test="${orderslist.ordersDelYn eq false}">
                                             <span>환불완료</span>
                                         </c:if>
                                     </td>
@@ -196,5 +197,29 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/static/assets/js/member.js" type="text/javascript"></script>
+<script src="/static/assets/css/style.css" type="text/javascript"></script>
 <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+<script>
+    if (window.localStorage.getItem("token") == null) {
+        alert("로그인 해주세요!!!!!")
+        window.location.href = "/"
+    }
+
+    //환불 처리
+    function cancel(num) {
+        console.log(num);
+        axios({
+            url: "/api/payment/cancel",
+            method: "post",
+            data: {
+                ordersId: num
+            }
+        }).then((response) => {
+                alert("환불 요청 성공!");
+                location.reload();
+            }) .catch((error) => {
+                alert("환불 요청 실패. 관리자에게 문의하세요.");
+        })
+    }
+</script>
 </body>

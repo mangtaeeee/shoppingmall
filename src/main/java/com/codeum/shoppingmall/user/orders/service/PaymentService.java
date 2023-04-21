@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -133,6 +134,7 @@ public class PaymentService {
                 throw new AppException(ErrorCode.AMOUNT_NOT_EQUAL);
             } else {
                 Orders success = copiedOrders.toBuilder()
+                        .ordersDelYn(true)
                         .ordersState("paid")
                         .impUid(impUid)
                         .build();
@@ -144,4 +146,47 @@ public class PaymentService {
         }
     }
 
+    public String cancelPayment(Long ordersId) {
+        Optional<Orders> orders = ordersRepository.findById(ordersId);
+        Orders order = orders.get();
+
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        String url = "https://api.iamport.kr/users/getToken";
+
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("imp_key", apiKey);
+        requestBody.put("imp_secret", apiSecret);
+
+        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<Map> responseEntity = restTemplate.postForEntity(url, requestEntity, Map.class);
+        Map<String, Object> responseBody = (Map<String, Object>) responseEntity.getBody().get("response");
+        String token = (String) responseBody.get("access_token");
+
+        HttpHeaders cancelHeaders = new HttpHeaders();
+        cancelHeaders.setContentType(MediaType.APPLICATION_JSON);
+        cancelHeaders.set("Authorization", token);
+
+        Map<String, Object> cancelRequestBody = new HashMap<>();
+        cancelRequestBody.put("imp_uid", order.getImpUid());
+        cancelRequestBody.put("merchant_uid", order.getMerchantId());
+        cancelRequestBody.put("amount", order.getOrdersAmount());
+
+        HttpEntity<Map<String, Object>> cancelRequestEntity = new HttpEntity<>(cancelRequestBody, cancelHeaders);
+        ResponseEntity<Map> cancelResponseEntity = restTemplate.postForEntity(apiUrl + "/payments/cancel", cancelRequestEntity, Map.class);
+
+        Map<String, Object> cancelResponseBody = cancelResponseEntity.getBody();
+
+        Orders updateOrder = order.toBuilder()
+                .ordersState("refunded")
+                .ordersDelYn(false)
+                .build();
+
+        ordersRepository.save(updateOrder);
+
+        return cancelResponseBody.toString();
+    }
 }

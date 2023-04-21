@@ -4,10 +4,7 @@ import com.codeum.shoppingmall.user.orders.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -59,6 +56,14 @@ public class PaymentController {
         System.out.println("token = " + token);
 
         String result = paymentService.completePayment(impUid, merchantUid, amount, token);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @PostMapping("/cancel")
+    public ResponseEntity<String> cancel(@RequestBody Map<String, Long> map) {
+        Long ordersId = map.get("ordersId");
+        System.out.println("ordersId = " + ordersId);
+        String result = paymentService.cancelPayment(ordersId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }
