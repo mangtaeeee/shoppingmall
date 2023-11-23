@@ -259,7 +259,7 @@
                                 // Add a new slide if we're starting a new row
                                 storeHtml += '<div class="carousel-item"><div class="row p-5 text-center mx-auto" style="max-width: 2000px">';
                             }
-                            storeHtml += '<div class="col-md-4"><div class="card mb-4 shadow-sm text-center mx-auto">' +
+                            storeHtml += '<div class="col-md-4" ><div class="card mb-4 shadow-sm text-center mx-auto">' +
                                 '<img class="card-img-top" style="width: 100%" src="/upload/' + savedProductFileName[k] + '"/>' +
                                 '<div class="card-body"><p class="card-text">' + originProductFileName[k] + '</p></div></div></div>';
                             numCardsInRow++;

@@ -200,6 +200,10 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
+    if (window.localStorage.getItem("adminemail")) {
+        alert("로그인이 되었습니다 메인페이지로 이동합니다.")
+        window.location.href = "/admin/main"
+    }
 
     document.getElementById("join").onclick = function login() {
         window.location.href = "/admin/join"
